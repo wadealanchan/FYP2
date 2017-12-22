@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.alan.fyp.CustomDialogFragment">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView"
+            android:background="@drawable/background"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:id="@+id/transparentOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#96000000">
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/linearLayout2">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:id="@+id/linearLayout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="67dp"
+            android:layout_marginTop="146dp">
+
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Name"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="?colorAccent"
+                app:met_underlineColor="#fff"
+                app:met_iconLeft="@drawable/ic_lock_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_singleLineEllipsis="true"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="highlight"
+                app:met_iconLeft="@drawable/ic_person_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_primaryColor="?colorAccent"
+                app:met_singleLineEllipsis="true"
+                app:met_underlineColor="#fff" />
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="?colorAccent"
+                app:met_underlineColor="#fff"
+                app:met_iconLeft="@drawable/ic_lock_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_singleLineEllipsis="true"/>
+
+            <Button
+                android:id="@+id/btn_createac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button"
+                android:text="Create Account"
+                android:textColor="#ffffff" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

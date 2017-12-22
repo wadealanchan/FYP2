@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+        <variable
+            name="postList" type="com.example.alan.fyp.viewModel.PostListViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.alan.fyp.Mainpage"
+        tools:showIn="@layout/app_bar_mainpage">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_post"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:items="@{postList.items}"
+            app:itemBinding="@{postList.itemBinding}"
+           />
+    </RelativeLayout>
+</layout>

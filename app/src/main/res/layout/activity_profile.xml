@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="user" type="com.example.alan.fyp.viewModel.UserViewModel"/>
+    </data>
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/kenBurnsView"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello"
+            android:textColor="@android:color/white"
+            android:layout_gravity="top|start"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="70dp"
+            android:textSize="25sp"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="105dp"
+            android:id="@+id/linearLayout3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{user == null ? "" : user.displayName}'
+                android:textColor="@android:color/white"
+                android:layout_gravity="top|start"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="25sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_gravity="top|start"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <!--android:src="@drawable/diagonallayout_hughjackman"-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/diagonallayout_circle"
+            android:elevation="15dp"
+            app:imageUrl='@{user.Image}' />
+
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/avatar"
+            android:layout_marginBottom="21dp"
+            android:text="Save" />
+
+    </RelativeLayout>
+
+
+</layout>

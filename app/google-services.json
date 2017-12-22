@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "897577535616",
+    "firebase_url": "https://alanchanproject.firebaseio.com",
+    "project_id": "alanchanproject",
+    "storage_bucket": "alanchanproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897577535616:android:0b7ed3523a7e0c71",
+        "android_client_info": {
+          "package_name": "com.example.alan.fyp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897577535616-refo94jeuo4cbjisf64spiam862v7men.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alan.fyp",
+            "certificate_hash": "a5ec310deabdc9fa3eb5e638b917445194350484"
+          }
+        },
+        {
+          "client_id": "897577535616-8g27rep99au1vuebvp8p44ii2j2skl4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWnY_lvmfW2TcFwdJyzN1AnrL2Jl7LLt0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897577535616-8g27rep99au1vuebvp8p44ii2j2skl4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

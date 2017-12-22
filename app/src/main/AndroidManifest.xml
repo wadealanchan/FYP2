@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.alan.fyp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="FYP"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- &lt;!&ndash; [START fcm_default_icon] &ndash;&gt; -->
+        <!-- &lt;!&ndash; Set custom default icon. This is used when no icon is set for incoming notification messages. -->
+        <!-- See README(https://goo.gl/l4GJaQ) for more. &ndash;&gt; -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
+
+
+        <!-- /> -->
+        <!-- &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming -->
+        <!-- notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt; -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@color/colorAccent" /> -->
+        <!-- &lt;!&ndash; [END fcm_default_icon] &ndash;&gt; -->
+        <!-- &lt;!&ndash; [START fcm_default_channel] &ndash;&gt; -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_channel" -->
+        <!-- /> -->
+        <!-- &lt;!&ndash; [END fcm_default_channel] &ndash;&gt; -->
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.AuthClass"
+            android:label="AuthClass"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Profile"
+            android:label="Profile"
+            android:theme="@style/AppTheme" />
+        <!--<activity-->
+            <!--android:name=".chat_main"-->
+            <!--android:label="Chat_room"-->
+            <!--android:theme="@style/AppTheme" />-->
+        <activity
+            android:name=".Newpost"
+            android:label="Newpost"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Mainpage"
+            android:label="@string/title_activity_mainpage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".PostDetail"
+            android:label="@string/title_activity_postdetail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

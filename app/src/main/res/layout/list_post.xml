@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable name="post" type="com.example.alan.fyp.viewModel.PostViewModel" />
+
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_post_title"
+                    tools:text='@{post.title}'
+                    android:padding="15dp"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/black1"
+                    android:onClick="@{(v) -> post.onSaveClick(v)}"
+                   />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:padding="8dp">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_user_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/diagonallayout_circle"
+                app:imageUrl='@{ post.user.image}'
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text='@{ post.user.name}'
+                android:id="@+id/text_user_name"
+                android:layout_weight="0.94"
+                android:paddingLeft="15dp"
+                android:gravity="fill_vertical"/>
+
+            <!--android:gravity="center_horizontal|fill_vertical"-->
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_post_description"
+                android:padding="15dp"
+                android:paddingBottom="15dp"
+                android:text='@{post.description.length() > 1 &amp;&amp; !post.isReadmore ? post.description.substring(0, 1) : post.description }'
+                android:textSize="18dp"
+                android:fontFamily="Arial"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_post_description_read_more"
+                android:padding="15dp"
+                android:paddingBottom="15dp"
+                android:visibility="@{post.description.length() > 1 ? View.VISIBLE : View.INVISIBLE}"
+                android:text='@{post.isReadmore ? "Show less" : "Read more"}'
+                android:textSize="18dp"
+                android:onClick="@{(v) -> post.toggleReadmore()}"
+                android:fontFamily="Arial"/>
+
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/image_post_media"-->
+                <!--app:imageUrl="@{post.image}"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:background="#00ffffff"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:layout_height="120dp" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="15dp"
+                    android:id="@+id/button_like"
+                    android:src="@mipmap/ic_thumbup" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

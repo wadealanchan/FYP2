@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">LoginBeautiful</string>
+    <string name="large_text">
+
+    </string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="loading">loading</string>
+    <string name="createac">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="signup">Sign up</string>
+    <string name="done">Done</string>
+    <string name="signedout">Signed out</string>
+    <string name="username">Username</string>]
+    <string name="password">Password</string>
+    <string name="signin">Sign in</string>
+    <string name="logout">Log out</string>
+    <string name="hello">Hello!</string>
+    <string name="name">Name</string>
+    <string name="emailaddress">Email address</string>
+    <string name="google_sign_up">Google sign in</string>
+    <string name="title_activity_mainpage">Mainpage</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_postdetail">postdetail</string>
+
+</resources>
