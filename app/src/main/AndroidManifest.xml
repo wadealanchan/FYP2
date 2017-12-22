@@ -60,6 +60,10 @@
             android:label="@string/title_activity_mainpage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Chat"
+            android:label="Chat"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity

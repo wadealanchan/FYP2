@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(i == R.id.btn_chat)
         {
-//            Intent newAct = new Intent(MainActivity.this,chat_main.class);
-//            startActivity(newAct);
+            Intent newAct = new Intent(MainActivity.this,Chat.class);
+            startActivity(newAct);
         }
         else if(i == R.id.btn_profile)
         {

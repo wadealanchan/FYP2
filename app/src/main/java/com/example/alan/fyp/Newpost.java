@@ -170,9 +170,8 @@ public class Newpost extends AppCompatActivity {
                     post.setUserId(firebaseuser.getUid());
 
                     Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
-                    Log.d("time", tsTemp.toString());
-                    //post.setTime(tsTemp.toString());
                     post.setDate(tsTemp);
+
                     FirebaseFirestore.getInstance().collection("posts")
                             .add(post)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
