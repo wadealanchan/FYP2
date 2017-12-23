@@ -5,6 +5,9 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="chat" type="com.example.alan.fyp.viewModel.ChatViewModel" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+        <variable
+            name="chatList" type="com.example.alan.fyp.viewModel.ChatListViewModel" />
     </data>
 <RelativeLayout
     android:id="@+id/chat_main"
@@ -47,15 +50,22 @@
         android:text="@={chat.messagetext}"
         android:textCursorDrawable="@null" />
 
-    <ListView
-        android:id="@+id/list_of_message"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_post"
+        android:scrollbars="vertical"
         android:layout_above="@+id/emojicon_edit_text"
-        android:dividerHeight="16dp"
         android:divider="@android:color/transparent"
-        android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        app:stackFromEnd="true"
+        app:reverseLayout="true"
+        app:layoutManager="@{LayoutManagers.linear(1, true)}"
+        app:items="@{chatList.items}"
+        app:itemBinding="@{chatList.itemBinding}"
+
+        />
+
+
 </RelativeLayout>
 </layout>

@@ -179,7 +179,6 @@ public class Newpost extends AppCompatActivity {
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                     Toast.makeText(Newpost.this, "post successfully", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
                                     finish();
                                 }
                             })
@@ -187,7 +186,6 @@ public class Newpost extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error adding document", e);
-                                    progressDialog.dismiss();
                                 }
                             });
 

@@ -125,36 +125,6 @@ public class Mainpage extends AppCompatActivity
 //
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    postList.items.clear();
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Post post = document.toObject(Post.class);
-                        PostViewModel postViewModel = post.toViewModel();
-                        //postViewModel.firePostId = document.getReference().getId();
-
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
-
-                            if (userInfotask.isSuccessful()) {
-                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-                            } else {
-                                postViewModel.user.set(null);
-                            }
-                        });
-
-                        postList.items.add(postViewModel);
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                    }
-                    binding.executePendingBindings();
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.getException());
-                }
-            }
-        });
-
         FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
@@ -168,7 +138,7 @@ public class Mainpage extends AppCompatActivity
                 for (DocumentSnapshot document : value) {
                     Post post = document.toObject(Post.class);
                     PostViewModel postViewModel = post.toViewModel();
-                    //postViewModel.firePostId = document.getReference().getId();
+
 
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {

@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text='@{ post.user.name}'
+                android:text='@{post.user.name}'
                 android:id="@+id/text_user_name"
                 android:layout_weight="0.94"
                 android:paddingLeft="15dp"
