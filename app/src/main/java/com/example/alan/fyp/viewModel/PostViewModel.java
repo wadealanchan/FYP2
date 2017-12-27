@@ -1,36 +1,37 @@
 package com.example.alan.fyp.viewModel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
-import com.example.alan.fyp.PostDetail;
+import com.example.alan.fyp.activity.PostDetail;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
-import com.google.firebase.database.Exclude;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by wadealanchan on 11/11/2017.
  */
 
-public class PostViewModel  {
-
-    public String firePostId;
+public class PostViewModel extends BaseObservable {
+    public String PostId;
+    public Post post;
     public final ObservableField<String> title = new ObservableField<String>();
     public final ObservableField<String> description = new ObservableField<String>();
     public final ObservableField<String> image = new ObservableField<String>();
     public final ObservableField<User> user = new ObservableField<User>();
     public final ObservableBoolean isReadmore = new ObservableBoolean(false);
+    private ArrayAdapter<CharSequence> subjectAdapter;
 
 
     public PostViewModel() {
@@ -55,18 +56,18 @@ public class PostViewModel  {
 
 
     public void onSaveClick(View view){
-        Intent intent = new Intent();
-        intent.setClass(view.getContext(), PostDetail.class);
-        intent.putExtra("title", this.title.get());
-        intent.putExtra("description", this.description.get());
-        intent.putExtra("image", this.image.get());
-
-        Log.e("OnSaveClick",this.user.get().getName());
-        Log.e("OnSaveClick",this.user.get().getImage());
-        intent.putExtra("user_name", this.user.get().getName());
-        intent.putExtra("user_image", this.user.get().getImage());
-
-        view.getContext().startActivity(intent);
+       // Intent intent = Henson.with(view.getContext());
+//        Intent intent = new Intent();
+//        intent.setClass(view.getContext(), PostDetail.class);
+//        intent.putExtra("PostId", this.PostId);
+//        intent.putExtra("title", this.title.get());
+//        intent.putExtra("description", this.description.get());
+//        intent.putExtra("image", this.image.get());
+//        if (this.user.get() != null) {
+//            intent.putExtra("user_name", this.user.get().getName());
+//            intent.putExtra("user_image", this.user.get().getImage());
+//        }
+//        view.getContext().startActivity(intent);
     }
 
     public void toggleReadmore() {
@@ -76,6 +77,26 @@ public class PostViewModel  {
             this.isReadmore.set(true);
         }
     }
+
+    @Bindable
+    public ArrayAdapter<CharSequence> getsubjectAdapter(){
+        return this.subjectAdapter;
+    }
+
+    public void setSubjectAdapter(ArrayAdapter<CharSequence> subjectAdapter)
+    {
+        this.subjectAdapter=subjectAdapter;
+    }
+
+
+    @BindingAdapter("spinnerAdapter")
+    public static void setSpinnerAdapter(Spinner sp, ArrayAdapter<CharSequence> adapter) {
+
+        sp.setAdapter(adapter);
+
+    }
+
+
 
 
 }
