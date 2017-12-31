@@ -1,4 +1,4 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.util;
 
 /**
  * Created by em on 24/06/16.

@@ -1,5 +1,6 @@
 package com.example.alan.fyp.viewModel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.activity.PostDetail;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.model.Post;
@@ -56,18 +58,20 @@ public class PostViewModel extends BaseObservable {
 
 
     public void onSaveClick(View view){
-       // Intent intent = Henson.with(view.getContext());
-//        Intent intent = new Intent();
-//        intent.setClass(view.getContext(), PostDetail.class);
-//        intent.putExtra("PostId", this.PostId);
-//        intent.putExtra("title", this.title.get());
-//        intent.putExtra("description", this.description.get());
-//        intent.putExtra("image", this.image.get());
-//        if (this.user.get() != null) {
-//            intent.putExtra("user_name", this.user.get().getName());
-//            intent.putExtra("user_image", this.user.get().getImage());
-//        }
-//        view.getContext().startActivity(intent);
+        Log.d("PostViewmodel", PostId);
+        Intent intent = Henson.with(view.getContext()).gotoPostDetail()
+                .PostId(this.PostId)
+                .postDescription(this.description.get())
+                .postImage(this.image.get())
+                .postTtile(this.title.get())
+                .questionerId(this.post.getUserId())
+                .build();
+
+        if (this.user.get() != null) {
+            intent.putExtra("user_name", this.user.get().getName());
+            intent.putExtra("user_image", this.user.get().getImage());
+        }
+        view.getContext().startActivity(intent);
     }
 
     public void toggleReadmore() {

@@ -1,4 +1,4 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,27 +13,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.alan.fyp.activity.AuthClass;
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityNewpostBinding;
 import com.example.alan.fyp.model.Post;
-import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostViewModel;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -54,23 +49,21 @@ public class Newpost extends AppCompatActivity {
 
 
     StorageReference storageReference;
-    DatabaseReference postReference;
-    DatabaseReference userReference;
     FirebaseAuth mAuth;
-    Post post = new Post();
     ProgressDialog progressDialog;
-
     ActivityNewpostBinding newpostBinding;
-    EditText editTitle;
-    EditText editDescription;
-
     @BindView(R.id.image_media)
     ImageButton imageMedia;
+
     private static final int GALLERY_REQUEST = 1;
     private Uri imageMediaURI;
     public final String TAG="New Post: ";
+
     PostViewModel postViewModel = new PostViewModel();
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+    @BindView(R.id.spinner)
+     Spinner spinner;
+    String Category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +78,27 @@ public class Newpost extends AppCompatActivity {
         
         newpostBinding.setPost(postViewModel);
         ButterKnife.bind(this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.subject,
+                android.R.layout.simple_spinner_dropdown_item);
+
+        postViewModel.setSubjectAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Category= parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
     public void imageclick(View view)
@@ -106,7 +120,12 @@ public class Newpost extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
-            createPost(item.getActionView());
+            if(Category.equals("Category"))
+            {
+                Toast.makeText(Newpost.this, "Please choose a category", Toast.LENGTH_SHORT).show();
+
+            }else
+                createPost(item.getActionView());
         }
 
         return super.onOptionsItemSelected(item);
@@ -161,17 +180,17 @@ public class Newpost extends AppCompatActivity {
                 public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
 
                     String userId = firebaseuser.getUid();
-                    Log.d(TAG, userId);
+
 
                     Post post = new Post();
                     post.setTitle(title);
                     post.setDescription(description);
                     post.setImage(taskSnapshot.getDownloadUrl().toString());
                     post.setUserId(firebaseuser.getUid());
-
                     Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
                     post.setDate(tsTemp);
-
+                    post.setCategory(Category);
+                    Log.d(TAG, Category);
                     FirebaseFirestore.getInstance().collection("posts")
                             .add(post)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -188,56 +207,6 @@ public class Newpost extends AppCompatActivity {
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
-
-//                    userReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            Log.i("Messages", dataSnapshot.toString());
-//                            if (dataSnapshot.exists()) {
-//                                Log.d(TAG, "heyheyhey get it here?");
-//                                Uri downloadUri = taskSnapshot.getDownloadUrl();
-//                                DatabaseReference newPost = postReference.push();
-//
-//
-//
-//                                post.setTitle(title);
-//                                post.setDescription(description);
-//                                post.setImage(downloadUri.toString());
-//
-//
-//                                //User user = dataSnapshot.getValue(User.class);
-//
-//
-//                                post.getUser().setId(firebaseuser.getUid());
-//                                post.getUser().setName(firebaseuser.getDisplayName());
-//                                if(firebaseuser.getPhotoUrl()!=null){
-//                                    post.getUser().setImage(firebaseuser.getPhotoUrl().toString());
-//                                }else
-//                                {
-//
-//                                }
-//
-//                                newPost.setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                                        if (task.isSuccessful()) {
-//                                            //startActivity(new Intent(NewPost.this, MainActivity.class));
-//                                            Toast.makeText(Newpost.this, "post successfully", Toast.LENGTH_SHORT).show();
-//                                        }
-//
-//                                        progressDialog.dismiss();
-//                                    }
-//                                });
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//
-//                        }
-//                    });
-
 
                 }
             });

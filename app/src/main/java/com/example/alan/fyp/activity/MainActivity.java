@@ -1,15 +1,13 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.alan.fyp.activity.AuthClass;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.example.alan.fyp.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
     Button login_bt;

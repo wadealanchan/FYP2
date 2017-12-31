@@ -1,4 +1,4 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.alan.fyp.activity.BaseActivity;
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityProfileBinding;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.UserViewModel;
@@ -29,9 +29,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -45,7 +47,7 @@ import butterknife.OnClick;
 
 public class Profile extends BaseActivity{
 
-
+    StorageReference storageReference;
     public static final int GALLERY_REQUEST = 1;
     private final int CAMERA_REQUEST = 1;
     private Uri imageUserAvatarURI = null;
@@ -63,8 +65,9 @@ public class Profile extends BaseActivity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
+        storageReference = FirebaseStorage.getInstance().getReference();
         if(firebaseuser!=null) {
             if(firebaseuser.getPhotoUrl()!=null) {
                 FirebaseUser(firebaseuser.getPhotoUrl().toString());
@@ -156,86 +159,53 @@ public class Profile extends BaseActivity{
     @OnClick(R.id.btn_save)
     public void saveUserInfo(View v)
     {
+
         if (imageUserAvatarURI != null) {
-            Log.d(TAG,"get it here?");
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setPhotoUri(imageUserAvatarURI)
-                    .build();
+
+            StorageReference filePath = storageReference.child("User_avatar").child(imageUserAvatarURI.getLastPathSegment());
             showProgressDialog();
-            firebaseuser.updateProfile(profileUpdates)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                hideProgressDialog();
-                                Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+            filePath.putFile(imageUserAvatarURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(taskSnapshot.getDownloadUrl())
+                            .build();
 
-                                User user = new User();
-                                user.setName(firebaseuser.getDisplayName());
-                                user.setImage(imageUserAvatarURI.toString());
-                                Log.d(TAG, "User profile updated.");
-                                DocumentReference usersref = db.collection("Users").document(firebaseuser.getUid());
+                    firebaseuser.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        User user = new User();
+                                        user.setName(firebaseuser.getDisplayName());
+                                        user.setImage(taskSnapshot.getDownloadUrl().toString());
+                                        Log.d(TAG, "User profile updated.");
+                                        DocumentReference usersref = db.collection("Users").document(firebaseuser.getUid());
+                                        usersref.set(user)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        hideProgressDialog();
+                                                        Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
 
-                                usersref.set(user)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error updating document", e);
-                                            }
-                                        });
-
-
-
-//
-//                                FirebaseFirestore.getInstance().collection("Users")
-//                                        .add(user)
-//                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                            @Override
-//                                            public void onSuccess(DocumentReference documentReference) {
-//                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                                                Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-//                                                //progressDialog.dismiss();
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                Log.w(TAG, "Error adding document", e);
-//                                                //progressDialog.dismiss();
-//                                            }
-//                                        });
+                                    }
+                                }
+                            });
 
 
-//                                mDatabaseRefUsers.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                       // mProgressDialog.dismiss();
-//
-//                                        if (task.isSuccessful()) {
-////                                            Intent intent = new Intent(Profile.this, MainActivity.class);
-////                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-////                                            startActivity(intent);
-//                                            Log.d(TAG, "Added to the database");
-//
-//                                        } else {
-//                                            Toast.makeText(Profile.this, "Failed!", Toast.LENGTH_LONG).show();
-//                                        }
-//                                    }
-//                                });
+                }
+            });
 
 
-
-
-
-                            }
-                        }
-                    });
         } else {
                 Toast.makeText(Profile.this, "Fill all fields", Toast.LENGTH_LONG).show();
         }

@@ -1,20 +1,12 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,40 +16,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.request.target.ImageViewTargetFactory;
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityMainpageBinding;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostListViewModel;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 
 
 public class Mainpage extends AppCompatActivity
@@ -65,14 +43,14 @@ public class Mainpage extends AppCompatActivity
 
     ActivityMainpageBinding binding;
     public final String TAG = "Mainpage: ";
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     Post post = new Post();
     PostListViewModel postList = new PostListViewModel();
     UserViewModel userViewModel = new UserViewModel();
     TextView textview;
-    @BindView(R.id.list_post)
-    RecyclerView mPostList;
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference postsRef = db.collection("posts");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +67,6 @@ public class Mainpage extends AppCompatActivity
                 startActivityForResult(newAct, 1);
             }
         });
-
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,45 +98,9 @@ public class Mainpage extends AppCompatActivity
 
 //
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                postList.items.clear();
-                for (DocumentSnapshot document : value) {
-                    Post post = document.toObject(Post.class);
-                    PostViewModel postViewModel = post.toViewModel();
+        showcontent();
 
 
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
-
-                        if (userInfotask.isSuccessful()) {
-                            postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-                        } else {
-                            postViewModel.user.set(null);
-                        }
-                    });
-
-                    postList.items.add(postViewModel);
-                    Log.d(TAG, document.getId() + " => " + document.getData());
-                }
-                binding.executePendingBindings();
-            }
-        });
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setReverseLayout(true);
-//        layoutManager.setStackFromEnd(true);
-//        mPostList.setHasFixedSize(true);
-//        mPostList.setLayoutManager(layoutManager);
         binding.setPostList(postList);
     }
 
@@ -205,13 +143,14 @@ public class Mainpage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_history) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_biology) {
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_math) {
+
+        } else if (id == R.id.nav_english) {
 
         } else if (id == R.id.nav_share) {
 
@@ -222,6 +161,45 @@ public class Mainpage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showcontent(){
+
+        FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                postList.items.clear();
+                for (DocumentSnapshot document : value) {
+                    Post post = document.toObject(Post.class);
+
+                    PostViewModel postViewModel = post.toViewModel();
+                    postViewModel.PostId = document.getId();
+
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
+
+                        if (userInfotask.isSuccessful()) {
+                            postViewModel.user.set(userInfotask.getResult().toObject(User.class));
+                        } else {
+                            postViewModel.user.set(null);
+                        }
+
+                    });
+                    postViewModel.post = post;
+                    postList.items.add(postViewModel);
+                   // Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                binding.executePendingBindings();
+            }
+        });
+
     }
 
 

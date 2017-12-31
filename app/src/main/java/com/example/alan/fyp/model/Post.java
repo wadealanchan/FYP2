@@ -33,7 +33,7 @@ public class Post extends BaseObservable {
 
     public static final String TAG = "Post";
 
-    private String image, title, description, userId;
+    private String image, title, description, userId, category;
     public  java.util.Date date;
 
     public Post() {
@@ -75,6 +75,15 @@ public class Post extends BaseObservable {
     public void setDate(java.util.Date date) {
         this.date=date;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String Category) {
+        this.category = Category;
+    }
+
 
 
 

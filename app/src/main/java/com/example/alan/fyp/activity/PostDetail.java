@@ -1,5 +1,6 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
@@ -9,12 +10,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
+import com.example.alan.fyp.Henson;
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
+import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 
 public class PostDetail extends AppCompatActivity {
 
@@ -24,12 +37,31 @@ public class PostDetail extends AppCompatActivity {
     UserViewModel userViewModel ;
     String username;
     String userimage;
+
+    @InjectExtra String PostId;
+
+    @InjectExtra String postTtile;
+
+
+    @InjectExtra String postDescription;
+
+
+    @InjectExtra String postImage;
+
+
+    @InjectExtra String questionerId;
+    String answererId;
+
+    FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postdetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_postdetail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        answererId = firebaseuser.getUid();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.postdetailfab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,26 +74,45 @@ public class PostDetail extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        postViewModel.title.set(getIntent().getExtras().getString("title"));
-        postViewModel.description.set(getIntent().getExtras().getString("description"));
-        postViewModel.image.set(getIntent().getExtras().getString("image"));
+        Dart.inject(this);
+
+
+        postViewModel.title.set(postTtile);
+        postViewModel.description.set(postDescription);
+        postViewModel.image.set(postImage);
 
         User user = new User();
         user.setName(getIntent().getExtras().getString("user_name"));
         user.setImage(getIntent().getExtras().getString("user_image"));
 
-        Log.d("Postdetail: ", getIntent().getExtras().getString("user_name")+ "    "+getIntent().getExtras().getString("user_image"));
-//        postViewModel.user.get().setName(getIntent().getExtras().getString("user_name"));
-//        postViewModel.user.get().setImage(getIntent().getExtras().getString("user_image"));
-
         postViewModel.user.set(user);
 
 
-
+        ButterKnife.bind(this);
         postdetailBinding.setPostvmodel(postViewModel);
 
     }
 
+
+    @Optional
+    @OnClick(R.id.detail_thumbup)
+    public void Interested(ImageButton button) {
+
+
+        Log.d("PostDetail", PostId + questionerId);
+
+        Intent intent = new Intent(this,Chat.class);
+//        Intent intent = Henson.with(button.getContext()).gotoChat()
+//                .postId(PostId)
+//                .questioner(questionerId)
+//                .build();
+
+        intent.putExtra("PostId", this.PostId);
+        intent.putExtra("Questioner", this.questionerId);
+
+        button.getContext().startActivity(intent);
+
+    }
 
 
 
