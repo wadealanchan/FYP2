@@ -44,17 +44,35 @@
                 android:layout_marginLeft="15dp"
                 android:scaleType="centerCrop"
                 android:background="@drawable/diagonallayout_circle"
-                app:imageUrl='@{ post.user.image}'
+                app:imageUrl='@{post.user.image}'
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='@{post.user.name}'
+                android:id="@+id/text_user_name"
+                android:gravity="fill_vertical"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="14sp"
                 />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text='@{post.user.name}'
-                android:id="@+id/text_user_name"
-                android:layout_weight="0.94"
-                android:paddingLeft="15dp"
-                android:gravity="fill_vertical"/>
+                android:layout_height="wrap_content"
+                android:text='@{"Asked "+ post.timestamp}'
+                android:id="@+id/text_timestamp"
+                android:gravity="fill_vertical"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="12sp"
+               />
+            </LinearLayout>
 
             <!--android:gravity="center_horizontal|fill_vertical"-->
         </LinearLayout>
@@ -65,7 +83,7 @@
                 android:id="@+id/text_post_description"
                 android:padding="15dp"
                 android:paddingBottom="15dp"
-                android:text='@{post.description.length() > 1 &amp;&amp; !post.isReadmore ? post.description.substring(0, 1) : post.description }'
+                android:text='@{post.description.length() > 80 &amp;&amp; !post.isReadmore ? post.description.substring(0, 80) : post.description }'
                 android:textSize="18dp"
                 android:fontFamily="Arial"/>
 

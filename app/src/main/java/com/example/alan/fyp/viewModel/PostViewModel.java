@@ -32,6 +32,7 @@ public class PostViewModel extends BaseObservable {
     public final ObservableField<String> description = new ObservableField<String>();
     public final ObservableField<String> image = new ObservableField<String>();
     public final ObservableField<User> user = new ObservableField<User>();
+    public final ObservableField<String> timestamp = new ObservableField<String>();
     public final ObservableBoolean isReadmore = new ObservableBoolean(false);
     private ArrayAdapter<CharSequence> subjectAdapter;
 
@@ -65,8 +66,8 @@ public class PostViewModel extends BaseObservable {
                 .postImage(this.image.get())
                 .postTtile(this.title.get())
                 .questionerId(this.post.getUserId())
+                .timestamp(this.timestamp.get())
                 .build();
-
         if (this.user.get() != null) {
             intent.putExtra("user_name", this.user.get().getName());
             intent.putExtra("user_image", this.user.get().getImage());

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.alan.fyp.FlexibleSpaceWithImageScrollViewActivity;
 import com.example.alan.fyp.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(i == R.id.btn_chat)
         {
-            Intent newAct = new Intent(MainActivity.this,Chat.class);
+            Intent newAct = new Intent(MainActivity.this,FlexibleSpaceWithImageScrollViewActivity.class);
             startActivity(newAct);
         }
         else if(i == R.id.btn_profile)
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent newAct = new Intent(MainActivity.this,Newpost.class);
             startActivity(newAct);
         }
+
 
     }
 

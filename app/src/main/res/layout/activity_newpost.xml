@@ -20,13 +20,13 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context="com.example.alan.fyp.Newpost">
+            tools:context="com.example.alan.fyp.activity.Newpost">
 
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
                 android:ems="10"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -51,9 +51,10 @@
                 android:text="@={Post.description}"/>
 
             <ImageButton
-                android:layout_below="@+id/edit_content"
+                android:layout_below="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@mipmap/add_btn"
                 android:id="@+id/image_media"
                 android:scaleType="centerCrop"
@@ -63,7 +64,19 @@
                 android:onClick="imageclick"
               />
 
+
+            <Spinner
+                android:layout_below="@+id/edit_content"
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#FFFFFF"
+                app:spinnerAdapter='@{Post.getsubjectAdapter()}'
+                />
+
         </RelativeLayout>
+
+
 
     </ScrollView>
 </layout>

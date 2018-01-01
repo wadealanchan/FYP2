@@ -6,13 +6,12 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
 
-        <variable
-            name="postList" type="com.example.alan.fyp.viewModel.PostListViewModel" />
+        <variable name="postList" type="com.example.alan.fyp.viewModel.PostListViewModel" />
     </data>
 <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alan.fyp.Mainpage">
+    tools:context="com.example.alan.fyp.activity.Mainpage">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

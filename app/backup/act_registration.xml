@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.alan.fyp.CustomDialogFragment">
+        tools:context="com.example.alan.fyp.util.CustomDialogFragment">
 
         <ImageView
             android:layout_width="match_parent"

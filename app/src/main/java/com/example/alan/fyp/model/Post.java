@@ -29,6 +29,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+
 public class Post extends BaseObservable {
 
     public static final String TAG = "Post";
@@ -92,6 +94,9 @@ public class Post extends BaseObservable {
         p.image.set(this.image);
         p.title.set(this.title);
         p.description.set(this.description);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd HH:mm");
+        String dateString = sdf.format(this.date);
+        p.timestamp.set(dateString);
         return p;
     }
 
