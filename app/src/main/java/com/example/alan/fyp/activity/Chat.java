@@ -11,6 +11,8 @@ import android.view.View;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ChatMainBinding;
 import com.example.alan.fyp.model.ChatMessage;
+import com.example.alan.fyp.model.Con_Message;
+import com.example.alan.fyp.model.Conversation;
 import com.example.alan.fyp.viewModel.ChatListViewModel;
 import com.example.alan.fyp.viewModel.ChatViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,6 +47,8 @@ public class Chat extends BaseActivity {
 
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
 
+    Conversation con;
+
     @InjectExtra String postId;
     @InjectExtra String questioner;
       String answererId;
@@ -56,7 +61,7 @@ public class Chat extends BaseActivity {
 
         Dart.inject(this);
         ButterKnife.bind(this);
-        answererId = firebaseuser.getUid();
+        //answererId = firebaseuser.getUid();
 
         FirebaseFirestore.getInstance().collection("Chatmessage")
                 .whereEqualTo("postID",postId)
@@ -85,6 +90,7 @@ public class Chat extends BaseActivity {
         });
 
 
+
         binding.setChatList(chatList);
         binding.setChat(chatViewModel);
 
@@ -100,17 +106,18 @@ public class Chat extends BaseActivity {
         final String messagetext = chatViewModel.messagetext.get();
         if (!TextUtils.isEmpty(messagetext)  ) {
 
-            ChatMessage chatMessage = new ChatMessage();
+//            ChatMessage chatMessage = new ChatMessage();
 
-            Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
-            chatMessage.setMessageDate(tsTemp);
-            chatMessage.setMessageText(messagetext);
-            chatMessage.postID = postId;
-            chatMessage.setAnswerer(answererId);
-            chatMessage.setQuestioner(questioner);
 
-            FirebaseFirestore.getInstance().collection("Chatmessage")
-                    .add(chatMessage)
+//            Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
+
+                Con_Message m = new Con_Message();
+                m.setDate(new Date());
+                m.setMessageText(messagetext);
+                m.setSenderID(firebaseuser.getUid());
+
+                FirebaseFirestore.getInstance().collection("conversation")
+                    .add(m)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
@@ -125,6 +132,29 @@ public class Chat extends BaseActivity {
                             Log.w(TAG, "Error adding document", e);
                         }
                     });
+
+//            chatMessage.setMessageDate(tsTemp);
+//            chatMessage.setMessageText(messagetext);
+//            chatMessage.postID = postId;
+//            chatMessage.setAnswerer(answererId);
+//            chatMessage.setQuestioner(questioner);
+//
+//            FirebaseFirestore.getInstance().collection("Chatmessage")
+//                    .add(chatMessage)
+//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+//                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                            chatViewModel.messagetext.set("");
+//
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w(TAG, "Error adding document", e);
+//                        }
+//                    });
 
 
 

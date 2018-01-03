@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import com.example.alan.fyp.FlexibleSpaceWithImageScrollViewActivity;
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
+import com.example.alan.fyp.model.Conversation;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostViewModel;
@@ -30,8 +33,17 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -67,7 +79,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     String userimage;
 
 
-
+    @InjectExtra String postUserId;
     @InjectExtra String PostId;
     @InjectExtra String postTtile;
     @InjectExtra String postDescription;
@@ -99,9 +111,6 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         postViewModel.image.set(postImage);
         postViewModel.timestamp.set(timestamp);
 
-        Log.d("Postdetail",timestamp );
-
-
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
         mActionBarSize = getActionBarSize();
@@ -119,11 +128,50 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = Henson.with(v.getContext()).gotoChat()
-                .postId(PostId)
-                .questioner(questionerId)
-                .build();
-                v.getContext().startActivity(intent);
+
+                if (postUserId.equals(firebaseuser.getUid())) {
+
+                } else {
+
+                    FirebaseFirestore.getInstance().collection("conversation")
+                            .whereEqualTo("postId",PostId)
+                            .whereEqualTo("aid",firebaseuser.getUid())
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot documentSnapshots) {
+
+                                    if (!documentSnapshots.isEmpty()) {
+                                           passdata(v, documentSnapshots.getDocuments().get(0).getId());
+                                           Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
+
+
+                                    } else {
+                                        Conversation c = new Conversation();
+                                        c.setAid(firebaseuser.getUid());
+                                        c.setPostId(PostId);
+                                        FirebaseFirestore.getInstance().collection("conversation")
+                                                .add(c)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                        passdata(v, documentReference.getId());
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("", "Error adding document", e);
+                                                    }
+                                                });
+                                    }
+
+                                }
+                            });
+
+
+                }
             }
         });
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
@@ -147,6 +195,21 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             }
         });
 
+    }
+
+
+    public void passdata(View v ,String conId){
+
+//        Intent intent = Henson.with(v.getContext()).gotoChat()
+//                .postId(PostId)
+//                .questioner(questionerId)
+//                .build();
+//        v.getContext().startActivity(intent);
+
+        Intent intent =Henson.with(v.getContext()).gotoChat2()
+                .conversationId(conId)
+                .build();
+        v.getContext().startActivity(intent);
     }
 
 

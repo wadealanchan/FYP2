@@ -18,7 +18,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ 'dart.henson.package' : 'com.example.alan.fyp' ]
+                arguments = ['dart.henson.package': 'com.example.alan.fyp']
             }
         }
     }
@@ -91,7 +91,6 @@ dependencies {
     annotationProcessor 'com.f2prateek.dart:henson-processor:2.0.2'
 
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
-
 
 
 }

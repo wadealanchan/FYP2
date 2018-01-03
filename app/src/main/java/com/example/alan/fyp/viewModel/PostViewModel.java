@@ -65,6 +65,7 @@ public class PostViewModel extends BaseObservable {
                 .postDescription(this.description.get())
                 .postImage(this.image.get())
                 .postTtile(this.title.get())
+                .postUserId(this.post.getUserId())
                 .questionerId(this.post.getUserId())
                 .timestamp(this.timestamp.get())
                 .build();

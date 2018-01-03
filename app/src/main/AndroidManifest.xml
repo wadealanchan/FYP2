@@ -47,7 +47,6 @@
             android:name=".activity.Profile"
             android:label="Profile"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activity.Newpost"
             android:label="Newpost"
@@ -90,7 +89,9 @@
 
         <activity
             android:name=".activity.Main2Activity"
-            android:label="@string/title_activity_main2"></activity>
+            android:label="@string/title_activity_main2" />
+        <activity android:name=".activity.Conversation" />
+        <activity android:name=".activity.Chat2"></activity>
     </application>
 
 </manifest>

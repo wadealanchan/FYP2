@@ -24,7 +24,7 @@
         android:layout_marginBottom="4dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:hint="username" />
+        android:hint="user" />
     <EditText
         android:id="@+id/etePassword"
         android:inputType="textPassword"

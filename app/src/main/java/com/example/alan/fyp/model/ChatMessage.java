@@ -53,7 +53,7 @@ public class ChatMessage {
         ChatViewModel c = new ChatViewModel();
         c.messagetext.set(this.messageText);
         c.setMessageUserId(this.answerer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateString = sdf.format(this.date);
         c.timestamp.set(dateString);
         return c;

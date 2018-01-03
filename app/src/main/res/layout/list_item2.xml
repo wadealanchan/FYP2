@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.google.firebase.auth.FirebaseAuth" />
+        <import type="android.view.View"/>
+        <import type="com.example.alan.fyp.util.DateFormater"/>
+        <variable name="chat" type="com.example.alan.fyp.viewModel.Con_MessageViewModel" />
+
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:visibility="@{!chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
+
+
+        <TextView
+            android:id="@+id/textContentFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_corner2"
+            android:padding="10dp"
+            android:text='@{chat.messageText}'
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:visibility="@{chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
+
+
+        <TextView
+            android:id="@+id/textContentUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/rounded_corner1"
+            android:padding="10dp"
+            android:text='@{chat.messageText}'
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>
+</layout>

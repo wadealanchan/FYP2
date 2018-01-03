@@ -69,7 +69,7 @@
             android:id="@+id/field_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username"
+            android:hint="@string/user"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="?colorAccent"

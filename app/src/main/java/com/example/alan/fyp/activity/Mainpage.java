@@ -186,6 +186,7 @@ public class Mainpage extends AppCompatActivity
                     db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
 
                         if (userInfotask.isSuccessful()) {
+
                             postViewModel.user.set(userInfotask.getResult().toObject(User.class));
                         } else {
                             postViewModel.user.set(null);

@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="chat" type="com.example.alan.fyp.viewModel.ChatViewModel" />
-
+        <import type="com.example.alan.fyp.util.DateFormater"/>
     </data>
 <RelativeLayout
      android:layout_width="match_parent"
@@ -21,17 +21,17 @@
         android:textStyle="normal|bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text='@{chat.user.name}'
+        android:text='@{chat.user.getName()}'
         />
 
-    <TextView
-        android:layout_alignParentBottom="@+id/message_user"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/message_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text='@{chat.timestamp}'
-        />
+    <!--<TextView-->
+        <!--android:layout_alignParentBottom="@+id/message_user"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:id="@+id/message_time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:text='@{DateFormater.formatDate("yyyy-MM-dd HH:mm", chat.time)}'-->
+        <!--/>-->
 
     <TextView
         android:layout_alignParentStart="true"
