@@ -6,7 +6,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
 
-        <variable name="postList" type="com.example.alan.fyp.viewModel.PostListViewModel" />
+        <variable name="postList" type="com.example.alan.fyp.ListViewModel.PostListViewModel" />
     </data>
 <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"

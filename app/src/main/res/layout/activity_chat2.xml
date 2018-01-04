@@ -7,7 +7,7 @@
         <variable name="chat" type="com.example.alan.fyp.viewModel.Con_MessageViewModel" />
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
         <variable
-            name="chatList" type="com.example.alan.fyp.viewModel.ChatListViewModel2" />
+            name="chatList" type="com.example.alan.fyp.ListViewModel.ChatListViewModel2" />
     </data>
     <RelativeLayout
         android:id="@+id/chat_main"

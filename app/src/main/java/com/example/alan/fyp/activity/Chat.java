@@ -12,8 +12,8 @@ import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ChatMainBinding;
 import com.example.alan.fyp.model.ChatMessage;
 import com.example.alan.fyp.model.Con_Message;
-import com.example.alan.fyp.model.Conversation;
-import com.example.alan.fyp.viewModel.ChatListViewModel;
+import com.example.alan.fyp.model.model_conversation;
+import com.example.alan.fyp.ListViewModel.ChatListViewModel;
 import com.example.alan.fyp.viewModel.ChatViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.f2prateek.dart.Dart;
@@ -30,7 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import butterknife.ButterKnife;
@@ -47,7 +46,7 @@ public class Chat extends BaseActivity {
 
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
 
-    Conversation con;
+    model_conversation con;
 
     @InjectExtra String postId;
     @InjectExtra String questioner;

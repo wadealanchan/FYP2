@@ -10,13 +10,14 @@ import java.util.List;
  * Created by wadealanchan on 2/1/2018.
  */
 
-public class Conversation {
+public class model_conversation {
 
     private String aid;
     private String postId;
     private List<Con_Message> messageList;
+    private String postUserId;
 
-    public Conversation() {
+    public model_conversation() {
         messageList = new ArrayList<Con_Message>();
     }
 
@@ -44,6 +45,13 @@ public class Conversation {
         this.messageList = messageList;
     }
 
+    public String getPostUserId() {
+        return postUserId;
+    }
+
+    public void setPostUserId(String postUserId) {
+        this.postUserId = postUserId;
+    }
 
 //    public ChatViewModel toViewModel() {
 //        ChatViewModel c = new ChatViewModel();

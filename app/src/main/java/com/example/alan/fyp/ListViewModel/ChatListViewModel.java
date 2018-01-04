@@ -1,4 +1,4 @@
-package com.example.alan.fyp.viewModel;
+package com.example.alan.fyp.ListViewModel;
 
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableArrayList;
@@ -6,6 +6,7 @@ import android.databinding.ObservableList;
 
 import com.example.alan.fyp.BR;
 import com.example.alan.fyp.R;
+import com.example.alan.fyp.viewModel.ChatViewModel;
 
 import me.tatarka.bindingcollectionadapter2.BindingListViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;

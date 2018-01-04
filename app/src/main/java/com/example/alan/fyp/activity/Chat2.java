@@ -2,19 +2,16 @@ package com.example.alan.fyp.activity;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
 import com.example.alan.fyp.model.*;
-import com.example.alan.fyp.viewModel.ChatListViewModel2;
+import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.viewModel.Con_MessageViewModel;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -22,13 +19,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Collections;
 import java.util.Date;
@@ -50,7 +44,7 @@ public class Chat2 extends BaseActivity {
 
     @InjectExtra String conversationId;
 
-    com.example.alan.fyp.model.Conversation conversation;
+    model_conversation conversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +58,7 @@ public class Chat2 extends BaseActivity {
                 .document(conversationId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                        conversation = documentSnapshot.toObject(com.example.alan.fyp.model.Conversation.class);
+                        conversation = documentSnapshot.toObject(model_conversation.class);
 
                         //Collections.sort(conversation.getMessageList());
 
@@ -85,7 +79,7 @@ public class Chat2 extends BaseActivity {
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    conversation = documentSnapshot.toObject(com.example.alan.fyp.model.Conversation.class);
+                    conversation = documentSnapshot.toObject(model_conversation.class);
 
                     chatListViewModel2.items.clear();
 

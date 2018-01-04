@@ -5,7 +5,7 @@
     <data>
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
         <variable
-            name="postList" type="com.example.alan.fyp.viewModel.PostListViewModel" />
+            name="postList" type="com.example.alan.fyp.ListViewModel.PostListViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

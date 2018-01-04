@@ -2,28 +2,18 @@ package com.example.alan.fyp.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.alan.fyp.FlexibleSpaceWithImageScrollViewActivity;
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
-import com.example.alan.fyp.model.Conversation;
-import com.example.alan.fyp.model.Post;
+import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
@@ -39,18 +29,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Optional;
 
 public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks {
 
@@ -131,6 +113,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
                 if (postUserId.equals(firebaseuser.getUid())) {
 
+
                 } else {
 
                     FirebaseFirestore.getInstance().collection("conversation")
@@ -142,21 +125,22 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                                 public void onSuccess(QuerySnapshot documentSnapshots) {
 
                                     if (!documentSnapshots.isEmpty()) {
-                                           passdata(v, documentSnapshots.getDocuments().get(0).getId());
+                                           passdata(v, documentSnapshots.getDocuments().get(0).getId(),1);
                                            Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
 
 
                                     } else {
-                                        Conversation c = new Conversation();
+                                        model_conversation c = new model_conversation();
                                         c.setAid(firebaseuser.getUid());
                                         c.setPostId(PostId);
+                                        c.setPostUserId(postUserId);
                                         FirebaseFirestore.getInstance().collection("conversation")
                                                 .add(c)
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                        passdata(v, documentReference.getId());
+                                                        passdata(v, documentReference.getId(),1);
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {
@@ -198,18 +182,28 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     }
 
 
-    public void passdata(View v ,String conId){
+    public void passdata(View v ,String conId, int number){
 
-//        Intent intent = Henson.with(v.getContext()).gotoChat()
-//                .postId(PostId)
-//                .questioner(questionerId)
-//                .build();
-//        v.getContext().startActivity(intent);
 
-        Intent intent =Henson.with(v.getContext()).gotoChat2()
-                .conversationId(conId)
-                .build();
-        v.getContext().startActivity(intent);
+        switch(number) {
+            case 0:
+//                Intent intent =Henson.with(v.getContext()).gotoConversation()
+//                        .conversationId(conId)
+//                        .build();
+//                v.getContext().startActivity(intent);
+                break;
+            case 1:
+                Intent intent1 =Henson.with(v.getContext()).gotoChat2()
+                        .conversationId(conId)
+                        .build();
+                v.getContext().startActivity(intent1);
+                break;
+
+        }
+
+
+
+
     }
 
 
