@@ -23,8 +23,18 @@
         android:layout_marginTop="10dp"
         android:visibility="@{!chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            app:imageUrl='@{chat.user.image}'/>
+
 
         <TextView
+            android:layout_toEndOf="@id/imageView3"
             android:id="@+id/textContentFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,6 +59,13 @@
         android:layout_marginTop="10dp"
         android:visibility="@{chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            app:imageUrl='@{chat.user.image}' />
 
         <TextView
             android:id="@+id/textContentUser"
@@ -58,7 +75,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@id/imageView2"
             android:background="@drawable/rounded_corner1"
             android:padding="10dp"
             android:text='@{chat.messageText}'

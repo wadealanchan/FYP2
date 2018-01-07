@@ -8,6 +8,7 @@
         <variable name="postList" type="com.example.alan.fyp.ListViewModel.PostListViewModel" />
         <variable name="user" type="com.example.alan.fyp.viewModel.UserViewModel"/>
     </data>
+
 <android.support.v4.widget.DrawerLayout
 
     android:id="@+id/drawer_layout"

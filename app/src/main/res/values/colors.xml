@@ -38,7 +38,11 @@
     <color name="grey_800">#212121</color>
 
     <color name="colorUser">#03A9F4</color>
+    <color name="accent">#eeff41</color>
+    <color name="accentLight">#F4FF81</color>
 
+    <color name="primary">#009688</color>
+    <color name="primaryDark">#00796b</color>
 
 
 </resources>

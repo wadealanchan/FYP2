@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="chat" type="com.example.alan.fyp.viewModel.Con_MessageViewModel" />
+        <variable name="conversation" type="com.example.alan.fyp.viewModel.ConViewModel" />
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
-        <variable
-            name="ConList" type="com.example.alan.fyp.ListViewModel.ConListViewModel" />
+        <variable name="ConList" type="com.example.alan.fyp.ListViewModel.ConListViewModel" />
+        <import type="android.view.View"/>
     </data>
     <RelativeLayout
         android:id="@+id/chat_main"
@@ -19,6 +19,8 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         >
 
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/Rview_Conversation"
             android:scrollbars="vertical"
@@ -28,7 +30,6 @@
             app:layoutManager="@{LayoutManagers.linear()}"
             app:items="@{ConList.items}"
             app:itemBinding="@{ConList.itemBinding}"
-
             />
 
 
