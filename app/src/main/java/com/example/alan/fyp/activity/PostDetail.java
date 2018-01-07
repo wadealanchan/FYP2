@@ -195,6 +195,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             case 1:
                 Intent intent1 =Henson.with(v.getContext()).gotoChat2()
                         .conversationId(conId)
+                        .targetUserName(postViewModel.user.get().getName())
                         .build();
                 v.getContext().startActivity(intent1);
                 break;

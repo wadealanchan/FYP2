@@ -59,7 +59,6 @@ public class PostViewModel extends BaseObservable {
 
 
     public void onSaveClick(View view){
-        Log.d("PostViewmodel", PostId);
         Intent intent = Henson.with(view.getContext()).gotoPostDetail()
                 .PostId(this.PostId)
                 .postDescription(this.description.get())

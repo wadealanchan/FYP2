@@ -1,5 +1,7 @@
 package com.example.alan.fyp.util;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +10,14 @@ import java.util.Date;
  */
 
 public class DateFormater {
+
     public static String formatDate(String pattern, Date date) {
+
+        if (date == null) {
+            Log.d("DateFormaterDate:", "null object");
+            return "";
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.format(date);
     }

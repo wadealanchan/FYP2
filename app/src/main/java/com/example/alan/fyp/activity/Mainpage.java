@@ -95,7 +95,7 @@ public class Mainpage extends AppCompatActivity
             }
         });
 
-//
+
 
         showcontent();
 
@@ -194,7 +194,6 @@ public class Mainpage extends AppCompatActivity
                     });
                     postViewModel.post = post;
                     postList.items.add(postViewModel);
-                   // Log.d(TAG, document.getId() + " => " + document.getData());
                 }
                 binding.executePendingBindings();
             }

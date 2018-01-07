@@ -179,7 +179,7 @@ public class Newpost extends AppCompatActivity {
                 @Override
                 public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
 
-                    String userId = firebaseuser.getUid();
+
 
 
                     Post post = new Post();

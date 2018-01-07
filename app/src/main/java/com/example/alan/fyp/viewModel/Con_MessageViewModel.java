@@ -1,10 +1,14 @@
 package com.example.alan.fyp.viewModel;
 
+import android.databinding.BindingAdapter;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
+import android.widget.ImageView;
 
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by wadealanchan on 2/1/2018.
@@ -31,7 +35,6 @@ public class Con_MessageViewModel {
                     if (userInfotask.isSuccessful()) {
                         user.set(userInfotask.getResult().toObject(User.class));
 
-                        //postViewModel.user.set(userInfotask.getResult().toObject(User.class));
                     }
                 });
             }
@@ -72,5 +75,14 @@ public class Con_MessageViewModel {
 
     public void setUser(ObservableField<User> user) {
         this.user = user;
+    }
+
+
+    @BindingAdapter({"bind:imagesrc"})
+    public static void loadImage(ImageView view, String image) {
+        if(image!=null)
+            Picasso.with(view.getContext()).load(image).into(view);
+        else
+            Picasso.with(view.getContext()).load(R.drawable.ic_avatar_default).into(view);
     }
 }

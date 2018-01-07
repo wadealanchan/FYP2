@@ -4,14 +4,16 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
 import com.example.alan.fyp.model.*;
-import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
+import com.example.alan.fyp.viewModel.ConViewModel;
 import com.example.alan.fyp.viewModel.Con_MessageViewModel;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -33,7 +35,6 @@ import butterknife.OnClick;
 
 
 public class Chat2 extends BaseActivity {
-
     ActivityChat2Binding binding;
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     Con_MessageViewModel con_messageViewModel = new Con_MessageViewModel();
@@ -43,6 +44,7 @@ public class Chat2 extends BaseActivity {
     RecyclerView Rview_chat2;
 
     @InjectExtra String conversationId;
+    @InjectExtra String targetUserName;
 
     model_conversation conversation;
 
@@ -53,21 +55,28 @@ public class Chat2 extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat2);
         Dart.inject(this);
         ButterKnife.bind(this);
+        setTitle(null);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        FirebaseFirestore.getInstance().collection("conversation")
+
+
+
+
+         FirebaseFirestore.getInstance().collection("conversation")
                 .document(conversationId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                         conversation = documentSnapshot.toObject(model_conversation.class);
 
                         //Collections.sort(conversation.getMessageList());
-
                         if (conversation.getMessageList().size() > 0) {
                             Con_MessageViewModel msgViewModel = new Con_MessageViewModel();
                             Con_Message msg = conversation.getMessageList().get(conversation.getMessageList().size()-1);
                             msgViewModel.getMessageText().set(msg.getMessageText());
                             msgViewModel.getDate().set(msg.getDate());
                             msgViewModel.getSenderID().set(msg.getSenderID());
+
                             //chatListViewModel2.items.add(msgViewModel);
                             chatListViewModel2.items.add(0, msgViewModel);
                         }
@@ -81,14 +90,13 @@ public class Chat2 extends BaseActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     conversation = documentSnapshot.toObject(model_conversation.class);
 
-                    chatListViewModel2.items.clear();
+
 
                     Collections.sort(conversation.getMessageList());
 
-                    for (int i=conversation.getMessageList().size()-1 ; i>=0; i--)
+                    for (int i=conversation.getMessageList().size()-2 ; i>=0; i--)
                     {
                         Con_Message msg = conversation.getMessageList().get(i);
-                        Log.d("chat2 :", msg.getMessageText());
                         Con_MessageViewModel msgViewModel = new Con_MessageViewModel();
                         msgViewModel.getMessageText().set(msg.getMessageText());
                         msgViewModel.getDate().set(msg.getDate());
@@ -96,17 +104,15 @@ public class Chat2 extends BaseActivity {
                         chatListViewModel2.items.add(msgViewModel);
                     }
 
-//                    for(Con_Message msg : conversation.getMessageList()) {
-//                        Con_MessageViewModel msgViewModel = new Con_MessageViewModel();
-//                        msgViewModel.getMessageText().set(msg.getMessageText());
-//                        msgViewModel.getDate().set(msg.getDate());
-//                        msgViewModel.getSenderID().set(msg.getSenderID());
-//                        chatListViewModel2.items.add(msgViewModel);
-//                    }
-
                     binding.executePendingBindings();
                 }
             });
+
+        User user = new User();
+        user.setName(targetUserName);
+
+        con_messageViewModel.getUser().set(user);
+
 
         binding.setChatList(chatListViewModel2);
         binding.setChat(con_messageViewModel);
@@ -148,6 +154,21 @@ public class Chat2 extends BaseActivity {
 
         }
 
+    }
+
+
+    public void getUserInfo(Con_MessageViewModel viewModel, String ID)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Users").document(ID).get().addOnCompleteListener(userInfotask -> {
+
+            if (userInfotask.isSuccessful()) {
+                viewModel.getUser().set(userInfotask.getResult().toObject(User.class));
+            } else {
+                viewModel.getUser().set(null);
+            }
+
+        });
     }
 
 

@@ -2,9 +2,6 @@ package com.example.alan.fyp.model;
 
 import android.support.annotation.NonNull;
 
-import com.example.alan.fyp.viewModel.ChatViewModel;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

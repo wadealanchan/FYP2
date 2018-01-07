@@ -30,13 +30,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Post extends BaseObservable {
 
     public static final String TAG = "Post";
 
     private String image, title, description, userId, category;
-    public  java.util.Date date;
+
+    private java.util.Date date;
 
     public Post() {
 
@@ -74,8 +76,12 @@ public class Post extends BaseObservable {
         this.description = description;
     }
 
-    public void setDate(java.util.Date date) {
-        this.date=date;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getCategory() {
@@ -85,8 +91,6 @@ public class Post extends BaseObservable {
     public void setCategory(String Category) {
         this.category = Category;
     }
-
-
 
 
     public PostViewModel toViewModel() {

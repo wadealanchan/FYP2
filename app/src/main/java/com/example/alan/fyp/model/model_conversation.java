@@ -1,8 +1,6 @@
 package com.example.alan.fyp.model;
 
-import com.example.alan.fyp.viewModel.ChatViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,15 +51,7 @@ public class model_conversation {
         this.postUserId = postUserId;
     }
 
-//    public ChatViewModel toViewModel() {
-//        ChatViewModel c = new ChatViewModel();
-//        c.messagetext.set(this.messageText);
-//        c.setMessageUserId(this.answerer);
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String dateString = sdf.format(this.date);
-//        c.timestamp.set(dateString);
-//        return c;
-//    }
+
 
 
 }
