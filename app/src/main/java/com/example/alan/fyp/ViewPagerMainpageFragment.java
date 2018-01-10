@@ -63,28 +63,6 @@ public class ViewPagerMainpageFragment extends BaseFragment {
         View view = binding.getRoot();
 
 
-//        final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-//        Activity parentActivity = getActivity();
-//        if (parentActivity instanceof ObservableScrollViewCallbacks) {
-//            // Scroll to the specified offset after layout
-//            Bundle args = getArguments();
-//            if (args != null && args.containsKey(ARG_SCROLL_Y)) {
-//                final int scrollY = args.getInt(ARG_SCROLL_Y, 0);
-//                ScrollUtils.addOnGlobalLayoutListener(scrollView, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        scrollView.scrollTo(0, scrollY);
-//                    }
-//                });
-//            }
-//
-//            // TouchInterceptionViewGroup should be a parent view other than ViewPager.
-//            // This is a workaround for the issue #117:
-//            // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
-//            scrollView.setTouchInterceptionViewGroup((ViewGroup) parentActivity.findViewById(R.id.root));
-//
-//            scrollView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
-//        }
 
 
 
@@ -144,25 +122,29 @@ public class ViewPagerMainpageFragment extends BaseFragment {
 
                 postList.items.clear();
                 for (DocumentSnapshot document : value) {
-                    Post post = document.toObject(Post.class);
+                    if(document.exists()) {
+                        Post post = document.toObject(Post.class);
 
-                    PostViewModel postViewModel = post.toViewModel();
-                    postViewModel.PostId = document.getId();
+                        PostViewModel postViewModel = post.toViewModel();
+                        postViewModel.PostId = document.getId();
 
 
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
 
-                        if (userInfotask.isSuccessful()) {
+                            if (userInfotask.isSuccessful()) {
 
-                            postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-                        } else {
-                            postViewModel.user.set(null);
-                        }
+                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
 
-                    });
-                    postViewModel.post = post;
-                    postList.items.add(postViewModel);
+                            } else {
+                                postViewModel.user.set(null);
+                            }
+
+                        });
+
+                        postViewModel.post = post;
+                        postList.items.add(postViewModel);
+                    }
                 }
                 binding.executePendingBindings();
             }

@@ -19,14 +19,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.alan.fyp.ListViewModel.PostListViewModel;
+import com.example.alan.fyp.activity.AuthClass;
 import com.example.alan.fyp.activity.BaseActivity;
+import com.example.alan.fyp.activity.MainActivity;
 import com.example.alan.fyp.activity.Newpost;
+import com.example.alan.fyp.activity.Profile;
 import com.example.alan.fyp.databinding.ActivityViewpagerMainpageBinding;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -118,6 +123,12 @@ public class ViewPagerMainpage extends BaseActivity implements
 
             }
         });
+
+
+
+
+
+
 
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         slidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
@@ -322,6 +333,7 @@ public class ViewPagerMainpage extends BaseActivity implements
                         Bundle args = new Bundle();
                         args.putInt(ViewPagerMainpageFragment.ARG_SCROLL_Y, 1);
                         f.setArguments(args);
+
                     }
                     break;
                 }
@@ -399,6 +411,32 @@ public class ViewPagerMainpage extends BaseActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            return true;
+        }
+
+
+        if (id== R.id.action_logout){
+            if (firebaseuser != null) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, AuthClass.class);
+                startActivity(intent);
+
+            }
+
+            return true;
+        }
+
+        if (id== R.id.action_testpage){
+           Intent intent = new Intent(this, MainActivity.class);
+           startActivity(intent);
+            return true;
+        }
+
+
+        if (id== R.id.action_profile){
+            Intent intent = new Intent(this, Profile.class);
+            startActivity(intent);
             return true;
         }
 

@@ -1,9 +1,13 @@
 package com.example.alan.fyp.util;
 
+import android.content.Intent;
 import android.util.Log;
 
+import com.example.alan.fyp.Henson;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by Alan on 26/7/2017.
@@ -23,10 +27,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Log.e(TAG,"Date Received : "+remoteMessage.getData().toString());
 
+            /*String conversationId = remoteMessage.getData().get("conversationId");
+            String targetUserName = remoteMessage.getData().get("targetUserName");
+            Intent intent = Henson.with(getApplicationContext()).
+                    gotoChat2()
+                    .conversationId(conversationId)
+                    .targetUserName(targetUserName)
+                    .build();
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);*/
+
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
             } else {
                 // Handle message within 10 seconds
+
+
             }
 
         }

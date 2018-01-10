@@ -1,12 +1,14 @@
 package com.example.alan.fyp;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
+import android.databinding.Observable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +25,11 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
@@ -35,7 +40,7 @@ public class ViewPagerConversationFragment extends BaseFragment {
     public final String TAG = "Conversation: ";
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     ConListViewModel conListViewModel = new ConListViewModel();
-    ConViewModel conViewModel= new ConViewModel();
+    ConViewModel conViewModel = new ConViewModel();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,29 +77,38 @@ public class ViewPagerConversationFragment extends BaseFragment {
         }
 
 
+
+
         FirebaseFirestore.getInstance().collection("conversation")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess( QuerySnapshot documentSnapshots) {
-                        for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
-                            model_conversation model_conversation = document.toObject(com.example.alan.fyp.model.model_conversation.class);
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "listen:error", e);
+                            return;
+                        }
 
-                            if (model_conversation.getAid().equals(firebaseuser.getUid())) {
-                                ConViewModel conViewModel = new ConViewModel();
-                                conViewModel.conId = document.getId();
-                                getUserInfo(conViewModel, model_conversation.getPostUserId());
-                                getPostInfo(conViewModel, model_conversation.getPostId());
-                                conListViewModel.items.add(conViewModel);
-                            }
+                        conListViewModel.items.clear();
+                        for (DocumentSnapshot dc : value) {
+                            model_conversation model_conversation = dc.toObject(com.example.alan.fyp.model.model_conversation.class);
+                            if(firebaseuser!=null) {
+                                if (model_conversation.getAid().equals(firebaseuser.getUid())) {
+                                    ConViewModel conViewModel = new ConViewModel();
+                                    conViewModel.conId = dc.getId();
+                                    getUserInfo(conViewModel, model_conversation.getPostUserId());
+                                    getPostInfo(conViewModel, model_conversation.getPostId());
+                                    conListViewModel.items.add(conViewModel);
+                                }
 
-                            if (model_conversation.getPostUserId().equals(firebaseuser.getUid())) {
-                                ConViewModel conViewModel = new ConViewModel();
-                                conViewModel.conId = document.getId();
-                                getUserInfo(conViewModel, model_conversation.getAid());
-                                getPostInfo(conViewModel, model_conversation.getPostId());
-                                conListViewModel.items.add(conViewModel);
+                                if (model_conversation.getPostUserId().equals(firebaseuser.getUid())) {
+                                    ConViewModel conViewModel = new ConViewModel();
+                                    conViewModel.conId = dc.getId();
+                                    getUserInfo(conViewModel, model_conversation.getAid());
+                                    getPostInfo(conViewModel, model_conversation.getPostId());
+                                    conListViewModel.items.add(conViewModel);
 
+                                }
                             }
 
                         }
@@ -106,15 +120,15 @@ public class ViewPagerConversationFragment extends BaseFragment {
 
 
 
+
         binding.setConList(conListViewModel);
         binding.setConversation(conViewModel);
 
 
-
         return view;
     }
-    public void getUserInfo(ConViewModel viewModel, String aid)
-    {
+
+    public void getUserInfo(ConViewModel viewModel, String aid) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(aid).get().addOnCompleteListener(userInfotask -> {
 
@@ -133,10 +147,14 @@ public class ViewPagerConversationFragment extends BaseFragment {
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                viewModel.post.set(documentSnapshot.toObject(Post.class));
+                if(documentSnapshot.exists()) {
+                    viewModel.post.set(documentSnapshot.toObject(Post.class));
+                }
             }
         });
     }
+
+
 
 
 }

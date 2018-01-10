@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -128,7 +130,6 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                                            passdata(v, documentSnapshots.getDocuments().get(0).getId(),1);
                                            Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
 
-
                                     } else {
                                         model_conversation c = new model_conversation();
                                         c.setAid(firebaseuser.getUid());
@@ -180,6 +181,9 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         });
 
     }
+
+
+
 
 
     public void passdata(View v ,String conId, int number){

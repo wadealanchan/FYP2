@@ -9,8 +9,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.alan.fyp.ViewPagerMainpage;
 import com.example.alan.fyp.util.CustomDialogFragment;
 import com.example.alan.fyp.util.CustomDialogListener;
 import com.example.alan.fyp.R;
@@ -33,12 +35,16 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by wadealanchan on 4/9/2017.
  */
 
-public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnectionFailedListener,CustomDialogListener,View.OnClickListener{
+public class AuthClass extends BaseActivity
+        implements
+        GoogleApiClient.OnConnectionFailedListener,CustomDialogListener,View.OnClickListener{
 
 
     private FirebaseAuth mAuth;
@@ -52,10 +58,10 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
     public final String TAG ="AuthClass";
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
-
     DatabaseReference mDatabaseRefUser;
     ProgressDialog progressDialog;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,50 +96,11 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
+        if(currentUser!=null) {
+            Intent intent_to_mainpage = new Intent(this, ViewPagerMainpage.class);
+            startActivity(intent_to_mainpage);
+        }
     }
-
-//    private void createAccount(String email, String password) {
-//        Log.d("Create Account:", "createAccount:" + email);
-//        if (!validateForm(2)) {
-//            return;
-//        }
-//
-//        showProgressDialog();
-//        Log.d(TAG,"get it here?");
-//        // [START create_user_with_email]
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                      @Override
-//                      public void onComplete(@NonNull Task<AuthResult> task) {
-//                          if (task.isSuccessful()) {
-//                              // Sign in success, update UI with the signed-in user's information
-//                              Log.d("", "createUserWithEmail:success");
-//                              FirebaseUser user = mAuth.getCurrentUser();
-//
-//                              updateUI(user);
-//                              setName(Name);
-//
-//
-//                          } else if (!task.isSuccessful()) {
-//                              // If sign in fails, display a message to the user.
-//                              FirebaseAuthException e = (FirebaseAuthException) task.getException();
-//                              Log.w("", "createUserWithEmail:failure", task.getException());
-//                              Log.e("LoginActivity", "Failed Registration", e);
-//                              Toast.makeText(AuthClass.this, "Authentication failed.",
-//                                      Toast.LENGTH_SHORT).show();
-//
-//                          }
-//
-//                          // [START_EXCLUDE]
-//                          hideProgressDialog();
-//                          // [END_EXCLUDE]
-//                      }
-//
-//                  });
-//              }
-//        // [END create_user_with_email]
-
 
 
 
@@ -160,7 +127,7 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    Intent intent = new Intent(AuthClass.this, Mainpage.class);
+                                    Intent intent = new Intent(AuthClass.this, ViewPagerMainpage.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     //startActivity(intent);
                                     finish();
@@ -201,6 +168,13 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
                             Log.d("", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+
+                            FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+
+                            Intent intent = new Intent(AuthClass.this,ViewPagerMainpage.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+
 
                         } else {
                             Log.w("", "signInWithEmail:failure", task.getException());
@@ -254,35 +228,63 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
         }
         return valid;
 
-
     }
-
-
-
 
 
     private void updateUI(FirebaseUser currentUser) {
         hideProgressDialog();
+        ImageView imageView_avatar = findViewById(R.id.imageView15);
         if (currentUser != null) {
-            Toast.makeText(AuthClass.this, currentUser.getEmail(),
+            Toast.makeText(AuthClass.this, " Welcome Back "+ currentUser.getDisplayName(),
                     Toast.LENGTH_SHORT).show();
 
             findViewById(R.id.btn_createac).setVisibility(View.GONE);
             findViewById(R.id.btn_signin).setVisibility(View.GONE);
             findViewById(R.id.btn_signout).setVisibility(View.VISIBLE);
+            findViewById(R.id.btn_signout).setTranslationY(300);
             findViewById(R.id.btn_googlesignin).setVisibility(View.GONE);
+            findViewById(R.id.field_email).setVisibility(View.GONE);
+            findViewById(R.id.field_pw).setVisibility(View.GONE);
+            findViewById(R.id.imageView14).setVisibility(View.GONE);
+            findViewById(R.id.imageView17).setVisibility(View.GONE);
+            imageView_avatar.setVisibility(View.VISIBLE);
+
+            if(currentUser.getPhotoUrl()!=null) {
+                loadImage(imageView_avatar, currentUser.getPhotoUrl().toString());
+            }
+            else {
+                findViewById(R.id.imageView14).setVisibility(View.VISIBLE);
+                findViewById(R.id.imageView17).setVisibility(View.VISIBLE);
+            }
+
+
+
         }
         else
         {
-            Toast.makeText(AuthClass.this, R.string.signedout,
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(AuthClass.this, R.string.signedout,
+//                Toast.LENGTH_SHORT).show();
             findViewById(R.id.btn_createac).setVisibility(View.VISIBLE);
             findViewById(R.id.btn_signin).setVisibility(View.VISIBLE);
             findViewById(R.id.btn_signout).setVisibility(View.GONE);
             findViewById(R.id.btn_googlesignin).setVisibility(View.VISIBLE);
+            imageView_avatar.setVisibility(View.GONE);
+            findViewById(R.id.imageView14).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView17).setVisibility(View.VISIBLE);
+            findViewById(R.id.field_email).setVisibility(View.VISIBLE);
+            findViewById(R.id.field_pw).setVisibility(View.VISIBLE);
         }
 
 
+    }
+
+    public static void loadImage(ImageView view, String image) {
+        if(image!=null)
+            Picasso.with(view.getContext()).load(image).into(view);
+        else
+            Picasso.with(view.getContext())
+                    .load(R.drawable.ic_person)
+                    .into(view);
     }
 
 
@@ -311,16 +313,11 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
 
     }
 
-   private void signOut() {
+   public void signOut() {
        mAuth.signOut();
-       Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-               new ResultCallback<Status>() {
-                   @Override
-                   public void onResult(@NonNull Status status) {
-                       updateUI(null);
-                   }
-               });
        updateUI(null);
+       Toast.makeText(AuthClass.this, R.string.signedout,
+               Toast.LENGTH_SHORT).show();
    }
 
 
@@ -412,6 +409,8 @@ public class AuthClass extends BaseActivity implements  GoogleApiClient.OnConnec
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            Intent intent_to_mainpage = new Intent(getApplicationContext(), ViewPagerMainpage.class);
+                            startActivity(intent_to_mainpage);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

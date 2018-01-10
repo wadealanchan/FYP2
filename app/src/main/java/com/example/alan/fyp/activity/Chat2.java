@@ -26,8 +26,19 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -124,10 +135,7 @@ public class Chat2 extends BaseActivity {
         final String messagetext = con_messageViewModel.getMessageText().get();
         if (!TextUtils.isEmpty(messagetext)  ) {
 
-//            ChatMessage chatMessage = new ChatMessage();
 
-
-//            Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
 
             Con_Message m = new Con_Message();
             m.setDate(new Date());
@@ -143,6 +151,61 @@ public class Chat2 extends BaseActivity {
                         public void onSuccess(Void aVoid) {
                             con_messageViewModel.getMessageText().set("");
                             Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+                            Thread thread = new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Log.d(TAG," get it here?");
+                                        URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                                        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+                                        con.setRequestProperty("Content-Type", "application/json");
+                                        con.setRequestProperty("Authorization", "key=AAAA0PvKSIA:APA91bExyJ3gW6LYKhRvYGPjz6vUOKeC8Tc3Po3oP_uP6FqRis07YoBXl0xe9kzreR1McPZNHN-EUSXtPU9gjYHvGcfWde0XL-hegNQlxxRiCNnIV1tpX5NaWe7Mb6Uh1tQuzZL7-tbZ");
+                                        con.setRequestMethod("POST");
+                                        con.connect();
+
+                                        JSONObject payload = new JSONObject();
+                                        payload.put("to","/topics/"+(conversation.getPostUserId().equals(firebaseuser.getUid()) ? conversation.getAid() : conversation.getPostUserId()));
+
+                                        JSONObject data = new JSONObject();
+                                        data.put("conversationId", conversationId);
+                                        data.put("targetUserName", targetUserName);
+
+                                        payload.put("data", data);
+
+                                        JSONObject notification = new JSONObject();
+                                        notification.put("title",targetUserName);
+                                        notification.put("body", messagetext);
+                                        notification.put("click_action", "com.example.alan.fyp.action.CHAT2");
+
+                                        payload.put("notification", notification);
+
+                                        OutputStream os = con.getOutputStream();
+                                        os.write(payload.toString().getBytes("UTF-8"));
+                                        os.close();
+
+                                        Log.d(TAG,payload.toString());
+
+                                        // Read the response into a string
+                                        InputStream is = con.getInputStream();
+                                        String responseString = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
+                                        is.close();
+
+                                        // Parse the JSON string and return the notification key
+                                        JSONObject response = new JSONObject(responseString);
+                                        //return response.getString("notification_key");
+                                        Log.d(TAG,responseString);
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            thread.start();
+
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

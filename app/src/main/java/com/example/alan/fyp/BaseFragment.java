@@ -84,4 +84,7 @@ public abstract class BaseFragment extends Fragment {
     protected void setDummyDataWithHeader(RecyclerView recyclerView, View headerView) {
         recyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(getActivity(), getDummyData(), headerView));
     }
+
+
+
 }

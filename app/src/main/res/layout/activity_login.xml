@@ -25,29 +25,39 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:id="@+id/linearLayout2">
 
         <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
 
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView15"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circ"
+                 />
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:id="@+id/imageView14"
                 android:background="@drawable/circ"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="false"
-
+                android:layout_centerHorizontal="true"
             />
 
-        <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+           <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
@@ -65,6 +75,8 @@
         android:layout_below="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/field_email"
             android:layout_width="match_parent"

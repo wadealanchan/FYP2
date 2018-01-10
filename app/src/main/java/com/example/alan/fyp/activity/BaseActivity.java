@@ -3,6 +3,7 @@ package com.example.alan.fyp.activity;
 import android.app.ProgressDialog;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,21 +23,30 @@ import android.widget.ListView;
 
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.SimpleRecyclerAdapter;
+import com.example.alan.fyp.util.CustomDialogListener;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity
+        {
 
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
-
+    private GoogleApiClient mGoogleApiClient;
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 
@@ -148,5 +158,15 @@ public class BaseActivity extends AppCompatActivity  {
 //        recyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, getDummyData(), headerView));
 //    }
 
+    protected void googlesignout()
+    {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+                    }
+                });
+    }
 
 }

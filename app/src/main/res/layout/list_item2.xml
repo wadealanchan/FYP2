@@ -17,11 +17,11 @@
 
     <RelativeLayout
         android:id="@+id/layout2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
-        android:visibility="@{!chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
+        android:visibility="@{!chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView3"
@@ -46,18 +46,22 @@
             android:padding="10dp"
             android:text='@{chat.messageText}'
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:textIsSelectable="true"
+
+
+            />
 
     </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/layout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
-        android:visibility="@{chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.INVISIBLE}">
+        android:visibility="@{chat.senderID.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView2"
@@ -65,6 +69,7 @@
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
             app:imageUrl='@{chat.user.image}' />
 
         <TextView
@@ -80,7 +85,11 @@
             android:padding="10dp"
             android:text='@{chat.messageText}'
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textIsSelectable="true"
+            />
+
+
 
     </RelativeLayout>
 

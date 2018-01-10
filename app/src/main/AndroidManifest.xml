@@ -33,16 +33,17 @@
         <!-- /> -->
         <!-- &lt;!&ndash; [END fcm_default_channel] &ndash;&gt; -->
         <activity android:name=".activity.MainActivity">
+        </activity>
+        <activity
+            android:name=".activity.AuthClass"
+            android:label="AuthClass"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.AuthClass"
-            android:label="AuthClass"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.Profile"
             android:label="Profile"
@@ -91,8 +92,12 @@
 
         <activity
             android:name=".activity.Chat2"
-            android:theme="@style/AppTheme.toolbar"
-            />
+            android:theme="@style/AppTheme.toolbar">
+            <intent-filter>
+                <action android:name="com.example.alan.fyp.action.CHAT2"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ViewPagerTabActivity"
             android:label="activity_viewpagertab"
