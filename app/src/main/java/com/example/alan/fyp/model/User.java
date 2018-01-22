@@ -8,6 +8,7 @@ public class User {
     @Exclude public String id;
     private String name;
     private String image;
+    private String Type;
 
     public User() {
     }
@@ -27,5 +28,13 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 }

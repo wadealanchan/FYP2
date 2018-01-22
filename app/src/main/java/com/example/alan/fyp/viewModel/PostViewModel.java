@@ -53,8 +53,9 @@ public class PostViewModel extends BaseObservable {
     public static void loadImage(ImageView view, String image) {
         if(image!=null)
             Picasso.with(view.getContext()).load(image).into(view);
-        else
+        else {
             Picasso.with(view.getContext()).load(R.drawable.ic_avatar_default).into(view);
+        }
     }
 
 
@@ -62,7 +63,7 @@ public class PostViewModel extends BaseObservable {
         Intent intent = Henson.with(view.getContext()).gotoPostDetail()
                 .PostId(this.PostId)
                 .postDescription(this.description.get())
-                .postImage(this.image.get())
+//                .postImage(this.image!=null ? this.image.get():"")
                 .postTtile(this.title.get())
                 .postUserId(this.post.getUserId())
                 .questionerId(this.post.getUserId())
@@ -71,6 +72,17 @@ public class PostViewModel extends BaseObservable {
         if (this.user.get() != null) {
             intent.putExtra("user_name", this.user.get().getName());
             intent.putExtra("user_image", this.user.get().getImage());
+        }
+
+        if(this.image.get()!=null)
+        {
+
+            intent.putExtra("post_image", this.image.get());
+        }
+        else
+        {
+
+            intent.putExtra("post_image", "1");
         }
         view.getContext().startActivity(intent);
     }

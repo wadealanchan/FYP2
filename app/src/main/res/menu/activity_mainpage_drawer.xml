@@ -4,34 +4,50 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+        <!--android:icon="@drawable/ic_menu_camera"-->
+
+        <item android:title="@string/core">
+            <menu>
+
         <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="History" />
-        <item
-            android:id="@+id/nav_math"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Math" />
+            android:id="@+id/nav_chinese"
+            android:title="Chinese" />
+
         <item
             android:id="@+id/nav_english"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="English" />
         <item
-            android:id="@+id/nav_biology"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Biology" />
+            android:id="@+id/nav_math"
+            android:title="Math" />
+
+        <item
+            android:id="@+id/nav_liberalStudies"
+            android:title="Liberal Studies" />
+
+            </menu>
+        </item>
+
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/electives">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_physics"
+                android:title="Physics" />
+
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_chemistry"
+                android:title="Chemistry" />
+
+            <item
+                android:id="@+id/nav_biology"
+                android:title="Biology" />
+
+            <item
+                android:id="@+id/nav_history"
+                android:title="History" />
         </menu>
     </item>
 

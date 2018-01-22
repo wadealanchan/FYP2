@@ -150,7 +150,9 @@ public class Newpost extends AppCompatActivity {
 
                 imageMediaURI = result.getUri();
 
-                Picasso.with(Newpost.this).load(imageMediaURI).fit().centerCrop().into(imageMedia);
+                Picasso.with(Newpost.this).load(imageMediaURI).fit()
+                        .centerCrop()
+                        .into(imageMedia);
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -172,44 +174,65 @@ public class Newpost extends AppCompatActivity {
             progressDialog.setMessage("Posting....");
             progressDialog.show();
 
-            StorageReference filePath = storageReference.child("blog_images").child(imageMediaURI.getLastPathSegment());
+            Post post = new Post();
+            post.setTitle(title);
+            post.setDescription(description);
+            post.setUserId(firebaseuser.getUid());
+            Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
+            post.setDate(tsTemp);
+            post.setCategory(Category);
+
+            if (imageMediaURI!=null) {
+                StorageReference filePath = storageReference.child("blog_images").child(imageMediaURI.getLastPathSegment());
+
+                filePath.putFile(imageMediaURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d(TAG, " image here?");
+                        post.setImage(taskSnapshot.getDownloadUrl().toString());
+                        FirebaseFirestore.getInstance().collection("posts")
+                                .add(post)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        Toast.makeText(Newpost.this, "post successfully", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error adding document", e);
+                                    }
+                                });
+                    }
+                });
+            } else
+            {
+                FirebaseFirestore.getInstance().collection("posts")
+                        .add(post)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                Toast.makeText(Newpost.this, "post successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
+            }
 
 
-            filePath.putFile(imageMediaURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
 
 
 
 
-                    Post post = new Post();
-                    post.setTitle(title);
-                    post.setDescription(description);
-                    post.setImage(taskSnapshot.getDownloadUrl().toString());
-                    post.setUserId(firebaseuser.getUid());
-                    Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
-                    post.setDate(tsTemp);
-                    post.setCategory(Category);
-                    Log.d(TAG, Category);
-                    FirebaseFirestore.getInstance().collection("posts")
-                            .add(post)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Toast.makeText(Newpost.this, "post successfully", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
-
-                }
-            });
         } else {
             Snackbar.make(v, "Fill all fields", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }

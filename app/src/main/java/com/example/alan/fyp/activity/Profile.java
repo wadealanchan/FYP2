@@ -14,10 +14,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.alan.fyp.R;
+import com.example.alan.fyp.ViewPagerMainpage;
 import com.example.alan.fyp.databinding.ActivityProfileBinding;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.UserViewModel;
@@ -156,8 +159,8 @@ public class Profile extends BaseActivity{
         }
     }
 
-    @OnClick(R.id.btn_save)
-    public void saveUserInfo(View v)
+
+    public void saveUserInfo()
     {
 
         if (imageUserAvatarURI != null) {
@@ -188,6 +191,7 @@ public class Profile extends BaseActivity{
                                                         hideProgressDialog();
                                                         Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
                                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                        finish();
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {
@@ -235,6 +239,21 @@ public class Profile extends BaseActivity{
                 Exception error = result.getError();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_save) {
+
+            saveUserInfo();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

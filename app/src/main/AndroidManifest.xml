@@ -50,7 +50,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.Newpost"
-            android:label="Newpost"
+            android:label="Ask a question"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.Mainpage"
@@ -78,11 +78,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".util.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
 
         <activity
             android:name=".activity.Main2Activity"
@@ -103,11 +98,19 @@
             android:label="activity_viewpagertab"
             android:theme="@style/AppTheme.Toolbar"></activity>
         <activity android:name=".ViewPagerMainpage"
-            android:label="ViewpagerMainpage"
+            android:label="@string/air"
             android:theme="@style/AppTheme.toolbar"
             >
 
         </activity>
+        <!--<activity android:nacom.example.alan.fyp.photoeditor.photoeditorMainActivityainActivityvity">-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name="com.example.alan.fyp.photoeditor.PhotoEditorActivity"-->
+            <!--android:configChanges="orientation|screenSize"-->
+            <!--android:label="@string/title_activity_photo_editor"-->
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustPan" />-->
     </application>
 
 </manifest>

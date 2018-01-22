@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.viewModel.UserViewModel;
@@ -29,10 +30,11 @@ public class CustomDialogFragment extends DialogFragment{
 
     public UserViewModel userViewModel = new UserViewModel();
 
-    private EditText register_username,register_email,register_pw;
+    private EditText register_username,register_email,register_pw,re_register_pw;
     public String email ;
     public String password;
     public String name;
+    public String re_pw;
     public CustomDialogFragment() {
         // Required empty public constructor
 
@@ -112,7 +114,7 @@ public class CustomDialogFragment extends DialogFragment{
         register_username = (EditText) customView.findViewById(R.id.field_name);
         register_email = (EditText) customView.findViewById(R.id.field_email);
         register_pw = (EditText) customView.findViewById(R.id.field_pw);
-
+        re_register_pw = (EditText) customView.findViewById(R.id.field_repw);
         Toolbar mytoolbar = (Toolbar) customView.findViewById(R.id.toolbar);
 
         mytoolbar.setNavigationIcon(R.drawable.ic_close);
@@ -134,7 +136,6 @@ public class CustomDialogFragment extends DialogFragment{
                     case R.id.tb_done:
                         if(mListener!=null) {
                            if(validateForm()) {
-                               //String message = email;
                                mListener.onDialogPositive(name ,email, password);
                            }
                         }
@@ -185,12 +186,18 @@ public class CustomDialogFragment extends DialogFragment{
         name=register_username.getText().toString().trim();
         email= register_email.getText().toString().trim();
         password= register_pw.getText().toString().trim();
-        //email = userViewModel.email.get();
-        //password = userViewModel.password.get();
-
+        re_pw=re_register_pw.getText().toString().trim();
         if(name.isEmpty())return false;
         if(email.isEmpty())return false;
         if(password.isEmpty())return false;
+        if(re_pw.isEmpty()) return false;
+
+        if(!re_register_pw.equals(password))
+        {
+            Toast.makeText(getContext(), "Passwords are not equal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
 

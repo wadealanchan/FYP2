@@ -169,12 +169,12 @@ public class Chat2 extends BaseActivity {
 
                                         JSONObject data = new JSONObject();
                                         data.put("conversationId", conversationId);
-                                        data.put("targetUserName", targetUserName);
+                                        data.put("targetUserName", firebaseuser.getDisplayName());
 
                                         payload.put("data", data);
 
                                         JSONObject notification = new JSONObject();
-                                        notification.put("title",targetUserName);
+                                        notification.put("title",firebaseuser.getDisplayName());
                                         notification.put("body", messagetext);
                                         notification.put("click_action", "com.example.alan.fyp.action.CHAT2");
 

@@ -5,12 +5,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
@@ -67,10 +69,11 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     @InjectExtra String PostId;
     @InjectExtra String postTtile;
     @InjectExtra String postDescription;
-    @InjectExtra String postImage;
+//    @InjectExtra String postImage;
     @InjectExtra String questionerId;
     @InjectExtra String timestamp;
     String answererId;
+
 
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -86,14 +89,23 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         User user = new User();
         user.setName(getIntent().getExtras().getString("user_name"));
         user.setImage(getIntent().getExtras().getString("user_image"));
+
         postViewModel.user.set(user);
         Dart.inject(this);
         postdetailBinding.setPostvmodel(postViewModel);
-
         postViewModel.title.set(postTtile);
         postViewModel.description.set(postDescription);
-        postViewModel.image.set(postImage);
+        //postViewModel.image.set(postImage);
         postViewModel.timestamp.set(timestamp);
+
+        if(getIntent().getExtras().getString("post_image").equals("1"))
+        {
+            postViewModel.image.set(null);
+        }
+        else
+        {
+            postViewModel.image.set(getIntent().getExtras().getString("post_image"));
+        }
 
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
@@ -115,6 +127,8 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
                 if (postUserId.equals(firebaseuser.getUid())) {
 
+                    Toast.makeText(PostDetail.this, "You are the questioner",
+                            Toast.LENGTH_SHORT).show();
 
                 } else {
 

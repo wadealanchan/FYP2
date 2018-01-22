@@ -235,8 +235,10 @@ public class AuthClass extends BaseActivity
         hideProgressDialog();
         ImageView imageView_avatar = findViewById(R.id.imageView15);
         if (currentUser != null) {
-            Toast.makeText(AuthClass.this, " Welcome Back "+ currentUser.getDisplayName(),
-                    Toast.LENGTH_SHORT).show();
+            if(currentUser.getDisplayName()!=null) {
+                Toast.makeText(AuthClass.this, " Welcome Back " + currentUser.getDisplayName(),
+                        Toast.LENGTH_SHORT).show();
+            }
 
             findViewById(R.id.btn_createac).setVisibility(View.GONE);
             findViewById(R.id.btn_signin).setVisibility(View.GONE);

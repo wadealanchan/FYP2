@@ -108,19 +108,19 @@
                 <!--android:adjustViewBounds="true"-->
                 <!--android:layout_height="120dp" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@android:color/transparent"
-                    android:layout_margin="15dp"
-                    android:id="@+id/button_like"
-                    android:src="@mipmap/ic_thumbup" />
-            </LinearLayout>
+                <!--<ImageButton-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:background="@android:color/transparent"-->
+                    <!--android:layout_margin="15dp"-->
+                    <!--android:id="@+id/button_like"-->
+                    <!--android:src="@mipmap/ic_thumbup" />-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 
