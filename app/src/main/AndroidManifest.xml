@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
 
     <application
         android:allowBackup="true"
@@ -12,6 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
 
         <!-- &lt;!&ndash; [START fcm_default_icon] &ndash;&gt; -->
         <!-- &lt;!&ndash; Set custom default icon. This is used when no icon is set for incoming notification messages. -->
@@ -79,9 +94,13 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.Main2Activity"
-            android:label="@string/title_activity_main2" />
+        <!--<activity-->
+            <!--android:name=".activity.Main2Activity"-->
+            <!--android:label="@string/title_activity_main2" />-->
+
+
+
+
         <activity android:name=".activity.Conversation" />
 
 
@@ -97,20 +116,29 @@
             android:name=".ViewPagerTabActivity"
             android:label="activity_viewpagertab"
             android:theme="@style/AppTheme.Toolbar"></activity>
+
         <activity android:name=".ViewPagerMainpage"
             android:label="@string/air"
             android:theme="@style/AppTheme.toolbar"
             >
 
         </activity>
-        <!--<activity android:nacom.example.alan.fyp.photoeditor.photoeditorMainActivityainActivityvity">-->
-        <!--</activity>-->
-        <!--<activity-->
-            <!--android:name="com.example.alan.fyp.photoeditor.PhotoEditorActivity"-->
-            <!--android:configChanges="orientation|screenSize"-->
-            <!--android:label="@string/title_activity_photo_editor"-->
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
-            <!--android:windowSoftInputMode="stateHidden|adjustPan" />-->
+
+        <activity android:name=".photoeditor.ImageDetailActivity"
+            android:label="@string/air"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog"
+            >
+
+        </activity>
+
+
+
+        <activity
+            android:name=".photoeditor.PhotoEditorActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_photo_editor"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>

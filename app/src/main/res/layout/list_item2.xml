@@ -48,9 +48,28 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000"
             android:textIsSelectable="true"
-
-
+            android:visibility="@{chat.messageText !=null ? View.VISIBLE : View.GONE}"
             />
+
+        <ImageView
+            android:layout_toEndOf="@id/imageView3"
+            android:id="@+id/ImageContentFriend"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_corner2"
+            android:padding="8dp"
+            app:imageUrl='@{chat.imageuri}'
+            android:visibility="@{chat.imageuri !=null ? View.VISIBLE : View.GONE}"
+            android:onClick="@{(v) -> chat.onSaveClick(v)}"
+             />
+
+
+
+
 
     </RelativeLayout>
 
@@ -81,13 +100,34 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_toStartOf="@id/imageView2"
-            android:background="@drawable/rounded_corner1"
             android:padding="10dp"
+            android:background="@drawable/rounded_corner1"
             android:text='@{chat.messageText}'
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textIsSelectable="true"
+            android:visibility="@{chat.messageText !=null ? View.VISIBLE : View.GONE}"
             />
+
+        <ImageView
+            android:id="@+id/ImageContentUser"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toStartOf="@id/imageView2"
+            android:background="@drawable/rounded_corner1"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:visibility="@{chat.imageuri !=null ? View.VISIBLE : View.GONE}"
+            app:imageUrl='@{chat.imageuri}'
+            android:onClick="@{(v) -> chat.onSaveClick(v)}"
+
+
+            />
+
 
 
 

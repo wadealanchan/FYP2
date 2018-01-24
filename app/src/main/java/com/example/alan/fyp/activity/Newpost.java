@@ -182,6 +182,9 @@ public class Newpost extends AppCompatActivity {
             post.setDate(tsTemp);
             post.setCategory(Category);
 
+
+            Log.d(TAG, "imageMediaURI: " + imageMediaURI);
+
             if (imageMediaURI!=null) {
                 StorageReference filePath = storageReference.child("blog_images").child(imageMediaURI.getLastPathSegment());
 

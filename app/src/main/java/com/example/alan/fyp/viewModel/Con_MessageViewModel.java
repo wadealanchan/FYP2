@@ -1,10 +1,13 @@
 package com.example.alan.fyp.viewModel;
 
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -84,5 +87,13 @@ public class Con_MessageViewModel {
             Picasso.with(view.getContext()).load(image).into(view);
         else
             Picasso.with(view.getContext()).load(R.drawable.ic_avatar_default).into(view);
+    }
+
+
+    public void onSaveClick(View view) {
+        Intent intent = Henson.with(view.getContext()).gotoImageDetailActivity()
+                .imageuri(this.imageuri.get())
+                .build();
+        view.getContext().startActivity(intent);
     }
 }

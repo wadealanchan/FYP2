@@ -8,10 +8,12 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +42,11 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,7 +59,7 @@ public class Profile extends BaseActivity{
 
     StorageReference storageReference;
     public static final int GALLERY_REQUEST = 1;
-    private final int CAMERA_REQUEST = 1;
+    private final int CAMERA_REQUEST = 1034;
     private Uri imageUserAvatarURI = null;
     private ProgressDialog mProgressDialog1;
     private DatabaseReference mDatabaseRefUsers;
@@ -64,6 +71,10 @@ public class Profile extends BaseActivity{
     public final String TAG= "Profile Class";
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    protected String selectedOutputPath;
+    private static final String PHOTO_PATH = "com.example.alan.fyp.activity";
+    File mCurrentPhoto;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -152,10 +163,48 @@ public class Profile extends BaseActivity{
     }
 
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhoto = image;
+        return image;
+    }
+
     private void callCameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, GALLERY_REQUEST);
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(intent, CAMERA_REQUEST);
+//
+//        }
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+            }
         }
     }
 
@@ -191,6 +240,7 @@ public class Profile extends BaseActivity{
                                                         hideProgressDialog();
                                                         Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
                                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
+
                                                         finish();
                                                     }
                                                 })
@@ -219,24 +269,31 @@ public class Profile extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d(TAG, "result"+resultCode);
         if (resultCode == RESULT_OK && (requestCode == GALLERY_REQUEST || requestCode == CAMERA_REQUEST)) {
+            Log.d(TAG, "request"+requestCode);
 
-            Uri imageUri = data.getData();
+            Uri imageUri = requestCode == CAMERA_REQUEST ? Uri.fromFile(mCurrentPhoto) : data.getData();
+            Log.d(TAG,""+imageUri);
+                CropImage.activity(imageUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1, 1)
+                        .start(this);
 
-            CropImage.activity(imageUri)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1, 1)
-                    .start(this);
+
+
+            Log.d("Profile","if1");
 
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-
+                Log.d("Profile","if2");
                 imageUserAvatarURI = result.getUri();
                 FirebaseUser(imageUserAvatarURI.toString());
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                Log.d(TAG, error.getMessage());
             }
         }
     }

@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.ViewPagerTabActivity;
 import com.example.alan.fyp.ViewPagerMainpage;
-import com.example.alan.fyp.photoeditor.photoeditorMainActivity;
+
 
 public class MainActivity extends BaseActivity implements View.OnClickListener  {
     Button login_bt;
@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         }
         else if(i == R.id.btn_profile)
         {
-            Intent newAct = new Intent(MainActivity.this, photoeditorMainActivity.class);
+            Intent newAct = new Intent(MainActivity.this, Profile.class);
             startActivity(newAct);
         }
         else if(i == R.id.btn_mainpage)

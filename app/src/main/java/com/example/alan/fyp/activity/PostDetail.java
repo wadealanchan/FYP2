@@ -115,9 +115,9 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         mImageView = findViewById(R.id.image);
         mOverlayView = findViewById(R.id.overlay);
         mCircleImageView = findViewById(R.id.detail_avatar);
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
+        mScrollView = findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
-        mTitleView = (TextView) findViewById(R.id.title);
+        mTitleView = findViewById(R.id.title);
         mTitleView.setText(postTtile);
         setTitle(null);
         mFab = findViewById(R.id.fab);
@@ -245,15 +245,12 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         ViewHelper.setScaleX(mTitleView, scale);
         ViewHelper.setScaleY(mTitleView, scale);
 
-        Log.d("Postdetail","scale  " +String.valueOf(scale));
 
 
         // Translate title text
         int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
         int titleTranslationY = maxTitleTranslationY - scrollY;
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
-
-        Log.d("Postdetail","maxTitleTranslationY:  " +Integer.toString(titleTranslationY));
 
         //Scale username
         ViewHelper.setPivotX(mUsernameView, 0);

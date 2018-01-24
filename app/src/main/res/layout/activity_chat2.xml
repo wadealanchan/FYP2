@@ -53,9 +53,9 @@
 
 
         <ImageView
-            android:id="@+id/emoji_button"
+            android:id="@+id/camera_button"
             android:padding="4dp"
-            android:src="@mipmap/smiley"
+            android:src="@drawable/ic_camera"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_width="40dp"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/submit_button"
-            android:layout_toRightOf="@+id/emoji_button"
+            android:layout_toRightOf="@+id/camera_button"
             android:inputType="text|textMultiLine|textImeMultiLine"
             android:text="@={chat.messageText}"
             android:textCursorDrawable="@null" />
