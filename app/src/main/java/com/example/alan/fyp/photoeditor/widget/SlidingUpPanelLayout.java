@@ -1277,7 +1277,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Tests scrollability within child views of v given a delta of dx.
      *
-     * @param v      View to test for horizontal scrollability
+     * @param v      View to dialog_bottom_sheet for horizontal scrollability
      * @param checkV Whether the view v passed should itself be checked for scrollability (true),
      *               or just its children (false).
      * @param dx     Delta scrolled in pixels

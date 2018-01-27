@@ -1,13 +1,13 @@
 package com.example.alan.fyp.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.BottomSheetDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,12 +17,13 @@ import android.widget.Toast;
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
-import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.model.User;
+import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -32,13 +33,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks {
+
+public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks ,
+        View.OnClickListener
+{
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
@@ -58,24 +61,32 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     private de.hdodenhof.circleimageview.CircleImageView mCircleImageView;
 
     private FirebaseAuth mAuth;
-    ActivityPostdetailBinding postdetailBinding ;
+    ActivityPostdetailBinding postdetailBinding;
     PostViewModel postViewModel = new PostViewModel();
-    UserViewModel userViewModel ;
+    UserViewModel userViewModel;
     String username;
     String userimage;
 
-
-    @InjectExtra String postUserId;
-    @InjectExtra String PostId;
-    @InjectExtra String postTtile;
-    @InjectExtra String postDescription;
-//    @InjectExtra String postImage;
-    @InjectExtra String questionerId;
-    @InjectExtra String timestamp;
+    public final String TAG = "PostDetail: ";
+    @InjectExtra
+    String postUserId;
+    @InjectExtra
+    String PostId;
+    @InjectExtra
+    String postTtile;
+    @InjectExtra
+    String postDescription;
+    //    @InjectExtra String postImage;
+    @InjectExtra
+    String questionerId;
+    @InjectExtra
+    String timestamp;
     String answererId;
-
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+
+    BottomSheetDialog mBottomSheetDialogdialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +96,9 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 //        setSupportActionBar(toolbar);
         answererId = firebaseuser.getUid();
         mAuth = FirebaseAuth.getInstance();
-
+        deletefunction();
         User user = new User();
+        user.id = getIntent().getExtras().getString("user_id");
         user.setName(getIntent().getExtras().getString("user_name"));
         user.setImage(getIntent().getExtras().getString("user_image"));
 
@@ -98,12 +110,9 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         //postViewModel.image.set(postImage);
         postViewModel.timestamp.set(timestamp);
 
-        if(getIntent().getExtras().getString("post_image").equals("1"))
-        {
+        if (getIntent().getExtras().getString("post_image").equals("1")) {
             postViewModel.image.set(null);
-        }
-        else
-        {
+        } else {
             postViewModel.image.set(getIntent().getExtras().getString("post_image"));
         }
 
@@ -121,58 +130,37 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         mTitleView.setText(postTtile);
         setTitle(null);
         mFab = findViewById(R.id.fab);
+
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (postUserId.equals(firebaseuser.getUid())) {
+                mBottomSheetDialogdialog = new BottomSheetDialog(PostDetail.this);
+                View view = getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
+                mBottomSheetDialogdialog.setContentView(view);
+                mBottomSheetDialogdialog.show();
 
-                    Toast.makeText(PostDetail.this, "You are the questioner",
-                            Toast.LENGTH_SHORT).show();
+                TextView txtInvite = view.findViewById(R.id.txt_invite);
+                TextView txtCancel = view.findViewById(R.id.txt_cancel);
+                TextView txtChat = view.findViewById(R.id.txt_chat);
+                TextView txtBookmark = view.findViewById(R.id.txt_bookmark);
 
-                } else {
-
-                    FirebaseFirestore.getInstance().collection("conversation")
-                            .whereEqualTo("postId",PostId)
-                            .whereEqualTo("aid",firebaseuser.getUid())
-                            .get()
-                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot documentSnapshots) {
-
-                                    if (!documentSnapshots.isEmpty()) {
-                                           passdata(v, documentSnapshots.getDocuments().get(0).getId(),1);
-                                           Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
-
-                                    } else {
-                                        model_conversation c = new model_conversation();
-                                        c.setAid(firebaseuser.getUid());
-                                        c.setPostId(PostId);
-                                        c.setPostUserId(postUserId);
-                                        FirebaseFirestore.getInstance().collection("conversation")
-                                                .add(c)
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentReference documentReference) {
-                                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                        passdata(v, documentReference.getId(),1);
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w("", "Error adding document", e);
-                                                    }
-                                                });
-                                    }
-
-                                }
-                            });
+                txtInvite.setOnClickListener(PostDetail.this);
+                txtCancel.setOnClickListener(PostDetail.this);
+                txtChat.setOnClickListener(PostDetail.this);
+                txtBookmark.setOnClickListener(PostDetail.this);
 
 
-                }
             }
         });
+
+
+
+
+
+
+
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         ViewHelper.setScaleX(mFab, 0);
         ViewHelper.setScaleY(mFab, 0);
@@ -197,13 +185,77 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     }
 
 
+    public void Chatfunction(View v)
+    {
+        if (postUserId.equals(firebaseuser.getUid())) {
+
+            Toast.makeText(PostDetail.this, "You are the questioner",
+                    Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            FirebaseFirestore.getInstance().collection("conversation")
+                    .whereEqualTo("postId", PostId)
+                    .whereEqualTo("aid", firebaseuser.getUid())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot documentSnapshots) {
+
+                            if (!documentSnapshots.isEmpty()) {
+                                passdata(v, documentSnapshots.getDocuments().get(0).getId(), 1);
+                                Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
+
+                            } else {
+                                model_conversation c = new model_conversation();
+                                c.setAid(firebaseuser.getUid());
+                                c.setPostId(PostId);
+                                c.setPostUserId(postUserId);
+                                FirebaseFirestore.getInstance().collection("conversation")
+                                        .add(c)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                passdata(v, documentReference.getId(), 1);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("", "Error adding document", e);
+                                            }
+                                        });
+                            }
+
+                        }
+                    });
 
 
+        }
+    }
 
-    public void passdata(View v ,String conId, int number){
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.txt_chat:
+                Chatfunction(v);
+                mBottomSheetDialogdialog.dismiss();
+                break;
+            case R.id.txt_cancel:
+                mBottomSheetDialogdialog.dismiss();
+            case R.id.txt_bookmark:
+                mBottomSheetDialogdialog.dismiss();
+            case R.id.txt_invite:
+                mBottomSheetDialogdialog.dismiss();
+        }
+    }
 
 
-        switch(number) {
+    public void passdata(View v, String conId, int number) {
+
+
+        switch (number) {
             case 0:
 //                Intent intent =Henson.with(v.getContext()).gotoConversation()
 //                        .conversationId(conId)
@@ -211,7 +263,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 //                v.getContext().startActivity(intent);
                 break;
             case 1:
-                Intent intent1 =Henson.with(v.getContext()).gotoChat2()
+                Intent intent1 = Henson.with(v.getContext()).gotoChat2()
                         .conversationId(conId)
                         .targetUserName(postViewModel.user.get().getName())
                         .build();
@@ -221,10 +273,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         }
 
 
-
-
     }
-
 
 
     @Override
@@ -246,7 +295,6 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         ViewHelper.setScaleY(mTitleView, scale);
 
 
-
         // Translate title text
         int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
         int titleTranslationY = maxTitleTranslationY - scrollY;
@@ -264,26 +312,23 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         ViewHelper.setScaleY(mTimestampView, scale);
 
 
-
-
         //Translate username text
         int maxUsernameTranslationY = 0;
-        int UsernameTranslationY = maxUsernameTranslationY- scrollY;
+        int UsernameTranslationY = maxUsernameTranslationY - scrollY;
         ViewHelper.setTranslationY(mUsernameView, UsernameTranslationY);
 
-        Log.d("Postdetail", Integer.toString(UsernameTranslationY));
 
         //Translate timestamp
-        int maxtimestampTranslationY =  1;
-        int timestampTranslationY = maxtimestampTranslationY- scrollY ;
+        int maxtimestampTranslationY = 1;
+        int timestampTranslationY = maxtimestampTranslationY - scrollY;
         ViewHelper.setTranslationY(mTimestampView, timestampTranslationY);
-        Log.d("Postdetail  ", "timestampTranslationY:  " +String.valueOf( maxtimestampTranslationY));
+
 
         //Translate avatar
 
         int max_avatarTranslationY = 0;
 
-        float avatarTranslationY =  max_avatarTranslationY -scrollY;
+        float avatarTranslationY = max_avatarTranslationY - scrollY;
         ViewHelper.setTranslationY(mCircleImageView, avatarTranslationY);
 
 
@@ -337,6 +382,50 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         }
     }
 
+    public void deletefunction() {
+        //View myLayout = findViewById( R.id.layout_content_podetail ); // root View id from that link
+        View myView = findViewById(R.id.pode_delete);
+
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PostDetail.this, R.style.AlertDialogStyle);
+                builder.setMessage(getString(R.string.sure_delete_msg));
+                builder.setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        db.collection("posts").document(PostId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                        Toast.makeText(PostDetail.this, "Post Deleted", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });
+
+
+                    }
+                });
+                builder.show();
+            }
+        });
+
+    }
 
 
 }

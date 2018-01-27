@@ -70,6 +70,7 @@ public class PostViewModel extends BaseObservable {
                 .timestamp(this.timestamp.get())
                 .build();
         if (this.user.get() != null) {
+            intent.putExtra("user_id", this.user.get().id);
             intent.putExtra("user_name", this.user.get().getName());
             intent.putExtra("user_image", this.user.get().getImage());
         }
@@ -112,6 +113,15 @@ public class PostViewModel extends BaseObservable {
         sp.setAdapter(adapter);
 
     }
+
+
+    public void onImageClick(View view) {
+        Intent intent = Henson.with(view.getContext()).gotoImageDetailActivity()
+                .imageuri(this.image.get())
+                .build();
+        view.getContext().startActivity(intent);
+    }
+
 
 
 

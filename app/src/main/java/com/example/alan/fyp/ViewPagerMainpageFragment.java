@@ -67,7 +67,7 @@ public class ViewPagerMainpageFragment extends BaseFragment {
 
 
         Activity parentActivity = getActivity();
-        final ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
+        final ObservableRecyclerView recyclerView = view.findViewById(R.id.scroll);
         recyclerView.setLayoutManager(new LinearLayoutManager(parentActivity));
         recyclerView.setHasFixedSize(false);
         //View headerView = LayoutInflater.from(parentActivity).inflate(R.layout.padding, null);
@@ -87,13 +87,13 @@ public class ViewPagerMainpageFragment extends BaseFragment {
             }
 
 
-            recyclerView.setTouchInterceptionViewGroup((ViewGroup) parentActivity.findViewById(R.id.root));
+            recyclerView.setTouchInterceptionViewGroup(parentActivity.findViewById(R.id.root));
 
             recyclerView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
         }
 
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,18 +124,15 @@ public class ViewPagerMainpageFragment extends BaseFragment {
                 for (DocumentSnapshot document : value) {
                     if(document.exists()) {
                         Post post = document.toObject(Post.class);
-
                         PostViewModel postViewModel = post.toViewModel();
                         postViewModel.PostId = document.getId();
-
-
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
 
                             if (userInfotask.isSuccessful()) {
 
                                 postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-
+                                postViewModel.user.get().id=userInfotask.getResult().getId();
                             } else {
                                 postViewModel.user.set(null);
                             }

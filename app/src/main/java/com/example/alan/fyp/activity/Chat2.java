@@ -186,6 +186,7 @@ public class Chat2 extends MediaActivity {
                                         JSONObject notification = new JSONObject();
                                         notification.put("title",firebaseuser.getDisplayName());
                                         notification.put("body", messagetext);
+                                        notification.put("sound", "default");
                                         notification.put("click_action", "com.example.alan.fyp.action.CHAT2");
 
                                         payload.put("notification", notification);
@@ -265,28 +266,6 @@ public class Chat2 extends MediaActivity {
         });
         builder.show();
     }
-
-//    @OnClick(R.id.ImageContentUser)
-//    public void ImageContentUser(View view)
-//    {
-//        final String imageuri = con_messageViewModel.getImageuri().get();
-//        action_image(imageuri);
-//    }
-//
-//    @OnClick(R.id.ImageContentFriend)
-//    public void ImageContentFriend(View view)
-//    {
-//        final String imageuri = con_messageViewModel.getImageuri().get();
-//        action_image(imageuri);
-//    }
-//
-//    private void action_image(String imageuri)
-//    {
-//        Intent intent = Henson.with(this).gotoPE_MainActivity()
-//                .imageuri(imageuri)
-//                .build();
-//        startActivity(intent);
-//    }
 
 
     @Override

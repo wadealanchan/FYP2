@@ -66,7 +66,7 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="continue_txt">Continue</string>
     <string name="not_now">NOT NOW</string>
     <string name="media_access_denied_msg">You denied storage access, no photos will be added.</string>
-
+    <string name="delete">Delete</string>
     <string name="ic_close">"\ue918"</string>
     <string name="ic_text">"\ue945"</string>
     <string name="ic_draw">""\ue944</string>
@@ -79,5 +79,8 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="choose_from_camera">Choose From Camera</string>
     <string name="undo">Undo</string>
     <string name="erase">Erase</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sure_delete_msg">Are you sure to delete this post?</string>
 
 </resources>

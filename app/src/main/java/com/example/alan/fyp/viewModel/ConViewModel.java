@@ -52,14 +52,4 @@ public class ConViewModel {
     }
 
 
-    public String getDateFormatted(){
-        Log.d("Conview model:", post.get().getDate().toString());
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String dateString = sdf.format(post.get().getDate());
-        return dateString;
-    }
-
-
-
-
 }
