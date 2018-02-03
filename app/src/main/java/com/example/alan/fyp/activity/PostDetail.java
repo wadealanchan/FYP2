@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -17,13 +18,13 @@ import android.widget.Toast;
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
+import com.example.alan.fyp.databinding.DialogBottomSheetBinding;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
-
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -39,9 +40,8 @@ import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 
-public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks ,
-        View.OnClickListener
-{
+public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks
+         {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
@@ -61,6 +61,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     private de.hdodenhof.circleimageview.CircleImageView mCircleImageView;
 
     private FirebaseAuth mAuth;
+
     ActivityPostdetailBinding postdetailBinding;
     PostViewModel postViewModel = new PostViewModel();
     UserViewModel userViewModel;
@@ -96,7 +97,6 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 //        setSupportActionBar(toolbar);
         answererId = firebaseuser.getUid();
         mAuth = FirebaseAuth.getInstance();
-        deletefunction();
         User user = new User();
         user.id = getIntent().getExtras().getString("user_id");
         user.setName(getIntent().getExtras().getString("user_name"));
@@ -137,29 +137,17 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             public void onClick(View v) {
 
                 mBottomSheetDialogdialog = new BottomSheetDialog(PostDetail.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
+                // DialogBottomSheetBinding binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_bottom_sheet, null, false);
+                DialogBottomSheetBinding binding = DataBindingUtil.inflate(LayoutInflater.from(v.getContext()), R.layout.dialog_bottom_sheet, null, false);
+                //setContentView(binding.getRoot());
+                //View view = getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
+                View view = binding.getRoot();
                 mBottomSheetDialogdialog.setContentView(view);
                 mBottomSheetDialogdialog.show();
-
-                TextView txtInvite = view.findViewById(R.id.txt_invite);
-                TextView txtCancel = view.findViewById(R.id.txt_cancel);
-                TextView txtChat = view.findViewById(R.id.txt_chat);
-                TextView txtBookmark = view.findViewById(R.id.txt_bookmark);
-
-                txtInvite.setOnClickListener(PostDetail.this);
-                txtCancel.setOnClickListener(PostDetail.this);
-                txtChat.setOnClickListener(PostDetail.this);
-                txtBookmark.setOnClickListener(PostDetail.this);
-
+                binding.setPostvmodel(postViewModel);
 
             }
         });
-
-
-
-
-
-
 
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         ViewHelper.setScaleX(mFab, 0);
@@ -185,8 +173,21 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     }
 
 
-    public void Chatfunction(View v)
-    {
+
+
+    public void invitefunction(View v) {
+        if (postUserId.equals(firebaseuser.getUid())) {
+            Intent intent = Henson.with(v.getContext()).gotoInvitationActivity()
+                    .postId(this.PostId)
+                    .postUserId(this.postUserId)
+                    .build();
+            v.getContext().startActivity(intent);
+        }
+
+    }
+
+
+    public void Chatfunction(View v) {
         if (postUserId.equals(firebaseuser.getUid())) {
 
             Toast.makeText(PostDetail.this, "You are the questioner",
@@ -235,32 +236,54 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.txt_chat:
-                Chatfunction(v);
-                mBottomSheetDialogdialog.dismiss();
-                break;
-            case R.id.txt_cancel:
-                mBottomSheetDialogdialog.dismiss();
-            case R.id.txt_bookmark:
-                mBottomSheetDialogdialog.dismiss();
-            case R.id.txt_invite:
-                mBottomSheetDialogdialog.dismiss();
-        }
+    public void dialogCancel(View v)
+    {
+        mBottomSheetDialogdialog.dismiss();
+    }
+
+    public void deletePost(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PostDetail.this, R.style.AlertDialogStyle);
+        builder.setMessage(getString(R.string.sure_delete_msg));
+        builder.setPositiveButton( getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                db.collection("posts").document(PostId)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                Toast.makeText(PostDetail.this, "Post Deleted", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting document", e);
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+
+            }
+        });
+        builder.show();
+
+
     }
 
 
     public void passdata(View v, String conId, int number) {
 
-
         switch (number) {
             case 0:
-//                Intent intent =Henson.with(v.getContext()).gotoConversation()
-//                        .conversationId(conId)
-//                        .build();
-//                v.getContext().startActivity(intent);
                 break;
             case 1:
                 Intent intent1 = Henson.with(v.getContext()).gotoChat2()
@@ -380,51 +403,6 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
             mFabIsShown = false;
         }
-    }
-
-    public void deletefunction() {
-        //View myLayout = findViewById( R.id.layout_content_podetail ); // root View id from that link
-        View myView = findViewById(R.id.pode_delete);
-
-        myView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PostDetail.this, R.style.AlertDialogStyle);
-                builder.setMessage(getString(R.string.sure_delete_msg));
-                builder.setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.setNegativeButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        db.collection("posts").document(PostId)
-                                .delete()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                        Toast.makeText(PostDetail.this, "Post Deleted", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error deleting document", e);
-                                    }
-                                });
-
-
-                    }
-                });
-                builder.show();
-            }
-        });
-
     }
 
 

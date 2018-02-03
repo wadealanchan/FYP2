@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.alan.fyp.R;
-import com.example.alan.fyp.ViewPagerTabActivity;
+
 import com.example.alan.fyp.ViewPagerMainpage;
 
 
@@ -69,8 +69,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         }
         else if(i == R.id.btn_newpost)
         {
-            Intent newAct = new Intent(MainActivity.this,ViewPagerTabActivity.class);
-            startActivity(newAct);
+//            Intent newAct = new Intent(MainActivity.this,ViewPagerTabActivity.class);
+//            startActivity(newAct);
         }
         else if(i == R.id.btn_viewpager)
         {

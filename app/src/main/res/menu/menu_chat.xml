@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_rate"
+        android:orderInCategory="100"
+        android:title="@string/rate_this_tutor"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_endsession"
+        android:orderInCategory="100"
+        android:title="@string/end_session"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/action_report"
+        android:orderInCategory="100"
+        android:title="@string/report"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_invite"
+        android:orderInCategory="100"
+        android:title="@string/invite"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_questiondetail"
+        android:orderInCategory="100"
+        android:title="@string/questiondetail"
+        app:showAsAction="never" />
+
+
+
+
+
+</menu>

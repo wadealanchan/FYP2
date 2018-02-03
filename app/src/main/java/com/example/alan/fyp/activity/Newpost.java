@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -52,8 +53,8 @@ public class Newpost extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
     ActivityNewpostBinding newpostBinding;
-    @BindView(R.id.image_media)
-    ImageButton imageMedia;
+//    @BindView(R.id.image_media)
+//    ImageButton imageMedia;
 
     private static final int GALLERY_REQUEST = 1;
     private Uri imageMediaURI;
@@ -69,7 +70,17 @@ public class Newpost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newpostBinding = DataBindingUtil.setContentView(Newpost.this, R.layout.activity_newpost);
-        //setContentView(R.layout.activity_newpost);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -79,8 +90,10 @@ public class Newpost extends AppCompatActivity {
         newpostBinding.setPost(postViewModel);
         ButterKnife.bind(this);
 
+
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.subject,
-                android.R.layout.simple_spinner_dropdown_item);
+                R.layout.list_item_spinner);
 
         postViewModel.setSubjectAdapter(adapter);
 
@@ -101,7 +114,7 @@ public class Newpost extends AppCompatActivity {
 
     }
 
-    public void imageclick(View view)
+    public void imageclick()
     {
         Intent intent = new Intent(ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -127,6 +140,10 @@ public class Newpost extends AppCompatActivity {
             }else
                 createPost(item.getActionView());
         }
+        if(item.getItemId() == R.id.action_image)
+        {
+            imageclick();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -150,9 +167,9 @@ public class Newpost extends AppCompatActivity {
 
                 imageMediaURI = result.getUri();
 
-                Picasso.with(Newpost.this).load(imageMediaURI).fit()
-                        .centerCrop()
-                        .into(imageMedia);
+//                Picasso.with(Newpost.this).load(imageMediaURI).fit()
+//                        .centerCrop()
+//                        .into(imageMedia);
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();

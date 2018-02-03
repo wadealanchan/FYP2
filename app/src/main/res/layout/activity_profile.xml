@@ -8,7 +8,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/colorwhite"
         >
 
 
@@ -24,123 +24,169 @@
         <RelativeLayout
             android:id="@+id/headerview"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@color/grey_200">
+            android:background="@color/colorAccent.Light">
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_horizontal_margin">
-
+                android:orientation="vertical"
+                android:gravity="center"
+               >
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:background="@drawable/diagonallayout_circle"
                     app:imageUrl='@{user.Image}' />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingLeft="15dp">
-
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="fill_vertical"
-                        android:paddingStart="15dp"
                         android:text='@{user == null ? "" : user.displayName}'
                         android:textColor="@android:color/background_dark"
                         android:textSize="25sp"
+                        android:padding="3dp"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_visibility_black_24dp"
+                        android:drawablePadding="10dp"
                         android:text="Edit profile"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:background="@drawable/rounded_corner3"
                         android:textSize="15sp"
-                        android:padding="5dp"
+                        android:padding="10dp"
                         android:textColor="@color/colorUser"
                         />
 
-
-
-                </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:id="@+id/headerview2"
-            android:layout_below="@+id/headerview">
 
-            <LinearLayout
-                android:id="@+id/headerview2_question"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="15dp"
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/headerview2_question"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_marginTop="15dp"-->
 
-                >
+                    <!--&gt;-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="15dp"
-                    android:text="2"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingStart="15dp"-->
+                        <!--android:text="2"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:textColor="@android:color/background_dark"-->
+                        <!--android:textSize="20sp" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='Questions'
-                    android:textColor="@color/colorblack"
-                    android:paddingStart="15dp"
-                    android:textSize="12sp"
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text='Questions'-->
+                        <!--android:textColor="@color/colorblack"-->
+                        <!--android:paddingStart="15dp"-->
+                        <!--android:textSize="12sp"-->
 
-                    />
+                        <!--/>-->
 
 
 
-            </LinearLayout>
+                <!--</LinearLayout>-->
 
 
-            <TextView
-                android:id="@+id/btn_subscribe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="25dp"
-                android:background="@drawable/rounded_corner1"
-                android:padding="8dp"
-                android:text="Subscribe"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#ffffff"
-                android:textIsSelectable="true" />
+                <!--<TextView-->
+                    <!--android:id="@+id/btn_subscribe"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginEnd="25dp"-->
+                    <!--android:background="@drawable/rounded_corner1"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:text="Subscribe"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="#ffffff"-->
+                    <!--android:textIsSelectable="true" />-->
 
+
+
+            <!--</RelativeLayout>-->
 
 
 
         </RelativeLayout>
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:id="@+id/headerview2"-->
+            <!--android:layout_below="@+id/headerview">-->
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/headerview2_question"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_marginTop="15dp"-->
+
+            <!--&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingStart="15dp"-->
+                <!--android:text="2"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:textColor="@android:color/background_dark"-->
+                <!--android:textSize="20sp" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text='Questions'-->
+                <!--android:textColor="@color/colorblack"-->
+                <!--android:paddingStart="15dp"-->
+                <!--android:textSize="12sp"-->
+
+                <!--/>-->
+
+
+
+        <!--</LinearLayout>-->
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/btn_subscribe"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginEnd="25dp"-->
+                <!--android:background="@drawable/rounded_corner1"-->
+                <!--android:padding="8dp"-->
+                <!--android:text="Subscribe"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textIsSelectable="true" />-->
+
+
+
+
+        <!--</RelativeLayout>-->
 
 
 
@@ -151,7 +197,7 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:layout_below="@+id/headerview2">
+            android:layout_below="@+id/headerview">
 
 
 

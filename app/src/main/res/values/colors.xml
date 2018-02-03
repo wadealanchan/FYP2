@@ -57,4 +57,17 @@
     <color name="yellow_color_picker">#FBE870</color>
     <color name="yellow_green_color_picker">#C5E17A</color>
 
+    <color name="colorPrimary.Light">#F5F5F5</color>
+    <color name="colorPrimaryDark.Light">#E0E0E0</color>
+    <color name="colorAccent.Light">#FAFAFA</color>
+
+
+    <color name="starColor">#45b9ad</color>
+    <color name="noteDescriptionTextColor">#45b9ad</color>
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="descriptionTextColor">#A6FFFFFF</color>
+    <color name="commentTextColor">#FFFFFF</color>
+    <color name="hintTextColor">#55000000</color>
+    <color name="contentTextColor">#FFFFFF</color>
+
 </resources>

@@ -109,7 +109,6 @@ public class PostViewModel extends BaseObservable {
 
     @BindingAdapter("spinnerAdapter")
     public static void setSpinnerAdapter(Spinner sp, ArrayAdapter<CharSequence> adapter) {
-
         sp.setAdapter(adapter);
 
     }

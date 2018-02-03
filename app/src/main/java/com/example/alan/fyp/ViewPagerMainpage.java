@@ -30,8 +30,6 @@ import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -65,16 +63,16 @@ public class ViewPagerMainpage extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_viewpager_mainpage);
-        Toolbar toolbar = (Toolbar) binding.getRoot().findViewById(R.id.toolbar);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = binding.getRoot().findViewById(R.id.toolbar);
+        setSupportActionBar(findViewById(R.id.toolbar));
         mHeaderView = binding.getRoot().findViewById(R.id.header);
         mToolbarView = binding.getRoot().findViewById(R.id.toolbar);
         ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation));
         mPagerAdapter = new ViewPagerMainpage.NavigationAdapter(getSupportFragmentManager());
-        mPager = (ViewPager) binding.getRoot().findViewById(R.id.pager);
+        mPager = binding.getRoot().findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
 
-        DrawerLayout drawer = (DrawerLayout) binding.getRoot().findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = binding.getRoot().findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         {
@@ -93,7 +91,7 @@ public class ViewPagerMainpage extends BaseActivity implements
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +101,7 @@ public class ViewPagerMainpage extends BaseActivity implements
         });
 
 
-        NavigationView navigationView = (NavigationView) binding.getRoot().findViewById(R.id.nav_view);
+        NavigationView navigationView = binding.getRoot().findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         FirebaseAuth.getInstance().addAuthStateListener((firebaseAuth) -> {
 
@@ -130,7 +128,7 @@ public class ViewPagerMainpage extends BaseActivity implements
 
 
 
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        SlidingTabLayout slidingTabLayout = findViewById(R.id.sliding_tabs);
         slidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
         slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
         slidingTabLayout.setDistributeEvenly(true);
@@ -198,7 +196,7 @@ public class ViewPagerMainpage extends BaseActivity implements
 
     private void adjustToolbar(ScrollState scrollState, View view) {
         int toolbarHeight = mToolbarView.getHeight();
-        final Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+        final Scrollable scrollView = view.findViewById(R.id.scroll);
         if (scrollView == null) {
             return;
         }
@@ -257,7 +255,7 @@ public class ViewPagerMainpage extends BaseActivity implements
     }
 
     private void propagateToolbarState(boolean isShown, View view, int toolbarHeight) {
-        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+        Scrollable scrollView = view.findViewById(R.id.scroll);
         if (scrollView == null) {
             return;
         }
@@ -342,7 +340,7 @@ public class ViewPagerMainpage extends BaseActivity implements
                     f = new ViewPagerConversationFragment();
                     if (0 < mScrollY) {
                         Bundle args = new Bundle();
-                        args.putInt(ViewPagerTabListViewFragment.ARG_INITIAL_POSITION, 1);
+                        args.putInt(ViewPagerConversationFragment.ARG_INITIAL_POSITION, 1);
                         f.setArguments(args);
                     }
                     break;
@@ -387,7 +385,7 @@ public class ViewPagerMainpage extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -398,7 +396,7 @@ public class ViewPagerMainpage extends BaseActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mainpage, menu);
+        getMenuInflater().inflate(R.menu.menu_mainpage, menu);
         return true;
     }
 
@@ -460,7 +458,7 @@ public class ViewPagerMainpage extends BaseActivity implements
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

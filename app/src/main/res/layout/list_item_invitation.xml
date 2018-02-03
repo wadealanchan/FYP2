@@ -6,14 +6,11 @@
 
     <data>
 
-        <variable name="conversation" type="com.example.alan.fyp.viewModel.ConViewModel" />
-
+        <variable name="invitation" type="com.example.alan.fyp.viewModel.InvitationViewModel" />
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
-
-        <variable name="ConList" type="com.example.alan.fyp.ListViewModel.ConListViewModel" />
-
         <import type="com.example.alan.fyp.util.DateFormater" />
         <import type="android.view.View"/>
+        <variable name="inviteList" type="com.example.alan.fyp.ListViewModel.InvitationListViewModel" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -23,9 +20,8 @@
         card_view:cardCornerRadius="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:onClick="@{(v) -> conversation.onSaveClick(v)}"
-
         >
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +36,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:civ_border_color="@color/colorPrimary"
-                app:imageUrl='@{conversation.user.image}'
+                app:imageUrl='@{invitation.user.image}'
                 />
 
             <LinearLayout
@@ -63,20 +59,20 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
-                        android:text='@{conversation.user.name}'
+                        android:text='@{invitation.user.name}'
                         android:gravity="center_vertical"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                    <TextView
-                        android:id="@+id/txtTime"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="10dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text='@{DateFormater.formatDate("HH:mm", conversation.post.date)}'
-                        />
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtTime"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="1.5"-->
+                        <!--android:gravity="center_vertical|right"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                        <!--android:text='@{}'-->
+                        <!--/>-->
                 </LinearLayout>
                 <!--android:text='@{conversation.post.date.toString()}'-->
                 <!--tools:text='@{conversation.dateFormatted}'-->
@@ -86,13 +82,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text='@{conversation.post.title}'
-                    android:gravity="center_vertical"
                     android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:lines="1"
                     android:paddingBottom="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
+
             </LinearLayout>
+
+            <!--android:text='@{}'-->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{(v) -> invitation.onInviteClick(v)}"
+                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </layout>

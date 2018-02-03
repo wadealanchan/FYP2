@@ -12,12 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.alan.fyp.InvitationActivity;
 import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
 import com.example.alan.fyp.model.*;
+import com.example.alan.fyp.model.Rating;
 import com.example.alan.fyp.photoeditor.MediaActivity;
 import com.example.alan.fyp.photoeditor.PhotoEditorActivity;
 import com.example.alan.fyp.viewModel.Con_MessageViewModel;
@@ -27,6 +32,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
@@ -53,7 +62,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Chat2 extends MediaActivity {
+public class Chat2 extends MediaActivity
+        implements RatingDialogListener
+{
     ActivityChat2Binding binding;
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     Con_MessageViewModel con_messageViewModel = new Con_MessageViewModel();
@@ -70,7 +81,6 @@ public class Chat2 extends MediaActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat2);
         storageReference = FirebaseStorage.getInstance().getReference();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat2);
         Dart.inject(this);
@@ -252,7 +262,7 @@ public class Chat2 extends MediaActivity {
         final String OPTION_CAMERA = "Camera";
         final String OPTION_GALLERY = "Gallery";
         final CharSequence cameraTypes[] = new CharSequence[]{OPTION_CAMERA, OPTION_GALLERY};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
         builder.setTitle("Pick a camera");
         builder.setItems(cameraTypes, new DialogInterface.OnClickListener() {
             @Override
@@ -324,6 +334,92 @@ public class Chat2 extends MediaActivity {
              });
          }
      }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_rate) {
+            showDialog();
+            return true;
+        }
+        if (id == R.id.action_invite) {
+            Intent intent = new Intent(this, InvitationActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void showDialog() {
+        new AppRatingDialog.Builder()
+                .setPositiveButtonText("Submit")
+                .setNegativeButtonText("Cancel")
+                .setNeutralButtonText("Later")
+                .setNoteDescriptions(Arrays.asList("Very Bad", "Not good", "Quite ok", "Very Good", "Excellent !!!"))
+                .setDefaultRating(1)
+                .setTitle("Rate the tutor")
+                .setDescription("Please select some stars and give your feedback")
+                .setDefaultComment("Please write your comment here ...")
+                .setStarColor(R.color.starColor)
+                .setNoteDescriptionTextColor(R.color.noteDescriptionTextColor)
+                .setTitleTextColor(R.color.titleTextColor)
+                .setDescriptionTextColor(R.color.contentTextColor)
+                .setHint("Please write your comment here ...")
+                .setHintTextColor(R.color.hintTextColor)
+                .setCommentTextColor(R.color.commentTextColor)
+                .setCommentBackgroundColor(R.color.colorPrimaryDark)
+                .setWindowAnimation(R.style.MyDialogFadeAnimation)
+                .create(Chat2.this)
+                .show();
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int rate, String comment) {
+        // interpret results, send it to analytics etc...
+        Rating rating = new Rating();
+        rating.setNumberOfStar(rate);
+        rating.setComment(comment);
+
+        Log.d(TAG, ""+rate+"  "+comment );
+        FirebaseFirestore.getInstance().collection("Users").document(conversation.getPostUserId())
+                .collection("rating").document(conversation.getPostId()).set(rating).addOnSuccessListener
+                (new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(Chat2.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+                finish();
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+    }
+
+    @Override
+    public void onNeutralButtonClicked() {
+
+    }
 
 
 

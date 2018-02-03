@@ -105,5 +105,6 @@ dependencies {
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
     compile 'com.eightbitlab:bottomnavigationbar:0.9.5'
     compile 'ly.img.android:photo-editor-sdk:1.0.10'
+    compile 'com.stepstone.apprating:app-rating:2.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -8,12 +8,42 @@
     </data>
 
 
-    <ScrollView android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+           >
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            >
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:popupBackground="@color/colorPrimary"
+                app:spinnerAdapter='@{Post.getsubjectAdapter()}'
+                />
+
+        </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/activity_vertical_margin"
@@ -28,57 +58,55 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/edit_title"
                 android:textCursorDrawable="@null"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:hint="What is your Question?"
+                android:hint="What is your question?"
                 android:text="@={Post.title}"/>
 
             <EditText
                 android:id="@+id/edit_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edit_title"
                 android:ems="10"
-                android:hint="Description"
+                android:gravity="top"
+                android:hint=" Description"
                 android:textCursorDrawable="@null"
+                android:background="@null"
                 android:inputType="textMultiLine"
                 android:text="@={Post.description}"/>
 
-            <ImageButton
-                android:layout_below="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="15dp"
-                app:srcCompat="@mipmap/add_btn"
-                android:id="@+id/image_media"
-                android:scaleType="centerCrop"
-                android:cropToPadding="false"
-                android:adjustViewBounds="true"
-                android:background="@android:color/white"
-                android:onClick="imageclick"
-              />
+            <!--<ImageButton-->
+                <!--android:layout_below="@+id/edit_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--app:srcCompat="@mipmap/add_btn"-->
+                <!--android:id="@+id/image_media"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:cropToPadding="false"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:onClick="imageclick"-->
+              <!--/>-->
 
 
-            <Spinner
-                android:layout_below="@+id/edit_content"
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="#FFFFFF"
-                app:spinnerAdapter='@{Post.getsubjectAdapter()}'
-                />
+            <!--<Spinner-->
+                <!--android:layout_below="@+id/edit_content"-->
+                <!--android:id="@+id/spinner"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--app:spinnerAdapter='@{Post.getsubjectAdapter()}'-->
+                <!--/>-->
 
         </RelativeLayout>
 
 
+    </LinearLayout>
 
-    </ScrollView>
 </layout>

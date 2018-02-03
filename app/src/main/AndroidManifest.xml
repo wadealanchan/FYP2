@@ -6,9 +6,10 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -25,7 +25,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <!-- &lt;!&ndash; [START fcm_default_icon] &ndash;&gt; -->
@@ -47,12 +47,11 @@
         <!-- android:name="com.google.firebase.messaging.default_notification_channel" -->
         <!-- /> -->
         <!-- &lt;!&ndash; [END fcm_default_channel] &ndash;&gt; -->
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.AuthClass"
             android:label="AuthClass"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,8 +64,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.Newpost"
-            android:label="Ask a question"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.toolbar.newpost" />
         <activity
             android:name=".activity.Mainpage"
             android:label="@string/title_activity_mainpage"
@@ -94,51 +92,44 @@
             </intent-filter>
         </service>
 
-        <!--<activity-->
-            <!--android:name=".activity.Main2Activity"-->
-            <!--android:label="@string/title_activity_main2" />-->
-
-
-
+        <!-- <activity -->
+        <!-- android:name=".activity.Main2Activity" -->
+        <!-- android:label="@string/title_activity_main2" /> -->
 
         <activity android:name=".activity.Conversation" />
-
-
         <activity
             android:name=".activity.Chat2"
             android:theme="@style/AppTheme.toolbar">
             <intent-filter>
-                <action android:name="com.example.alan.fyp.action.CHAT2"/>
+                <action android:name="com.example.alan.fyp.action.CHAT2" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- <activity -->
+        <!-- android:name=".ViewPagerTabActivity" -->
+        <!-- android:label="activity_viewpagertab" -->
+        <!-- android:theme="@style/AppTheme.Toolbar" /> -->
         <activity
-            android:name=".ViewPagerTabActivity"
-            android:label="activity_viewpagertab"
-            android:theme="@style/AppTheme.Toolbar"></activity>
-
-        <activity android:name=".ViewPagerMainpage"
+            android:name=".ViewPagerMainpage"
             android:label="@string/air"
-            android:theme="@style/AppTheme.toolbar"
-            >
-
-        </activity>
-
-        <activity android:name=".photoeditor.ImageDetailActivity"
+            android:theme="@style/AppTheme.toolbar" />
+        <activity
+            android:name=".photoeditor.ImageDetailActivity"
             android:label="@string/air"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog"
-            >
-
-        </activity>
-
-
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog" />
         <activity
             android:name=".photoeditor.PhotoEditorActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_photo_editor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.Rating" />
+        <activity android:name=".InvitationActivity"
+            android:label="Invite a tutor"
+            android:theme="@style/AppTheme.toolbar">
+
+        </activity>
     </application>
 
 </manifest>

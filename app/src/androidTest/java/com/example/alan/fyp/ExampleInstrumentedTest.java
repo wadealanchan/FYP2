@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
+        // Context of the app under dialog_bottom_sheet.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.example.alan.fyp", appContext.getPackageName());
