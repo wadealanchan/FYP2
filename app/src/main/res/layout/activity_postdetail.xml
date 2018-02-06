@@ -15,24 +15,10 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.alan.fyp.activity.PostDetail">
 
-
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-    <!--</android.support.design.widget.AppBarLayout>-->
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/white"
     >
 
     <include
@@ -41,24 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         bind:postvmodel="@{postvmodel}" />
-
-    <!--<TextView-->
-        <!--android:id="@+id/pode_delete"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:background="@color/red_600"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="22dp"-->
-        <!--android:text="@string/delete"-->
-        <!--android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}"-->
-        <!--android:paddingTop="@dimen/activity_horizontal_margin_delete"-->
-        <!--android:paddingBottom="@dimen/activity_horizontal_margin_delete"-->
-        <!--android:paddingLeft="@dimen/activity_horizontal_margin_delete"-->
-        <!--android:paddingRight="@dimen/activity_horizontal_margin_delete"-->
-        <!--android:layout_alignParentBottom="true"-->
-
-        <!--/>-->
 
 </RelativeLayout>
 

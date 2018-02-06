@@ -14,6 +14,7 @@ public class model_conversation {
     private String postId;
     private List<Con_Message> messageList;
     private String postUserId;
+    private boolean chatIsOver ;
 
     public model_conversation() {
         messageList = new ArrayList<Con_Message>();
@@ -51,7 +52,13 @@ public class model_conversation {
         this.postUserId = postUserId;
     }
 
+    public boolean isChatIsOver() {
+        return chatIsOver;
+    }
 
+    public void setChatIsOver(boolean chatIsOver) {
+        this.chatIsOver = chatIsOver;
+    }
 
 
 }

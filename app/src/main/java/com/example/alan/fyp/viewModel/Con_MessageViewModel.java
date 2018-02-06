@@ -3,6 +3,7 @@ package com.example.alan.fyp.viewModel;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.Observable;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ public class Con_MessageViewModel {
     private ObservableField<java.util.Date> date = new ObservableField<java.util.Date>();
     private ObservableField<String> imageuri = new ObservableField<String>();
     private ObservableField<User> user = new ObservableField<User>();
+    public  ObservableBoolean ChatisOver = new ObservableBoolean(false);
 
     public ObservableField<String> getMessageText() {
         return messageText;
@@ -96,4 +98,17 @@ public class Con_MessageViewModel {
                 .build();
         view.getContext().startActivity(intent);
     }
+
+
+    public void toggleChatisOver() {
+        if (this.ChatisOver.get()) {
+            this.ChatisOver.set(false);
+        } else {
+            this.ChatisOver.set(true);
+        }
+    }
+
+
+
+
 }

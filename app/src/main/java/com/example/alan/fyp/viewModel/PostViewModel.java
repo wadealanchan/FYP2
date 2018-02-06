@@ -19,6 +19,7 @@ import com.example.alan.fyp.activity.PostDetail;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -119,6 +120,14 @@ public class PostViewModel extends BaseObservable {
                 .imageuri(this.image.get())
                 .build();
         view.getContext().startActivity(intent);
+    }
+
+    @BindingAdapter({"bind:imagesrc2"})
+    public static void loadImage(PhotoView photoView , String image) {
+        if(image!=null)
+            Picasso.with(photoView.getContext()).load(image).into(photoView);
+        else
+            Picasso.with(photoView.getContext()).load(R.drawable.ic_avatar_default).into(photoView);
     }
 
 

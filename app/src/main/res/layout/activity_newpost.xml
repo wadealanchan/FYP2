@@ -54,31 +54,28 @@
 
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:layout_alignParentStart="true"
+                android:gravity="top"
                 android:id="@+id/edit_title"
                 android:textCursorDrawable="@null"
-                android:layout_alignParentEnd="true"
-                android:hint="What is your question?"
+                android:hint="@string/what_is_your_question"
                 android:text="@={Post.title}"/>
 
             <EditText
                 android:id="@+id/edit_content"
+                android:layout_below="@+id/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/edit_title"
+                android:background="@null"
                 android:ems="10"
                 android:gravity="top"
-                android:hint=" Description"
-                android:textCursorDrawable="@null"
-                android:background="@null"
+                android:hint="@string/description"
                 android:inputType="textMultiLine"
-                android:text="@={Post.description}"/>
+                android:text="@={Post.description}"
+                android:textCursorDrawable="@null" />
 
             <!--<ImageButton-->
                 <!--android:layout_below="@+id/edit_content"-->
@@ -93,16 +90,6 @@
                 <!--android:background="@android:color/white"-->
                 <!--android:onClick="imageclick"-->
               <!--/>-->
-
-
-            <!--<Spinner-->
-                <!--android:layout_below="@+id/edit_content"-->
-                <!--android:id="@+id/spinner"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:textColor="#FFFFFF"-->
-                <!--app:spinnerAdapter='@{Post.getsubjectAdapter()}'-->
-                <!--/>-->
 
         </RelativeLayout>
 

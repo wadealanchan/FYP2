@@ -58,9 +58,6 @@ public class InvitationActivity extends AppCompatActivity {
 
         Log.d("InvitationActivity", this.postId+" "+ this.postUserId);
 
-
-
-
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
 
 

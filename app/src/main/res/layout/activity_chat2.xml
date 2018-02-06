@@ -7,12 +7,14 @@
         <variable name="chat" type="com.example.alan.fyp.viewModel.Con_MessageViewModel" />
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
         <variable name="chatList" type="com.example.alan.fyp.ListViewModel.ChatListViewModel2" />
+        <import type="android.view.View"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -40,7 +42,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <RelativeLayout
         android:id="@+id/chat_main"
         android:layout_width="match_parent"
@@ -57,18 +58,23 @@
             android:padding="4dp"
             android:src="@drawable/ic_camera"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:onClick="cameraaction"
+
+            />
+        <!--android:visibility='@{!chat.ChatisOver ? View.VISIBLE : View.INVISIBLE}'-->
 
         <ImageView
             android:id="@+id/submit_button"
             android:padding="4dp"
             android:src="@android:drawable/ic_menu_send"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:onClick="userenter"
             />
 
 
@@ -77,25 +83,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/submit_button"
-            android:layout_toRightOf="@+id/camera_button"
+            android:layout_toStartOf="@+id/submit_button"
+            android:layout_toEndOf="@+id/camera_button"
             android:inputType="text|textMultiLine|textImeMultiLine"
-            android:text="@={chat.messageText}"
+            android:text='@={chat.messageText}'
             android:textCursorDrawable="@null" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/Rview_chat2"
             android:scrollbars="vertical"
-            android:layout_above="@+id/emojicon_edit_text"
             android:divider="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="@{LayoutManagers.linear(1, true)}"
             app:items="@{chatList.items}"
             app:itemBinding="@{chatList.itemBinding}"
-
+            android:layout_above="@+id/emojicon_edit_text"
             />
+
 
 
     </RelativeLayout>

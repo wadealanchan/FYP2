@@ -103,6 +103,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void startCameraActivity() {
         int permissionCheck = PermissionChecker.checkCallingOrSelfPermission(this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
 
             Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

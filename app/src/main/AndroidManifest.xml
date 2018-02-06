@@ -125,11 +125,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Dialog"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.Rating" />
-        <activity android:name=".InvitationActivity"
+        <activity
+            android:name=".InvitationActivity"
             android:label="Invite a tutor"
-            android:theme="@style/AppTheme.toolbar">
-
-        </activity>
+            android:theme="@style/AppTheme.toolbar"></activity>
+        <activity android:name=".PreviewDialog"></activity>
     </application>
 
 </manifest>

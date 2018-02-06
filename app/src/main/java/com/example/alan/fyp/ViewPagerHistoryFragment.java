@@ -1,10 +1,7 @@
 package com.example.alan.fyp;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +22,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
-public class ViewPagerConversationFragment extends BaseFragment {
+public class ViewPagerHistoryFragment extends BaseFragment {
 
     public static final String ARG_INITIAL_POSITION = "ARG_INITIAL_POSITION";
     FragmentConversationBinding binding;
@@ -92,7 +88,7 @@ public class ViewPagerConversationFragment extends BaseFragment {
                         conListViewModel.items.clear();
                         for (DocumentSnapshot dc : value) {
                             model_conversation model_conversation = dc.toObject(com.example.alan.fyp.model.model_conversation.class);
-                            if(firebaseuser!=null && !model_conversation.isChatIsOver()) {
+                            if(firebaseuser!=null && model_conversation.isChatIsOver()) {
                                 if (model_conversation.getAid().equals(firebaseuser.getUid())) {
                                     ConViewModel conViewModel = new ConViewModel();
                                     conViewModel.conId = dc.getId();

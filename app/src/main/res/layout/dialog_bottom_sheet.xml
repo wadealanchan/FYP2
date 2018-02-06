@@ -14,7 +14,6 @@
     android:id="@+id/popup_window"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom|center"
     android:orientation="vertical"
     android:padding="5dp">
 
@@ -35,7 +34,9 @@
         android:padding="10dp"
         android:text="Chat"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:onClick="Chatfunction"/>
+        android:onClick="Chatfunction"
+        android:clickable="true"
+        />
 
     <View
         android:layout_width="match_parent"
@@ -53,7 +54,8 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="Bookmark"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:clickable="true"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -71,7 +73,8 @@
         android:text="Invite Tutor"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}"
-        android:onClick="invitefunction"/>
+        android:onClick="invitefunction"
+        android:clickable="true"/>
 
 
     <View
@@ -93,6 +96,7 @@
         android:text="@string/delete"
         android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}"
         android:onClick="deletePost"
+        android:clickable="true"
         />
 
     <View
@@ -112,7 +116,8 @@
         android:textColor="@color/red_600"
         android:text="Cancel"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:onClick="dialogCancel"/>
+        android:onClick="dialogCancel"
+        android:clickable="true"/>
 
 
 

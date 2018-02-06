@@ -38,10 +38,14 @@
     <string name="air">"AIR Q&amp;A"</string>
     <string-array name="subject">
         <item>Category</item>
-        <item>History</item>
+        <item>Chinese</item>
         <item>English</item>
         <item>Math</item>
+        <item>LIBS</item>
+        <item>Physic</item>
+        <item>Chemistry</item>
         <item>Biology</item>
+        <item>History</item>
     </string-array>
 
 
@@ -90,5 +94,10 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="invite">Invite</string>
     <string name="questiondetail">questiondetail</string>
 
+
+    <string name="what_is_your_question">What is your question</string>
+    <string name="description">\u0020Description</string>
+    <string name="the_chat_is_over">The chat is over</string>
+    <string name="are_you_sure_to_end_chat">Are you sure to end this session?</string>
 
 </resources>

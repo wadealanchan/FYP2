@@ -212,6 +212,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                                 c.setAid(firebaseuser.getUid());
                                 c.setPostId(PostId);
                                 c.setPostUserId(postUserId);
+                                c.setChatIsOver(false);
                                 FirebaseFirestore.getInstance().collection("conversation")
                                         .add(c)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -291,6 +292,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                         .targetUserName(postViewModel.user.get().getName())
                         .build();
                 v.getContext().startActivity(intent1);
+                mBottomSheetDialogdialog.dismiss();
                 break;
 
         }

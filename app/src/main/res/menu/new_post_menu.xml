@@ -6,15 +6,24 @@
         android:id="@+id/action_image"
         android:orderInCategory="100"
         android:title=""
-        android:icon="@drawable/ic_action_image"
+        android:icon="@drawable/ic_image_white_24dp"
         app:showAsAction="always">
     </item>
+
+    <item
+        android:id="@+id/action_image_preview"
+        android:orderInCategory="100"
+        android:title=""
+        android:icon="@drawable/ic_visibility_white_24dp"
+        app:showAsAction="always">
+    </item>
+
 
     <item
         android:id="@+id/action_share"
         android:orderInCategory="100"
         android:title=""
-        android:icon="@drawable/ic_action_send"
+        android:icon="@drawable/ic_send_white_24dp"
         app:showAsAction="always">
     </item>
 

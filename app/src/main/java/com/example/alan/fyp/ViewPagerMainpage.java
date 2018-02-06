@@ -305,7 +305,7 @@ public class ViewPagerMainpage extends BaseActivity implements
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"Mainpage", "Conversation"};
+        private static final String[] TITLES = new String[]{"Mainpage", "On-going","History"};
 
         private int mScrollY;
 
@@ -346,15 +346,15 @@ public class ViewPagerMainpage extends BaseActivity implements
                     break;
                 }
 
-//                case 2: {
-//                    f = new ViewPagerTabRecyclerViewFragment();
-//                    if (0 < mScrollY) {
-//                        Bundle args = new Bundle();
-//                        args.putInt(ViewPagerTabRecyclerViewFragment.ARG_INITIAL_POSITION, 1);
-//                        f.setArguments(args);
-//                    }
-//                    break;
-//                }
+                case 2: {
+                    f = new ViewPagerHistoryFragment();
+                    if (0 < mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(ViewPagerHistoryFragment.ARG_INITIAL_POSITION, 1);
+                        f.setArguments(args);
+                    }
+                    break;
+                }
 //                case 3:
 //                default: {
 //                    f = new ViewPagerTabGridViewFragment();
@@ -448,7 +448,7 @@ public class ViewPagerMainpage extends BaseActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_biology) {
 
 
@@ -465,6 +465,9 @@ public class ViewPagerMainpage extends BaseActivity implements
 
 
 
+    private void category(String category){
+
+    }
 
 
 
