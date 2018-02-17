@@ -7,6 +7,8 @@
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
         <variable name="ConList" type="com.example.alan.fyp.ListViewModel.ConListViewModel" />
         <import type="android.view.View"/>
+        <variable name="pendingList" type="com.example.alan.fyp.ListViewModel.PendingListViewModel" />
+
     </data>
 
 <FrameLayout
@@ -14,15 +16,112 @@
     android:layout_height="match_parent"
     tools:context="com.example.alan.fyp.ViewPagerConversationFragment">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        app:layoutManager="@{LayoutManagers.linear()}"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:itemBinding="@{ConList.itemBinding}"
         app:items="@{ConList.items}"
-        app:itemBinding="@{ConList.itemBinding}"/>
+        app:layoutManager="@{LayoutManagers.linear()}" />
+
+
+
+    <LinearLayout
+        android:paddingTop="5dp"
+        android:layout_below="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="@{pendingList.items.size()> 0 ? View.VISIBLE : View.GONE}"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_200"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="Pending Questions"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+            <TextView
+                android:id="@+id/txt_question_num"
+                android:layout_toStartOf="@+id/img_arrowup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text='@{String.valueOf(pendingList.items.size())}'
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageView
+                android:id="@+id/img_arrowup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_vertical"
+                app:drawablesrc='@{conversation.isExpanded ? @drawable/ic_action_arrow_up:@drawable/ic_action_arrow_down}'
+                android:onClick="@{(v) -> conversation.toggleExpanded()}"
+                />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_200"
+            android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/pendingList"-->
+            <!--android:scrollbars="vertical"-->
+            <!--android:divider="@android:color/transparent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:itemBinding="@{pendingList.itemBinding}"-->
+            <!--app:items="@{pendingList.items}"-->
+            <!--app:layoutManager="@{LayoutManagers.linear()}"-->
+            <!--android:visibility="@{conversation.isExpanded ? View.VISIBLE : View.INVISIBLE}"-->
+
+            <!--/>-->
+
+        <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+            android:id="@+id/pendingList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:itemBinding="@{pendingList.itemBinding}"
+            app:items="@{pendingList.items}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            android:visibility="@{!conversation.isExpanded ? View.VISIBLE : View.INVISIBLE}"
+
+            />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
 
 
 </FrameLayout>

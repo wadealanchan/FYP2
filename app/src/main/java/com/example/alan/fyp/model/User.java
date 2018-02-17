@@ -11,9 +11,19 @@ public class User {
     private String name;
     private String image;
     private String Type;
-    private List<Rating> rating;
+    private double avgRating;
 
+    
     public User() {
+    }
+
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
 
@@ -41,11 +51,5 @@ public class User {
         Type = type;
     }
 
-    public List<Rating> getRating() {
-        return rating;
-    }
 
-    public void setRating(List<Rating> rating) {
-        this.rating = rating;
-    }
 }

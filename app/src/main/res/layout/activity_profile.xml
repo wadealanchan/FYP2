@@ -11,16 +11,6 @@
         android:background="@color/colorwhite"
         >
 
-
-
-        <!--<com.flaviofaria.kenburnsview.KenBurnsView-->
-            <!--android:id="@+id/kenBurnsView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="200dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:background="@color/grey_200"-->
-            <!--android:src="@drawable/example"-->
-             <!--/>-->
         <RelativeLayout
             android:id="@+id/headerview"
             android:layout_width="match_parent"
@@ -52,144 +42,24 @@
                         android:gravity="fill_vertical"
                         android:text='@{user == null ? "" : user.displayName}'
                         android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:padding="3dp"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_visibility_black_24dp"
-                        android:drawablePadding="10dp"
                         android:text="Edit profile"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
                         android:background="@drawable/rounded_corner3"
-                        android:textSize="15sp"
-                        android:padding="10dp"
+                        android:padding="15dp"
                         android:textColor="@color/colorUser"
                         />
 
             </LinearLayout>
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/headerview2_question"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:layout_marginTop="15dp"-->
-
-                    <!--&gt;-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:paddingStart="15dp"-->
-                        <!--android:text="2"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:textColor="@android:color/background_dark"-->
-                        <!--android:textSize="20sp" />-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text='Questions'-->
-                        <!--android:textColor="@color/colorblack"-->
-                        <!--android:paddingStart="15dp"-->
-                        <!--android:textSize="12sp"-->
-
-                        <!--/>-->
-
-
-
-                <!--</LinearLayout>-->
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/btn_subscribe"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginEnd="25dp"-->
-                    <!--android:background="@drawable/rounded_corner1"-->
-                    <!--android:padding="8dp"-->
-                    <!--android:text="Subscribe"-->
-                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-                    <!--android:textColor="#ffffff"-->
-                    <!--android:textIsSelectable="true" />-->
-
-
-
-            <!--</RelativeLayout>-->
-
 
 
         </RelativeLayout>
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:id="@+id/headerview2"-->
-            <!--android:layout_below="@+id/headerview">-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/headerview2_question"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_marginTop="15dp"-->
-
-            <!--&gt;-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingStart="15dp"-->
-                <!--android:text="2"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:textColor="@android:color/background_dark"-->
-                <!--android:textSize="20sp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text='Questions'-->
-                <!--android:textColor="@color/colorblack"-->
-                <!--android:paddingStart="15dp"-->
-                <!--android:textSize="12sp"-->
-
-                <!--/>-->
-
-
-
-        <!--</LinearLayout>-->
-
-
-            <!--<TextView-->
-                <!--android:id="@+id/btn_subscribe"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginEnd="25dp"-->
-                <!--android:background="@drawable/rounded_corner1"-->
-                <!--android:padding="8dp"-->
-                <!--android:text="Subscribe"-->
-                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-                <!--android:textColor="#ffffff"-->
-                <!--android:textIsSelectable="true" />-->
-
-
-
-
-        <!--</RelativeLayout>-->
-
-
-
 
         <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
             android:id="@+id/scroll"
@@ -225,16 +95,16 @@
                 android:layout_height="wrap_content">
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="My Favourite Tutors"
-                android:textStyle="bold"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:textColor="@android:color/black"
+                    android:text="My Favourite Tutors" />
 
                 <ImageView
                     android:id="@+id/image"
@@ -244,7 +114,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_favorite_border_black_36dp" />
+                    android:src="@mipmap/ic_action_fav" />
 
 
 
@@ -274,13 +144,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Subscription"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="Subscription"
+                    android:textColor="@android:color/black" />
 
                 <ImageView
                     android:layout_width="28dp"
@@ -289,7 +159,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_payment_black_36dp" />
+                    android:src="@mipmap/ic_action_payment" />
 
 
 
@@ -320,13 +190,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Question Asked"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="Question Asked"
+                    android:textColor="@android:color/black" />
 
 
                 <ImageView
@@ -336,7 +206,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_pan_tool_black_36dp" />
+                    android:src="@mipmap/ic_action_pantool" />
 
 
 
@@ -364,13 +234,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Question Answered"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="Question Answered"
+                    android:textColor="@android:color/black" />
 
 
                 <ImageView
@@ -380,7 +250,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_question_answer_black_36dp" />
+                    android:src="@mipmap/ic_action_question_answered" />
 
 
 
@@ -411,13 +281,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Get Help"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="Get Help"
+                    android:textColor="@android:color/black" />
 
 
                 <ImageView
@@ -427,7 +297,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_help_outline_black_36dp" />
+                    android:src="@mipmap/ic_action_help" />
 
 
 
@@ -457,13 +327,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="About"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="About"
+                    android:textColor="@android:color/black" />
 
 
                 <ImageView
@@ -473,7 +343,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_info_outline_black_36dp" />
+                    android:src="@mipmap/ic_action_info" />
 
 
 
@@ -497,16 +367,16 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log out"
-                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:layout_centerVertical="true"
-                android:gravity="center"
+                android:text="Log out"
                 android:textColor="@color/red_600"
-                />
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

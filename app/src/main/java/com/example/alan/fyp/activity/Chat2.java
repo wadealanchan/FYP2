@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
@@ -85,6 +86,8 @@ public class Chat2 extends MediaActivity
     String conversationId;
     @InjectExtra
     String targetUserName;
+    @InjectExtra String postTtile;
+    @InjectExtra String postDescription;
     model_conversation conversation;
     StorageReference storageReference;
 
@@ -356,14 +359,22 @@ public class Chat2 extends MediaActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_rate) {
-            showDialog();
+            if(conversation.getPostUserId().equals(firebaseuser.getUid())) {
+                showDialog();
+            }else
+            {
+                Toast.makeText(Chat2.this, "You are not allowed to rate", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         if (id == R.id.action_endsession) {
             alertdialog();
             return true;
         }
-
+        if(id ==R.id.action_questiondetail){
+            questionDetail();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -381,6 +392,15 @@ public class Chat2 extends MediaActivity
         camera_button.setClickable(false);
     }
 
+
+    private void questionDetail(){
+        Intent intent = Henson.with(this).gotoQuestionDetailActivity()
+                .postDescription(postDescription)
+                .postTitle(postTtile)
+                .build();
+       startActivity(intent);
+
+    }
     private void updateChatIsOver() {
         FirebaseFirestore.getInstance().collection("conversation").document(conversationId)
                 .update("chatIsOver", true).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -450,7 +470,8 @@ public class Chat2 extends MediaActivity
         rating.setComment(comment);
 
         Log.d(TAG, "" + rate + "  " + comment);
-        FirebaseFirestore.getInstance().collection("Users").document(conversation.getPostUserId())
+
+        FirebaseFirestore.getInstance().collection("Users").document(conversation.getAid())
                 .collection("rating").document(conversation.getPostId()).set(rating).addOnSuccessListener
                 (new OnSuccessListener<Void>() {
                     @Override

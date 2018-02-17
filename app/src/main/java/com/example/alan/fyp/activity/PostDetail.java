@@ -19,6 +19,7 @@ import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
 import com.example.alan.fyp.databinding.DialogBottomSheetBinding;
+import com.example.alan.fyp.model.Request;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.viewModel.PostViewModel;
@@ -38,6 +39,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
+import java.util.Date;
 
 
 public class PostDetail extends BaseActivity implements ObservableScrollViewCallbacks
@@ -137,10 +140,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             public void onClick(View v) {
 
                 mBottomSheetDialogdialog = new BottomSheetDialog(PostDetail.this);
-                // DialogBottomSheetBinding binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_bottom_sheet, null, false);
                 DialogBottomSheetBinding binding = DataBindingUtil.inflate(LayoutInflater.from(v.getContext()), R.layout.dialog_bottom_sheet, null, false);
-                //setContentView(binding.getRoot());
-                //View view = getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
                 View view = binding.getRoot();
                 mBottomSheetDialogdialog.setContentView(view);
                 mBottomSheetDialogdialog.show();
@@ -176,9 +176,12 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
 
     public void invitefunction(View v) {
+        mBottomSheetDialogdialog.dismiss();
         if (postUserId.equals(firebaseuser.getUid())) {
             Intent intent = Henson.with(v.getContext()).gotoInvitationActivity()
+                    .postDescription(postDescription)
                     .postId(this.PostId)
+                    .postTtile(postTtile)
                     .postUserId(this.postUserId)
                     .build();
             v.getContext().startActivity(intent);
@@ -186,8 +189,31 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
     }
 
+    public void Requestforchat(View v){
+        mBottomSheetDialogdialog.dismiss();
+        Request request = new Request();
 
-    public void Chatfunction(View v) {
+        request.setTime(new Date());
+
+        String requestid = PostId+":"+answererId;
+
+        FirebaseFirestore.getInstance().collection("Users").document(postUserId)
+                .collection("request").document(requestid).set(request).addOnSuccessListener
+                (new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(PostDetail.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        Chatfunction();
+                        finish();
+                    }
+                });
+
+    }
+
+
+    public void Chatfunction() {
+        mBottomSheetDialogdialog.dismiss();
         if (postUserId.equals(firebaseuser.getUid())) {
 
             Toast.makeText(PostDetail.this, "You are the questioner",
@@ -204,8 +230,8 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                         public void onSuccess(QuerySnapshot documentSnapshots) {
 
                             if (!documentSnapshots.isEmpty()) {
-                                passdata(v, documentSnapshots.getDocuments().get(0).getId(), 1);
-                                Log.d("Postdetail conid", documentSnapshots.getDocuments().get(0).getId());
+                                passdata( documentSnapshots.getDocuments().get(0).getId(), 1);
+
 
                             } else {
                                 model_conversation c = new model_conversation();
@@ -213,13 +239,15 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                                 c.setPostId(PostId);
                                 c.setPostUserId(postUserId);
                                 c.setChatIsOver(false);
+                                c.setStatus("pending");
                                 FirebaseFirestore.getInstance().collection("conversation")
                                         .add(c)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                passdata(v, documentReference.getId(), 1);
+                                                //passdata(documentReference.getId(), 1);
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -237,12 +265,14 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
         }
     }
 
+
     public void dialogCancel(View v)
     {
         mBottomSheetDialogdialog.dismiss();
     }
 
     public void deletePost(View v) {
+        mBottomSheetDialogdialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(PostDetail.this, R.style.AlertDialogStyle);
         builder.setMessage(getString(R.string.sure_delete_msg));
         builder.setPositiveButton( getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -281,17 +311,19 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     }
 
 
-    public void passdata(View v, String conId, int number) {
+    public void passdata(String conId, int number) {
 
         switch (number) {
             case 0:
                 break;
             case 1:
-                Intent intent1 = Henson.with(v.getContext()).gotoChat2()
+                Intent intent1 = Henson.with(this).gotoChat2()
                         .conversationId(conId)
+                        .postDescription(postDescription)
+                        .postTtile(postTtile)
                         .targetUserName(postViewModel.user.get().getName())
                         .build();
-                v.getContext().startActivity(intent1);
+                startActivity(intent1);
                 mBottomSheetDialogdialog.dismiss();
                 break;
 

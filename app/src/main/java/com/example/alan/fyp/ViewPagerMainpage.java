@@ -305,7 +305,7 @@ public class ViewPagerMainpage extends BaseActivity implements
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"Mainpage", "On-going","History"};
+        private static final String[] TITLES = new String[]{"On-going", "Questions","History"};
 
         private int mScrollY;
 
@@ -326,21 +326,20 @@ public class ViewPagerMainpage extends BaseActivity implements
 
             switch (pattern) {
                 case 0: {
-                    f = new ViewPagerMainpageFragment();
+                    f = new ViewPagerConversationFragment();
                     if (0 <= mScrollY) {
                         Bundle args = new Bundle();
-                        args.putInt(ViewPagerMainpageFragment.ARG_SCROLL_Y, 1);
+                        args.putInt(ViewPagerConversationFragment.ARG_INITIAL_POSITION, 1);
                         f.setArguments(args);
-
                     }
                     break;
                 }
                 case 1:
                 default:{
-                    f = new ViewPagerConversationFragment();
+                    f = new ViewPagerMainpageFragment();
                     if (0 < mScrollY) {
                         Bundle args = new Bundle();
-                        args.putInt(ViewPagerConversationFragment.ARG_INITIAL_POSITION, 1);
+                        args.putInt(ViewPagerMainpageFragment.ARG_SCROLL_Y, 1);
                         f.setArguments(args);
                     }
                     break;

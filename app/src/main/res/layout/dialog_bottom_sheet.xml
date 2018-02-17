@@ -28,15 +28,15 @@
         android:id="@+id/txt_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_action_chat"
+        android:clickable="true"
         android:drawablePadding="15dp"
+        android:drawableStart="@drawable/ic_action_chat"
+        android:fontFamily="@font/actor"
         android:gravity="center"
+        android:onClick="Requestforchat"
         android:padding="10dp"
         android:text="Chat"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:onClick="Chatfunction"
-        android:clickable="true"
-        />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <View
         android:layout_width="match_parent"
@@ -44,18 +44,18 @@
         android:background="@android:color/darker_gray"/>
 
 
-
     <TextView
         android:id="@+id/txt_bookmark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_action_bookmark2"
+        android:clickable="true"
         android:drawablePadding="15dp"
+        android:drawableStart="@drawable/ic_action_bookmark2"
+        android:fontFamily="@font/actor"
         android:gravity="center"
         android:padding="10dp"
         android:text="Bookmark"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:clickable="true"/>
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -66,15 +66,16 @@
         android:id="@+id/txt_invite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_action_invite"
+        android:clickable="true"
         android:drawablePadding="15dp"
+        android:drawableStart="@drawable/ic_action_invite"
+        android:fontFamily="@font/actor"
         android:gravity="center"
+        android:onClick="invitefunction"
         android:padding="10dp"
         android:text="Invite Tutor"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}"
-        android:onClick="invitefunction"
-        android:clickable="true"/>
+        android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}" />
 
 
     <View
@@ -88,16 +89,16 @@
         android:id="@+id/txt_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:drawableStart="@drawable/ic_action_delete"
+        android:clickable="true"
         android:drawablePadding="15dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:drawableStart="@drawable/ic_action_delete"
+        android:fontFamily="@font/actor"
+        android:gravity="center"
+        android:onClick="deletePost"
         android:padding="10dp"
         android:text="@string/delete"
-        android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}"
-        android:onClick="deletePost"
-        android:clickable="true"
-        />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="@{postvmodel.user.id.equals(FirebaseAuth.getInstance().currentUser.uid) ? View.VISIBLE : View.GONE}" />
 
     <View
         android:layout_width="match_parent"
@@ -109,15 +110,16 @@
         android:id="@+id/txt_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_action_close"
+        android:clickable="true"
         android:drawablePadding="15dp"
+        android:drawableStart="@drawable/ic_action_close"
+        android:fontFamily="@font/actor"
         android:gravity="center"
+        android:onClick="dialogCancel"
         android:padding="10dp"
-        android:textColor="@color/red_600"
         android:text="Cancel"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:onClick="dialogCancel"
-        android:clickable="true"/>
+        android:textColor="@color/red_600" />
 
 
 

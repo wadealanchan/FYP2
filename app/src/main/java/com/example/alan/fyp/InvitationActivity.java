@@ -37,6 +37,8 @@ public class InvitationActivity extends AppCompatActivity {
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     @InjectExtra String postId;
     @InjectExtra String postUserId;
+    @InjectExtra String postDescription;
+    @InjectExtra String postTtile;
 
 
     @Override
@@ -76,6 +78,8 @@ public class InvitationActivity extends AppCompatActivity {
                                 InvitationViewModel invitationViewModel = new InvitationViewModel();
                                 invitationViewModel.setPostId(postId);
                                 invitationViewModel.setPostUserId(postUserId);
+                                invitationViewModel.setPostDescription(postDescription);
+                                invitationViewModel.setPostTtile(postTtile);
                                 invitationViewModel.user.set(user);
                                 invitationListViewModel.items.add(invitationViewModel);
 

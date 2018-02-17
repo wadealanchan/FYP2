@@ -185,8 +185,8 @@ public class CustomDialogFragment extends DialogFragment{
     private boolean validateForm() {
         name=register_username.getText().toString().trim();
         email= register_email.getText().toString().trim();
-        password= register_pw.getText().toString().trim();
-        re_pw=re_register_pw.getText().toString().trim();
+        password= register_pw.getText().toString();
+        re_pw=re_register_pw.getText().toString();
         if(name.isEmpty())return false;
         if(email.isEmpty())return false;
         if(password.isEmpty())return false;
