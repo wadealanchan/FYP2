@@ -52,7 +52,7 @@
                         android:text="Edit profile"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:background="@drawable/rounded_corner3"
-                        android:padding="15dp"
+                        android:padding="12dp"
                         android:textColor="@color/colorUser"
                         />
 

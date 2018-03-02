@@ -20,11 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
 import com.example.alan.fyp.model.Con_Message;
+import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.Rating;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.model.model_conversation;
@@ -63,7 +63,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class Chat2 extends MediaActivity
@@ -86,10 +85,9 @@ public class Chat2 extends MediaActivity
     String conversationId;
     @InjectExtra
     String targetUserName;
-    @InjectExtra String postTtile;
-    @InjectExtra String postDescription;
     model_conversation conversation;
     StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -394,11 +392,11 @@ public class Chat2 extends MediaActivity
 
 
     private void questionDetail(){
-        Intent intent = Henson.with(this).gotoQuestionDetailActivity()
-                .postDescription(postDescription)
-                .postTitle(postTtile)
-                .build();
-       startActivity(intent);
+        Intent i = getIntent();
+        Post post = (Post)i.getSerializableExtra("postObject");
+        Intent intent = new Intent(this, QuestionDetailActivity.class);
+        intent.putExtra("postObject", post);
+        startActivity(intent);
 
     }
     private void updateChatIsOver() {
@@ -452,11 +450,11 @@ public class Chat2 extends MediaActivity
                 .setStarColor(R.color.starColor)
                 .setNoteDescriptionTextColor(R.color.noteDescriptionTextColor)
                 .setTitleTextColor(R.color.titleTextColor)
-                .setDescriptionTextColor(R.color.contentTextColor)
+                .setDescriptionTextColor(R.color.descriptionTextColor)
                 .setHint("Please write your comment here ...")
                 .setHintTextColor(R.color.hintTextColor)
                 .setCommentTextColor(R.color.commentTextColor)
-                .setCommentBackgroundColor(R.color.colorPrimaryDark)
+                .setCommentBackgroundColor(R.color.colorPrimaryDark3)
                 .setWindowAnimation(R.style.MyDialogFadeAnimation)
                 .create(Chat2.this)
                 .show();

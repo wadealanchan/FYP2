@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable name="conversation" type="com.example.alan.fyp.viewModel.ConViewModel" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+        <import type="com.example.alan.fyp.util.DateFormater" />
+        <import type="android.view.View"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        card_view:cardBackgroundColor="@color/colorCardView"
+        card_view:cardCornerRadius="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:onClick="@{(v) -> conversation.onSaveClick(v)}"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/icon_avata"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:civ_border_color="@color/colorPrimary"
+                app:imageUrl='@{conversation.user.image}'
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_gravity=""-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingTop="5dp">-->
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text='@{conversation.post.title}'
+                    android:textColor="@color/bottomdialogtextcolor"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <!--<TextView-->
+                <!--android:id="@+id/txtTime"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1.5"-->
+                <!--android:gravity="center_vertical|right"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:text='@{DateFormater.formatDate("HH:mm", conversation.post.date)}'-->
+                <!--/>-->
+                <!--</LinearLayout>-->
+                <!--android:text='@{conversation.post.date.toString()}'-->
+                <!--tools:text='@{conversation.dateFormatted}'-->
+                <!--tools:text='@{DateFormater.formatDate("yyyy-MM-dd HH:mm", conversation.post.date)}'-->
+                <TextView
+                    android:id="@+id/txtMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:text='@{conversation.user.name}'
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity=""
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_category"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:text='@{conversation.post.category}'
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:paddingBottom="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical|right"
+                        android:paddingRight="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text='@{DateFormater.formatDate("HH:mm", conversation.post.date)}'
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

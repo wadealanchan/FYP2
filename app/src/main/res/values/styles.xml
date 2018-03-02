@@ -11,14 +11,14 @@
 
     <!-- Dialog -->
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorPrimary3</item>
         <item name="buttonBarPositiveButtonStyle">@style/MyAlertDialogButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/MyAlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/MyAlertDialogButtonStyle</item>
     </style>
 
     <style name="MyAlertDialogButtonStyle" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorAccent3</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
@@ -33,6 +33,24 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/grey_200</item>
+
+        <!-- Assign dialog style here. -->
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+
+        <!-- Assign custom text styles for title, description, comment -->
+        <!--<item name="appRatingDialogTitleStyle">@style/MyDialogTitleStyle</item>-->
+        <!--<item name="appRatingDialogDescriptionStyle">@style/MyDialogDescriptionStyle</item>-->
+        <!--<item name="appRatingDialogNoteDescriptionStyle">@style/MyDialogNoteDescriptionStyle</item>-->
+        <!--<item name="appRatingDialogCommentStyle">@style/MyDialogCommentStyle</item>-->
+    </style>
+
+    <style name="AppTheme.toolbar2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="colorAccent">@color/grey_200</item>
 
         <!-- Assign dialog style here. -->
@@ -157,6 +175,88 @@
 
     <style name="AppTheme.PopupOverlay.light" parent="ThemeOverlay.AppCompat.Light"/>
 
+
+
+
+    <!-- Animated indicators -->
+    <style name="WelcomeScreenPageIndicator.Animated">
+        <item name="animation">slide</item>
+    </style>
+
+    <style name="WelcomeScreenPageIndicator.Light.Animated">
+        <item name="animation">slide</item>
+    </style>
+
+    <!-- Styles used by most of the welcome screens -->
+    <style name="GeneralWelcomeScreenTheme" parent="WelcomeScreenTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="welcomeIndicatorStyle">@style/WelcomeScreenPageIndicator.Animated</item>
+        <item name="welcomeTitleTextStyle">@style/WelcomeScreenText.Title.Centered</item>
+    </style>
+
+    <!-- Styles for SampleWelcomeActivity -->
+    <style name="SampleWelcomeScreenTheme" parent="WelcomeScreenTheme">
+        <item name="welcomeIndicatorStyle">@style/WelcomeScreenPageIndicator.Animated</item>
+        <item name="welcomeTitleTextStyle">@style/WelcomeScreenText.Title.Centered</item>
+        <item name="welcomeLargeTextStyle">@style/WelcomeScreenText.Large.Centered</item>
+        <item name="welcomeNormalTextStyle">@style/WelcomeScreenText.Centered</item>
+        <item name="welcomeButtonBarFirstStyle">@style/MyButtonFirst.tutor</item>
+        <item name="welcomeButtonBarSecondStyle">@style/MyButtonFirst.student</item>
+    </style>
+
+
+    <!-- Styles for LightWelcomeActivity -->
+    <style name="LightWelcomeScreenTheme" parent="WelcomeScreenTheme.Light">
+        <item name="welcomeIndicatorStyle">@style/LightWelcomeIndicator</item>
+        <item name="welcomeTitleTextStyle">@style/WelcomeScreenText.Title.Centered</item>
+        <item name="android:textColorPrimary">#0089DC</item>
+        <item name="android:textColorSecondary">#666</item>
+    </style>
+
+    <style name="LightWelcomeScreenTheme2" parent="WelcomeScreenTheme.Light">
+        <item name="welcomeIndicatorStyle">@style/LightWelcomeIndicator</item>
+        <item name="welcomeTitleTextStyle">@style/WelcomeScreenText.Title.Centered</item>
+        <item name="android:textColorPrimary">#0089DC</item>
+        <item name="android:textColorSecondary">#666</item>
+        <item name="welcomeButtonBarFirstStyle">@style/MyButtonFirst.tutor</item>
+        <item name="welcomeButtonBarSecondStyle">@style/MyButtonFirst.student</item>
+    </style>
+
+    <style name="MyButtonFirst.student" parent="WelcomeScreenButton.Borderless">
+        <item name="android:text">"Student"</item>
+    </style>
+
+    <style name="MyButtonFirst.tutor" parent="WelcomeScreenButton.Borderless">
+        <item name="android:text">"Tutor"</item>
+    </style>
+
+
+    <style name="LightWelcomeIndicator" parent="WelcomeScreenPageIndicator.Light.Animated">
+        <item name="currentPageColor">@color/colorAccent</item>
+        <item name="animation">fade</item>
+    </style>
+
+    <!-- Styles for button bar activities -->
+    <style name="ButtonBarWelcomeScreenTheme" parent="WelcomeScreenTheme.SolidNavigation">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ButtonBarWelcomeScreenTheme.Single">
+        <item name="welcomeButtonBarFirstStyle">@style/SingleButtonStyle</item>
+    </style>
+
+    <style name="SingleButtonStyle" parent="WelcomeScreenButton.Borderless">
+        <item name="android:text">Get Started</item>
+    </style>
+
+    <!-- Styles to show action bar -->
+    <style name="ActionBarWelcomeScreenTheme" parent="WelcomeScreenTheme">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
 
 
 

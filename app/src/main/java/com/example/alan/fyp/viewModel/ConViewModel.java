@@ -51,10 +51,9 @@ public class ConViewModel {
         Log.d("ConViewModel", this.user.get().getName());
         Intent intent1 = Henson.with(view.getContext()).gotoChat2()
                 .conversationId(conId)
-                .postDescription(this.post.get().getDescription())
-                .postTtile(this.post.get().getTitle())
                 .targetUserName(this.user.get().getName())
                 .build();
+        intent1.putExtra("postObject", this.post.get());
         view.getContext().startActivity(intent1);
     }
 
@@ -67,7 +66,6 @@ public class ConViewModel {
         mBottomSheetDialogdialog = new BottomSheetDialog(view.getContext());
         DialogBottomSheetRequestStudentsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(view.getContext()), R.layout.dialog_bottom_sheet_request_students, null, false);
         View v = binding.getRoot();
-        //View v = View.inflate(view.getContext(), R.layout.dialog_bottom_sheet_request_students, null);
         mBottomSheetDialogdialog.setContentView(v);
         mBottomSheetDialogdialog.show();
         binding.setConversation(conViewModel);

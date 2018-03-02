@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.ListViewModel.InvitationListViewModel;
 import com.example.alan.fyp.R;
+import com.example.alan.fyp.activity.AuthClass;
 import com.example.alan.fyp.activity.PostDetail;
 import com.example.alan.fyp.model.InvitationRequest;
 import com.example.alan.fyp.model.Request;
@@ -134,7 +135,7 @@ public class InvitationViewModel {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
                                             Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                            //passdata(v, documentReference.getId(), 1);
+                                            Toast.makeText(v.getContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
 
 
 
@@ -160,8 +161,6 @@ public class InvitationViewModel {
             case 1:
                 Intent intent1 = Henson.with(v.getContext()).gotoChat2()
                         .conversationId(conId)
-                        .postDescription(postDescription)
-                        .postTtile(postTtile)
                         .targetUserName(user.get().getName())
                         .build();
                 v.getContext().startActivity(intent1);

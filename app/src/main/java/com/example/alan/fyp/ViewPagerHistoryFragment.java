@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.alan.fyp.ListViewModel.ConListViewModel;
+import com.example.alan.fyp.ListViewModel.HistoryListViewModel;
 import com.example.alan.fyp.databinding.FragmentConversationBinding;
+import com.example.alan.fyp.databinding.FragmentHistoryBinding;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.model.model_conversation;
@@ -32,16 +34,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class ViewPagerHistoryFragment extends BaseFragment {
 
     public static final String ARG_INITIAL_POSITION = "ARG_INITIAL_POSITION";
-    FragmentConversationBinding binding;
+    FragmentHistoryBinding binding;
     public final String TAG = "Conversation: ";
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+    HistoryListViewModel historyListViewModel = new HistoryListViewModel();
     ConListViewModel conListViewModel = new ConListViewModel();
     ConViewModel conViewModel = new ConViewModel();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false);
 
         View view = binding.getRoot();
 
@@ -85,7 +88,7 @@ public class ViewPagerHistoryFragment extends BaseFragment {
                             return;
                         }
 
-                        conListViewModel.items.clear();
+                        historyListViewModel.items.clear();
                         for (DocumentSnapshot dc : value) {
                             model_conversation model_conversation = dc.toObject(com.example.alan.fyp.model.model_conversation.class);
                             if(firebaseuser!=null && model_conversation.isChatIsOver()) {
@@ -94,7 +97,7 @@ public class ViewPagerHistoryFragment extends BaseFragment {
                                     conViewModel.conId = dc.getId();
                                     getUserInfo(conViewModel, model_conversation.getPostUserId());
                                     getPostInfo(conViewModel, model_conversation.getPostId());
-                                    conListViewModel.items.add(conViewModel);
+                                    historyListViewModel.items.add(conViewModel);
                                 }
 
                                 if (model_conversation.getPostUserId().equals(firebaseuser.getUid())) {
@@ -102,7 +105,7 @@ public class ViewPagerHistoryFragment extends BaseFragment {
                                     conViewModel.conId = dc.getId();
                                     getUserInfo(conViewModel, model_conversation.getAid());
                                     getPostInfo(conViewModel, model_conversation.getPostId());
-                                    conListViewModel.items.add(conViewModel);
+                                    historyListViewModel.items.add(conViewModel);
 
                                 }
                             }
@@ -117,8 +120,9 @@ public class ViewPagerHistoryFragment extends BaseFragment {
 
 
 
-        binding.setConList(conListViewModel);
         binding.setConversation(conViewModel);
+        binding.setHistoryList(historyListViewModel);
+
 
 
         return view;

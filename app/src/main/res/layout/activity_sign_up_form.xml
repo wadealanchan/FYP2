@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="user"
+            type="com.example.alan.fyp.viewModel.UserViewModel"/>
+
+        <import type="android.view.View"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.alan.fyp.util.CustomDialogFragment">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/sign_up_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary2"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:minHeight="?attr/actionBarSize"
+            >
+
+            <!--<TextView-->
+                <!--android:id="@+id/text_view"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:fontFamily="sans-serif-condensed"-->
+                <!--android:text="@string/signup"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textColor="@color/white" />-->
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:background="@color/bgcolor2">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="@string/name"
+                android:text="@{user.displayName}"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="?colorAccent"
+                app:met_underlineColor="#fff"
+                app:met_iconLeft="@drawable/ic_person_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_singleLineEllipsis="true"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/emailaddress"
+                android:text="@{user.email}"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="highlight"
+                app:met_iconLeft="@drawable/ic_email"
+                app:met_iconPadding="0dp"
+                app:met_primaryColor="?colorAccent"
+                app:met_singleLineEllipsis="true"
+                app:met_underlineColor="#fff" />
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="@{user.password}"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="?colorAccent"
+                app:met_underlineColor="#fff"
+                app:met_iconLeft="@drawable/ic_lock_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_singleLineEllipsis="true"/>
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/field_repw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Re-enter password"
+                android:inputType="textPassword"
+                android:text="@{user.passwordAgain}"
+                app:met_baseColor="@android:color/white"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="?colorAccent"
+                app:met_underlineColor="#fff"
+                app:met_iconLeft="@drawable/ic_lock_white_48dp"
+                app:met_iconPadding="0dp"
+                app:met_singleLineEllipsis="true"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility='@{!user.userType.equals("tutor") ? View.VISIBLE : View.GONE}'>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    app:met_baseColor="@android:color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:met_iconLeft="@drawable/ic_lock_white_48dp"
+                    app:met_iconPadding="0dp"
+                  />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:popupBackground="@color/colorPrimary"
+                app:spinnerAdapter='@{user.getsubjectAdapter()}'
+                />
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</layout>

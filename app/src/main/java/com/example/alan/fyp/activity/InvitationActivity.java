@@ -1,4 +1,4 @@
-package com.example.alan.fyp;
+package com.example.alan.fyp.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.example.alan.fyp.ListViewModel.InvitationListViewModel;
+import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityInvitationBinding;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.ConViewModel;
@@ -74,7 +75,7 @@ public class InvitationActivity extends AppCompatActivity {
                         for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
                             User user = document.toObject(com.example.alan.fyp.model.User.class);
                             user.id =document.getId();
-                            if (!document.getId().equals(firebaseuser.getUid()) && !document.getId().equals(postUserId)) {
+                            if (!document.getId().equals(firebaseuser.getUid()) && !document.getId().equals(postUserId) && user.getType().equals("tutor") ) {
                                 InvitationViewModel invitationViewModel = new InvitationViewModel();
                                 invitationViewModel.setPostId(postId);
                                 invitationViewModel.setPostUserId(postUserId);

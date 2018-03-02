@@ -19,6 +19,7 @@ import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityPostdetailBinding;
 import com.example.alan.fyp.databinding.DialogBottomSheetBinding;
+import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.Request;
 import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.model.model_conversation;
@@ -58,18 +59,14 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     private int mFlexibleSpaceImageHeight;
     private int mFabMargin;
     private boolean mFabIsShown;
-    private boolean mCircleImageViewIsShown;
     private TextView mUsernameView;
     private TextView mTimestampView;
     private de.hdodenhof.circleimageview.CircleImageView mCircleImageView;
 
     private FirebaseAuth mAuth;
 
-    ActivityPostdetailBinding postdetailBinding;
+    private ActivityPostdetailBinding postdetailBinding;
     PostViewModel postViewModel = new PostViewModel();
-    UserViewModel userViewModel;
-    String username;
-    String userimage;
 
     public final String TAG = "PostDetail: ";
     @InjectExtra
@@ -96,8 +93,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postdetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_postdetail);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+
         answererId = firebaseuser.getUid();
         mAuth = FirebaseAuth.getInstance();
         User user = new User();
@@ -202,7 +198,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                 (new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(PostDetail.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostDetail.this, "Request Sent", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                         Chatfunction();
                         finish();
@@ -319,10 +315,11 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
             case 1:
                 Intent intent1 = Henson.with(this).gotoChat2()
                         .conversationId(conId)
-                        .postDescription(postDescription)
-                        .postTtile(postTtile)
                         .targetUserName(postViewModel.user.get().getName())
                         .build();
+                Intent i = getIntent();
+                Post post= (Post) i.getSerializableExtra("postObject");
+                intent1.putExtra("postObject",post);
                 startActivity(intent1);
                 mBottomSheetDialogdialog.dismiss();
                 break;

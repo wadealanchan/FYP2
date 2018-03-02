@@ -58,16 +58,18 @@
                     <!--android:orientation="horizontal"-->
                     <!--android:paddingTop="5dp">-->
 
-                    <TextView
-                        android:id="@+id/txtName"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:text='@{conversation.post.title}'
-                        android:gravity="center_vertical"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text='@{conversation.post.title}'
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/bottomdialogtextcolor" />
 
                     <!--<TextView-->
                         <!--android:id="@+id/txtTime"-->
@@ -88,9 +90,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text='@{conversation.user.name}'
+                    android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical"
                     android:paddingBottom="5dp"
+                    android:text='@{conversation.user.name}'
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <LinearLayout

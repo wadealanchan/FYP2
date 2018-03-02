@@ -52,11 +52,7 @@
             android:name=".activity.AuthClass"
             android:label="AuthClass"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.Profile"
@@ -69,10 +65,10 @@
             android:name=".activity.Mainpage"
             android:label="@string/title_activity_mainpage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--<activity-->
-            <!--android:name=".activity.Chat"-->
-            <!--android:label="Chat"-->
-            <!--android:theme="@style/AppTheme" />-->
+        <!-- <activity -->
+        <!-- android:name=".activity.Chat" -->
+        <!-- android:label="Chat" -->
+        <!-- android:theme="@style/AppTheme" /> -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -113,7 +109,7 @@
         <activity
             android:name=".ViewPagerMainpage"
             android:label="@string/air"
-            android:theme="@style/AppTheme.toolbar" >
+            android:theme="@style/AppTheme.toolbar">
             <intent-filter>
                 <action android:name="com.example.alan.fyp.action.ViewPagerMainpage" />
 
@@ -132,16 +128,31 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.Rating" />
         <activity
-            android:name=".InvitationActivity"
+            android:name=".activity.InvitationActivity"
             android:label="Invite a tutor"
             android:theme="@style/AppTheme.toolbar" />
-        <!--<activity android:name=".PreviewDialog" />-->
-        <activity android:name=".QuestionDetailActivity"
+
+        <activity
+            android:name=".activity.QuestionDetailActivity"
             android:label="Question Detail"
-            android:theme="@style/AppTheme.toolbar"
-            >
+            android:theme="@style/AppTheme.toolbar" />
+        <activity android:name=".activity.SignUpFormActivity"
+            android:theme="@style/AppTheme.toolbar2"
+            android:label="Sign up "
+            />
+
+        <activity android:name=".activity.WelcomePageActivity"
+            android:theme="@style/LightWelcomeScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
+
+        <activity android:name=".activity.SelectUserTypeActivity"
+            android:theme="@style/SampleWelcomeScreenTheme"></activity>
     </application>
 
 </manifest>

@@ -188,7 +188,7 @@ public class Mainpage extends AppCompatActivity
                         }
 
                     });
-                    postViewModel.post = post;
+                    postViewModel.post.set(post);
                     postList.items.add(postViewModel);
                 }
                 binding.executePendingBindings();

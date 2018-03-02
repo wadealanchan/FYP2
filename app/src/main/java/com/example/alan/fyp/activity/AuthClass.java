@@ -129,8 +129,8 @@ public class AuthClass extends BaseActivity
                                 if (task.isSuccessful()) {
                                     Intent intent = new Intent(AuthClass.this, ViewPagerMainpage.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    //startActivity(intent);
-                                    finish();
+                                    startActivity(intent);
+
                                 }else{
                                     Log.d(TAG,"Error ");
                                 }
@@ -266,7 +266,7 @@ public class AuthClass extends BaseActivity
         {
 //            Toast.makeText(AuthClass.this, R.string.signedout,
 //                Toast.LENGTH_SHORT).show();
-            findViewById(R.id.btn_createac).setVisibility(View.VISIBLE);
+            findViewById(R.id.btn_createac).setVisibility(View.GONE);
             findViewById(R.id.btn_signin).setVisibility(View.VISIBLE);
             findViewById(R.id.btn_signout).setVisibility(View.GONE);
             findViewById(R.id.btn_googlesignin).setVisibility(View.VISIBLE);

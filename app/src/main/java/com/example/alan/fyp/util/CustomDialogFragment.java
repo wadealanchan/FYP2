@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -185,14 +186,15 @@ public class CustomDialogFragment extends DialogFragment{
     private boolean validateForm() {
         name=register_username.getText().toString().trim();
         email= register_email.getText().toString().trim();
-        password= register_pw.getText().toString();
-        re_pw=re_register_pw.getText().toString();
+        password= register_pw.getText().toString().trim();
+        re_pw=re_register_pw.getText().toString().trim();
+        Log.d(TAG,password+" "+re_pw);
         if(name.isEmpty())return false;
         if(email.isEmpty())return false;
         if(password.isEmpty())return false;
         if(re_pw.isEmpty()) return false;
 
-        if(!re_register_pw.equals(password))
+        if(!re_pw.equals(password))
         {
             Toast.makeText(getContext(), "Passwords are not equal", Toast.LENGTH_SHORT).show();
             return false;

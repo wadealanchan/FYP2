@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.alan.fyp.ListViewModel.PostListViewModel;
-import com.example.alan.fyp.activity.Mainpage;
 import com.example.alan.fyp.activity.Newpost;
 import com.example.alan.fyp.databinding.FragmentMainpageBinding;
 import com.example.alan.fyp.model.Post;
@@ -23,7 +21,6 @@ import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,6 +103,56 @@ public class ViewPagerMainpageFragment extends BaseFragment {
 
         showcontent();
         binding.setPostList(postList);
+
+        /*QuestionData.posts.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Post>>() {
+
+
+            @Override
+            public void onChanged(ObservableList<Post> posts) {
+
+                for (Post post : posts) {
+
+                    PostViewModel postViewModel = post.toViewModel();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
+
+                            if (userInfotask.isSuccessful()) {
+
+                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
+                                postViewModel.user.get().id=userInfotask.getResult().getId();
+                            } else {
+                                postViewModel.user.set(null);
+                            }
+
+                        });
+
+                        postViewModel.post.set(post);
+                        postList.items.add(postViewModel);
+
+                }
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<Post> posts, int i, int i1) {
+
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<Post> posts, int i, int i1) {
+
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<Post> posts, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<Post> posts, int i, int i1) {
+
+            }
+        });*/
+
         return view;
     }
 
@@ -139,7 +186,7 @@ public class ViewPagerMainpageFragment extends BaseFragment {
 
                         });
 
-                        postViewModel.post = post;
+                        postViewModel.post.set(post);
                         postList.items.add(postViewModel);
                     }
                 }
@@ -147,7 +194,7 @@ public class ViewPagerMainpageFragment extends BaseFragment {
             }
         });
 
-    }
+   }
 
 
 

@@ -3,18 +3,27 @@ package com.example.alan.fyp.model;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-import java.util.List;
-
 @IgnoreExtraProperties
 public class User {
     @Exclude public String id;
     private String name;
     private String image;
-    private String Type;
+    private String type;
     private double avgRating;
+    private String institution;
+
 
     
     public User() {
+    }
+
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
 
 
@@ -44,11 +53,11 @@ public class User {
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
 

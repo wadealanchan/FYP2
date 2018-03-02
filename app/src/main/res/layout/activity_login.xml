@@ -9,17 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/imageView"
-        android:background="@drawable/background"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop" />
+    <!--android:background="@drawable/background"-->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/transparentOverlay"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="#96000000">-->
 
-    <RelativeLayout
-        android:id="@+id/transparentOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#96000000">
 
-
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
     <LinearLayout
         android:orientation="vertical"
@@ -73,7 +73,6 @@
         android:paddingRight="40dp"
         android:id="@+id/linearLayout"
         android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
 
@@ -90,6 +89,7 @@
             app:met_iconLeft="@drawable/ic_person_white_48dp"
             app:met_iconPadding="0dp"
             android:layout_marginTop="20dp" />
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/field_pw"
             android:layout_width="match_parent"
@@ -119,15 +119,16 @@
             android:id="@+id/btn_createac"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
+            android:layout_marginTop="2dp"
             android:textColor="#ffffff" />
 
         <Button
+            android:id="@+id/btn_signout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/logout"
-            android:id="@+id/btn_signout"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
+            android:text="@string/logout"
             android:textColor="#ffffff" />
 
         <LinearLayout

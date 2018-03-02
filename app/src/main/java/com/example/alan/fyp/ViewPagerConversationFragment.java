@@ -39,7 +39,6 @@ public class ViewPagerConversationFragment extends BaseFragment {
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     ConListViewModel conListViewModel = new ConListViewModel();
     PendingListViewModel pendingListViewModel = new PendingListViewModel();
-    PendingViewModel pendingViewModel = new PendingViewModel();
     ConViewModel conViewModel = new ConViewModel();
 
     @Override
@@ -51,10 +50,10 @@ public class ViewPagerConversationFragment extends BaseFragment {
 
 
 
-        Activity parentActivity = getActivity();
-        final ObservableRecyclerView recyclerView = view.findViewById(R.id.scroll);
-        recyclerView.setLayoutManager(new LinearLayoutManager(parentActivity));
-        recyclerView.setHasFixedSize(false);
+//        Activity parentActivity = getActivity();
+//        final ObservableRecyclerView recyclerView = view.findViewById(R.id.scroll);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(parentActivity));
+//        recyclerView.setHasFixedSize(false);
 
 //        final ObservableRecyclerView recyclerView2 = view.findViewById(R.id.pendingList);
 //        recyclerView2.setLayoutManager(new LinearLayoutManager(parentActivity));
@@ -62,23 +61,23 @@ public class ViewPagerConversationFragment extends BaseFragment {
 
 
 
-        if (parentActivity instanceof ObservableScrollViewCallbacks) {
-            // Scroll to the specified offset after layout
-            Bundle args = getArguments();
-            if (args != null && args.containsKey(ARG_INITIAL_POSITION)) {
-                final int initialPosition = args.getInt(ARG_INITIAL_POSITION, 0);
-                ScrollUtils.addOnGlobalLayoutListener(recyclerView, new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.scrollVerticallyToPosition(initialPosition);
-                    }
-                });
-            }
-
-            recyclerView.setTouchInterceptionViewGroup(parentActivity.findViewById(R.id.root));
-
-            recyclerView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
-        }
+//        if (parentActivity instanceof ObservableScrollViewCallbacks) {
+//            // Scroll to the specified offset after layout
+//            Bundle args = getArguments();
+//            if (args != null && args.containsKey(ARG_INITIAL_POSITION)) {
+//                final int initialPosition = args.getInt(ARG_INITIAL_POSITION, 0);
+//                ScrollUtils.addOnGlobalLayoutListener(recyclerView, new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recyclerView.scrollVerticallyToPosition(initialPosition);
+//                    }
+//                });
+//            }
+//
+//            recyclerView.setTouchInterceptionViewGroup(parentActivity.findViewById(R.id.root));
+//
+//            recyclerView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
+//        }
 
 
 
@@ -110,12 +109,14 @@ public class ViewPagerConversationFragment extends BaseFragment {
                                     conListViewModel.items.add(conViewModel);
 
 
-                                    }else {
+                                    }else
+                                        {
                                         ConViewModel conViewModel = new ConViewModel();
                                         conViewModel.conId = dc.getId();
-                                        getUserInfo(conViewModel, model_conversation.getAid());
+                                        getUserInfo(conViewModel, model_conversation.getPostUserId());
                                         getPostInfo(conViewModel, model_conversation.getPostId());
                                         pendingListViewModel.items.add(conViewModel);
+
 
                                     }
                                 }
@@ -129,8 +130,8 @@ public class ViewPagerConversationFragment extends BaseFragment {
                                         conListViewModel.items.add(conViewModel);
 
 
-                                } else {
-
+                                } else
+                                    {
                                         ConViewModel conViewModel = new ConViewModel();
                                         conViewModel.conId = dc.getId();
                                         getUserInfo(conViewModel, model_conversation.getAid());
@@ -152,6 +153,7 @@ public class ViewPagerConversationFragment extends BaseFragment {
         binding.setConList(conListViewModel);
         binding.setPendingList(pendingListViewModel);
         binding.setConversation(conViewModel);
+
 
 
         return view;

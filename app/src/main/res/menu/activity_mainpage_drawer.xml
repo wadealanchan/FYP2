@@ -11,17 +11,21 @@
             <menu>
 
         <item
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/nav_chinese"
             android:title="Chinese" />
 
         <item
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/nav_english"
             android:title="English" />
         <item
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/nav_math"
             android:title="Math" />
 
         <item
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/nav_liberalStudies"
             android:title="Liberal Studies" />
 
@@ -34,18 +38,22 @@
     <item android:title="@string/electives">
         <menu>
             <item
+                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/nav_physics"
                 android:title="Physics" />
 
             <item
+                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/nav_chemistry"
                 android:title="Chemistry" />
 
             <item
+                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/nav_biology"
                 android:title="Biology" />
 
             <item
+                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/nav_history"
                 android:title="History" />
         </menu>
