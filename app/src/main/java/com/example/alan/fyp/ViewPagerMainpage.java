@@ -25,6 +25,7 @@ import com.example.alan.fyp.activity.Profile;
 import com.example.alan.fyp.activity.WelcomePageActivity;
 import com.example.alan.fyp.databinding.ActivityViewpagerMainpageBinding;
 import com.example.alan.fyp.model.Post;
+import com.example.alan.fyp.util.QuestionData;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -422,7 +423,7 @@ public class ViewPagerMainpage extends BaseActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-            // QuestionData.showcontent("history");
+             //QuestionData.showcontent("history");
 
         } else if (id == R.id.nav_biology) {
 

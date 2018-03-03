@@ -1,5 +1,7 @@
 package com.example.alan.fyp.viewModel;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
@@ -8,11 +10,13 @@ import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
@@ -79,14 +83,56 @@ public class ConViewModel {
             }
         });
 
+
+        TextView txt_reject = v.findViewById(R.id.txt_reject);
+        txt_reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.AlertDialogStyle);
+                builder.setMessage(v.getContext().getString(R.string.sure_reject));
+                builder.setPositiveButton(v.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseFirestore.getInstance().collection("conversation").document(conId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        mBottomSheetDialogdialog.dismiss();
+                                        Toast.makeText(v.getContext(), "Request Rejected", Toast.LENGTH_SHORT).show();
+                                        ((Activity) (v.getContext())).finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });
+                    }
+                });
+                builder.setNegativeButton(v.getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                    }
+                });
+                builder.show();
+
+
+            }
+        });
+
     }
+
 
     public void startChatting(View view) {
         Log.d("ConViewModel", conId);
         FirebaseFirestore.getInstance().collection("conversation").document(conId).update("status", "chatting").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                 Log.d("conViewModel", "DocumentSnapshot successfully updated!");
+                Log.d("conViewModel", "DocumentSnapshot successfully updated!");
                 onSaveClick(view);
 
 

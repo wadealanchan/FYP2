@@ -3,6 +3,7 @@ package com.example.alan.fyp;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import com.example.alan.fyp.activity.Newpost;
 import com.example.alan.fyp.databinding.FragmentMainpageBinding;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
+import com.example.alan.fyp.util.QuestionData;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -99,59 +101,60 @@ public class ViewPagerMainpageFragment extends BaseFragment {
             }
         });
 
-
-
+     // QuestionData questionData = new QuestionData();
+       // questionData.showcontent("1");
         showcontent();
         binding.setPostList(postList);
 
-        /*QuestionData.posts.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Post>>() {
-
-
-            @Override
-            public void onChanged(ObservableList<Post> posts) {
-
-                for (Post post : posts) {
-
-                    PostViewModel postViewModel = post.toViewModel();
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
-
-                            if (userInfotask.isSuccessful()) {
-
-                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-                                postViewModel.user.get().id=userInfotask.getResult().getId();
-                            } else {
-                                postViewModel.user.set(null);
-                            }
-
-                        });
-
-                        postViewModel.post.set(post);
-                        postList.items.add(postViewModel);
-
-                }
-            }
-
-            @Override
-            public void onItemRangeChanged(ObservableList<Post> posts, int i, int i1) {
-
-            }
-
-            @Override
-            public void onItemRangeInserted(ObservableList<Post> posts, int i, int i1) {
-
-            }
-
-            @Override
-            public void onItemRangeMoved(ObservableList<Post> posts, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onItemRangeRemoved(ObservableList<Post> posts, int i, int i1) {
-
-            }
-        });*/
+//        QuestionData.posts.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Post>>() {
+//
+//
+//            @Override
+//            public void onChanged(ObservableList<Post> posts) {
+//
+//                for (Post post : posts) {
+//
+//                    PostViewModel postViewModel = post.toViewModel();
+//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
+//
+//                            if (userInfotask.isSuccessful()) {
+//
+//                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
+//                                postViewModel.user.get().id=userInfotask.getResult().getId();
+//                            } else {
+//                                postViewModel.user.set(null);
+//                            }
+//
+//                        });
+//
+//                        postViewModel.post.set(post);
+//                        postList.items.add(postViewModel);
+//
+//                }
+//                binding.executePendingBindings();
+//            }
+//
+//            @Override
+//            public void onItemRangeChanged(ObservableList<Post> posts, int i, int i1) {
+//
+//            }
+//
+//            @Override
+//            public void onItemRangeInserted(ObservableList<Post> posts, int i, int i1) {
+//
+//            }
+//
+//            @Override
+//            public void onItemRangeMoved(ObservableList<Post> posts, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onItemRangeRemoved(ObservableList<Post> posts, int i, int i1) {
+//
+//            }
+//        });
 
         return view;
     }
