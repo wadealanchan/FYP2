@@ -106,7 +106,9 @@ public class BaseActivity extends AppCompatActivity {
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
 
-            Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Log.d("Base ACT","come here?");
+
+            Intent photoPickerIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             photoPickerIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                     getOutputMediaFile());
             photoPickerIntent.putExtra("outputFormat",
@@ -115,7 +117,10 @@ public class BaseActivity extends AppCompatActivity {
                     Intent.createChooser(photoPickerIntent, getString(R.string.upload_picker_title)),
                     CAMERA_CODE);
 
+            //startActivityForResult(photoPickerIntent, CAMERA_CODE);
+
         } else {
+            Log.d("Base ACT","come here2?");
             showMenu(1);
         }
     }

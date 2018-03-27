@@ -70,6 +70,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':photoeditorsdk')
+    compile project(':AudioWife')
+//    implementation project(':libAudioWife')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'
@@ -104,11 +106,7 @@ dependencies {
 
     //
     compile 'com.squareup.picasso:picasso:2.5.2'
-    implementation ('com.theartofdev.edmodo:android-image-cropper:2.6.0'){
-
-        exclude group: 'com.android.support', module: '*'
-
-    }
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0'
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.2.0'
     compile 'com.jakewharton:butterknife:8.8.1'
@@ -132,6 +130,8 @@ dependencies {
     compile 'com.shehabic.droppy:Droppy:0.6.0@aar'
     compile 'com.stephentuso:welcome:1.4.1'
 
+    compile 'com.devlomi.record-view:record-view:1.2.2beta'
+   // compile 'net.the4thdimension:audio-wife:1.0.3'
 
 
 }

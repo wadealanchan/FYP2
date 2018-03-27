@@ -22,9 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.alan.fyp.R;
-import com.example.alan.fyp.ViewPagerMainpage;
 import com.example.alan.fyp.databinding.ActivityProfileBinding;
-import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -55,7 +52,7 @@ import butterknife.OnClick;
  * Created by wadealanchan on 25/10/2017.
  */
 
-public class Profile extends BaseActivity{
+public class Profile extends BaseActivity {
 
     StorageReference storageReference;
     public static final int GALLERY_REQUEST = 1;
@@ -66,9 +63,9 @@ public class Profile extends BaseActivity{
     private FirebaseAuth mAuth;
     ActivityProfileBinding binding;
     @BindView(R.id.avatar)
-    de.hdodenhof.circleimageview.CircleImageView  circleImageView;
+    de.hdodenhof.circleimageview.CircleImageView circleImageView;
     UserViewModel userViewModel;
-    public final String TAG= "Profile Class";
+    public final String TAG = "Profile Class";
     FirebaseUser firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     protected String selectedOutputPath;
@@ -82,15 +79,13 @@ public class Profile extends BaseActivity{
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         storageReference = FirebaseStorage.getInstance().getReference();
-        if(firebaseuser!=null) {
-            if(firebaseuser.getPhotoUrl()!=null) {
+        if (firebaseuser != null) {
+            if (firebaseuser.getPhotoUrl() != null) {
                 FirebaseUser(firebaseuser.getPhotoUrl().toString());
-            }
-            else {
+            } else {
                 FirebaseUser(null);
             }
-        }else
-        {
+        } else {
             FirebaseUser(null);
         }
         ButterKnife.bind(this);
@@ -98,22 +93,19 @@ public class Profile extends BaseActivity{
 
     }
 
-    public void FirebaseUser(String imageurl){
+    public void FirebaseUser(String imageurl) {
 
 
-            if (firebaseuser != null) {
-                userViewModel = new UserViewModel(firebaseuser.getDisplayName(), "", firebaseuser.getEmail(),imageurl);
-                binding.setUser(userViewModel);
+        if (firebaseuser != null) {
+            userViewModel = new UserViewModel(firebaseuser.getDisplayName(), "", firebaseuser.getEmail(), imageurl);
+            binding.setUser(userViewModel);
 
-            } else {
-                binding.setUser(null);
+        } else {
+            binding.setUser(null);
 
-            }
+        }
 
     }
-
-
-
 
 
     @Override
@@ -127,9 +119,9 @@ public class Profile extends BaseActivity{
             }
         }
     }
+
     @OnClick(R.id.avatar)
-    public void changeUserAvata(View view)
-    {
+    public void changeUserAvata(View view) {
         final String OPTION_CAMERA = "Camera";
         final String OPTION_GALLERY = "Gallery";
 
@@ -209,8 +201,7 @@ public class Profile extends BaseActivity{
     }
 
 
-    public void saveUserInfo()
-    {
+    public void saveUserInfo() {
 
         if (imageUserAvatarURI != null) {
 
@@ -228,22 +219,18 @@ public class Profile extends BaseActivity{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        User user = new User();
-                                        user.setName(firebaseuser.getDisplayName());
-                                        user.setImage(taskSnapshot.getDownloadUrl().toString());
-                                        Log.d(TAG, "User profile updated.");
-                                        DocumentReference usersref = db.collection("Users").document(firebaseuser.getUid());
-                                        usersref.set(user)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        hideProgressDialog();
-                                                        Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
 
-                                                        finish();
-                                                    }
-                                                })
+
+                                        FirebaseFirestore.getInstance().collection("Users").document(firebaseuser.getUid())
+                                                .update("image", taskSnapshot.getDownloadUrl().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                hideProgressDialog();
+                                                Toast.makeText(Profile.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                finish();
+                                            }
+                                        })
                                                 .addOnFailureListener(new OnFailureListener() {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {
@@ -261,7 +248,7 @@ public class Profile extends BaseActivity{
 
 
         } else {
-                Toast.makeText(Profile.this, "Fill all fields", Toast.LENGTH_LONG).show();
+            Toast.makeText(Profile.this, "Fill all fields", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -269,25 +256,24 @@ public class Profile extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d(TAG, "result"+resultCode);
+        Log.d(TAG, "result" + resultCode);
         if (resultCode == RESULT_OK && (requestCode == GALLERY_REQUEST || requestCode == CAMERA_REQUEST)) {
-            Log.d(TAG, "request"+requestCode);
+            Log.d(TAG, "request" + requestCode);
 
             Uri imageUri = requestCode == CAMERA_REQUEST ? Uri.fromFile(mCurrentPhoto) : data.getData();
-            Log.d(TAG,""+imageUri);
-                CropImage.activity(imageUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(1, 1)
-                        .start(this);
+            Log.d(TAG, "" + imageUri);
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
 
 
-
-            Log.d("Profile","if1");
+            Log.d("Profile", "if1");
 
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Log.d("Profile","if2");
+                Log.d("Profile", "if2");
                 imageUserAvatarURI = result.getUri();
                 FirebaseUser(imageUserAvatarURI.toString());
 

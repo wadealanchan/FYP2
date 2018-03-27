@@ -15,9 +15,18 @@ public class Con_Message implements Comparable {
     private String SenderID;
     private java.util.Date date;
     private String imageuri;
+    private String audiouri;
 
 
     public Con_Message() {
+    }
+
+    public String getAudiouri() {
+        return audiouri;
+    }
+
+    public void setAudiouri(String audiouri) {
+        this.audiouri = audiouri;
     }
 
     public String getMessageText() {

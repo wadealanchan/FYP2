@@ -1,12 +1,15 @@
 package com.example.alan.fyp.viewModel;
 
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import com.example.alan.fyp.Henson;
 import com.example.alan.fyp.R;
@@ -14,17 +17,22 @@ import com.example.alan.fyp.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import nl.changer.audiowife.AudioWife;
+
 /**
  * Created by wadealanchan on 2/1/2018.
  */
 
-public class Con_MessageViewModel {
+public class Con_MessageViewModel extends BaseObservable {
     private ObservableField<String> messageText = new ObservableField<String>();
     private ObservableField<String> SenderID = new ObservableField<String>();
     private ObservableField<java.util.Date> date = new ObservableField<java.util.Date>();
     private ObservableField<String> imageuri = new ObservableField<String>();
+    private ObservableField<String> audiouri = new ObservableField<String>();
     private ObservableField<User> user = new ObservableField<User>();
-    public  ObservableBoolean ChatisOver = new ObservableBoolean(false);
+    public ObservableBoolean ChatisOver = new ObservableBoolean(false);
+    public ObservableBoolean toggle = new ObservableBoolean(false);
+
 
     public ObservableField<String> getMessageText() {
         return messageText;
@@ -82,10 +90,18 @@ public class Con_MessageViewModel {
         this.user = user;
     }
 
+    public ObservableField<String> getAudiouri() {
+        return audiouri;
+    }
+
+    public void setAudiouri(ObservableField<String> audiouri) {
+        this.audiouri = audiouri;
+    }
+
 
     @BindingAdapter({"bind:imagesrc"})
     public static void loadImage(ImageView view, String image) {
-        if(image!=null)
+        if (image != null)
             Picasso.with(view.getContext()).load(image).into(view);
         else
             Picasso.with(view.getContext()).load(R.drawable.ic_avatar_default).into(view);
@@ -100,15 +116,44 @@ public class Con_MessageViewModel {
     }
 
 
-    public void toggleChatisOver() {
-        if (this.ChatisOver.get()) {
-            this.ChatisOver.set(false);
-        } else {
-            this.ChatisOver.set(true);
-        }
-    }
+//    public void playAudio(View view) {
+//
+//        AudioWife.getInstance()
+//                .init(view.getContext(), Uri.parse(audiouri.get()))
+//                .setPlayView(view);
+//
+//        this.toggle.set(true);
+//
+//
+//    }
+//
+//    public void pauseAudio(View view) {
+//        AudioWife.getInstance()
+//                .init(view.getContext(), Uri.parse(this.audiouri.get()))
+//                .setPauseView(view);
+//
+//        this.toggle.set(false);
+//
+//    }
+//
+//
+//    @BindingAdapter({"bind:seekbar"})
+//    public static void seekBar(SeekBar view, String audioUri) {
+//        if (audioUri != null) {
+//            AudioWife.getInstance()
+//                    .init(view.getContext(), Uri.parse(audioUri))
+//                    .setSeekBar(view);
+//        }
+//
+//    }
 
-
+//    public void toggleReadmore() {
+//        if (this.toggle.get()) {
+//            this.toggle.set(false);
+//        } else {
+//            this.toggle.set(true);
+//        }
+//    }
 
 
 }

@@ -13,7 +13,8 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <RelativeLayout
         android:id="@+id/layout2"
@@ -63,12 +64,106 @@
             android:background="@drawable/rounded_corner2"
             android:padding="8dp"
             android:scaleType="fitXY"
-            app:imageUrl='@{chat.imageuri}'
+            app:imagesrc='@{chat.imageuri}'
             android:visibility="@{chat.imageuri !=null ? View.VISIBLE : View.GONE}"
             android:onClick="@{(v) -> chat.onSaveClick(v)}"
              />
 
+        <!--<LinearLayout-->
+            <!--android:layout_toEndOf="@id/imageView3"-->
+            <!--android:id="@+id/player_layout"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:background="@drawable/gray_border_wo_padding"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:layout_marginStart="5dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:visibility="@{chat.audiouri !=null ? View.VISIBLE : View.GONE}"-->
+             <!--&gt;-->
 
+            <!--<ImageView-->
+                <!--android:id="@+id/play"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="6"-->
+                <!--android:src="@android:drawable/ic_media_play"-->
+                <!--android:visibility="@{!chat.toggle ? View.VISIBLE: View.GONE}"-->
+                <!--android:onClick="@{(v) -> chat.playAudio(v)}"/>-->
+
+
+            <!--<ImageView-->
+                <!--android:id="@+id/pause"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="6"-->
+                <!--android:src="@android:drawable/ic_media_pause"-->
+                <!--android:visibility="@{chat.toggle ? View.VISIBLE: View.GONE}"-->
+                <!--android:onClick="@{(v) -> chat.pauseAudio(v)}"-->
+
+                <!--/>-->
+
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="0.8"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:paddingTop="5dp" >-->
+
+                <!--<SeekBar-->
+                    <!--android:id="@+id/media_seekbar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--app:seekbar='@{chat.audiouri}'-->
+                  <!--/>-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="right|top"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingBottom="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingTop="5dp" >-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/run_time"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:inputType="text"-->
+                        <!--android:text="00:00"-->
+                        <!--android:textColor="@android:color/darker_gray"-->
+                        <!--android:textSize="11sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:inputType="text"-->
+                        <!--android:text=" / "-->
+                        <!--android:textColor="@android:color/darker_gray"-->
+                        <!--android:textSize="11sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/total_time"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:inputType="text"-->
+                        <!--android:text="00:00"-->
+                        <!--android:textColor="@android:color/darker_gray"-->
+                        <!--android:textSize="11sp" />-->
+                <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+
+        <!--</LinearLayout>-->
 
 
 
@@ -123,12 +218,11 @@
             android:padding="5dp"
             android:scaleType="fitXY"
             android:visibility="@{chat.imageuri !=null ? View.VISIBLE : View.GONE}"
-            app:imageUrl='@{chat.imageuri}'
+            app:imagesrc='@{chat.imageuri}'
             android:onClick="@{(v) -> chat.onSaveClick(v)}"
 
 
             />
-
 
 
 

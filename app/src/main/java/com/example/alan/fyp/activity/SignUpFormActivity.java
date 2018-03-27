@@ -57,7 +57,8 @@ public class SignUpFormActivity extends BaseActivity {
     @BindView(R.id.spinner)
     Spinner spinner;
 
-    String institution;
+    String institutionOrGrade;
+
 
 
     @Override
@@ -82,16 +83,24 @@ public class SignUpFormActivity extends BaseActivity {
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.institution,
-                R.layout.list_item_spinner);
 
-        userViewModel.setSubjectAdapter(adapter);
+        if(userType.equals("tutor")) {
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.institution,
+                    R.layout.list_item_spinner);
+
+            userViewModel.setSubjectAdapter(adapter);
+        } else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.grade,
+                    R.layout.list_item_spinner);
+            userViewModel.setSubjectAdapter(adapter);
+        }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                institution = parent.getItemAtPosition(position).toString();
+                institutionOrGrade = parent.getItemAtPosition(position).toString();
 
             }
 
@@ -138,10 +147,10 @@ public class SignUpFormActivity extends BaseActivity {
             return false;
         }
 
-//        if (institution.equals("Institution")) {
-//            Toast.makeText(SignUpFormActivity.this, "Please enter your educational background", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
+        if (institutionOrGrade.equals("Institution") || institutionOrGrade.equals("Grade") ) {
+            Toast.makeText(SignUpFormActivity.this, "Please enter your educational background", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
        return true;
     }
@@ -167,6 +176,7 @@ public class SignUpFormActivity extends BaseActivity {
                     User user = new User();
                     user.setName(name);
                     user.setType(userType);
+                    user.setInstitutionOrGrade(institutionOrGrade);
                     Toast.makeText(SignUpFormActivity.this, email + " Successfully registered", Toast.LENGTH_SHORT).show();
                     db.collection("Users").document(firebaseuser.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

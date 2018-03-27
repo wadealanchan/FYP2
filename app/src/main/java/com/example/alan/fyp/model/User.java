@@ -10,7 +10,8 @@ public class User {
     private String image;
     private String type;
     private double avgRating;
-    private String institution;
+    private String institutionOrGrade;
+
 
 
     
@@ -18,13 +19,14 @@ public class User {
     }
 
 
-    public String getInstitution() {
-        return institution;
+    public String getInstitutionOrGrade() {
+        return institutionOrGrade;
     }
 
-    public void setInstitution(String institution) {
-        this.institution = institution;
+    public void setInstitutionOrGrade(String institutionOrGrade) {
+        this.institutionOrGrade = institutionOrGrade;
     }
+
 
 
     public double getAvgRating() {

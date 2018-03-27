@@ -454,10 +454,10 @@ public class ViewPagerMainpage extends BaseActivity implements
                 }
                 break;
 
-            case R.id.action_testpage:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.action_testpage:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                break;
 
             case R.id.action_profile:
                 Intent intent2 = new Intent(this, Profile.class);

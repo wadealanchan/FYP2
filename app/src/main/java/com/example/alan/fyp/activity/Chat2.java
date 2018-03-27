@@ -1,25 +1,40 @@
 package com.example.alan.fyp.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devlomi.record_view.OnBasketAnimationEnd;
+import com.devlomi.record_view.OnRecordClickListener;
+import com.devlomi.record_view.OnRecordListener;
+import com.devlomi.record_view.RecordButton;
 import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
 import com.example.alan.fyp.R;
 import com.example.alan.fyp.databinding.ActivityChat2Binding;
@@ -50,6 +65,7 @@ import com.stepstone.apprating.listener.RatingDialogListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -58,11 +74,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import nl.changer.audiowife.AudioWife;
 
 
 public class Chat2 extends MediaActivity
@@ -80,6 +98,13 @@ public class Chat2 extends MediaActivity
     ImageView submit_button;
     @BindView(R.id.camera_button)
     ImageView camera_button;
+    @BindView(R.id.record_view)
+    com.devlomi.record_view.RecordView recordView;
+    @BindView(R.id.record_button)
+    com.devlomi.record_view.RecordButton recordButton;
+    private Context mContext;
+
+
     public static final int MY_CHILD_ACTIVITY = 2034;
     @InjectExtra
     String conversationId;
@@ -88,6 +113,19 @@ public class Chat2 extends MediaActivity
     model_conversation conversation;
     StorageReference storageReference;
 
+
+    private static final String LOG_TAG = "AudioRecordTest";
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static String mFileName = null;
+    private RecordButton mRecordButton = null;
+    private MediaRecorder mRecorder = null;
+
+    // private PlayButton   mPlayButton = null;
+    private MediaPlayer mPlayer = null;
+
+    private boolean permissionToRecordAccepted = false;
+    private String[] permissions = {Manifest.permission.RECORD_AUDIO};
+    Con_MessageViewModel msgViewModel = new Con_MessageViewModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +137,13 @@ public class Chat2 extends MediaActivity
         setTitle(null);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        audio();
+        textWatcher();
+        mFileName = getExternalCacheDir().getAbsolutePath();
+        mFileName += "/audiorecordtest.3gp";
+        // ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+
+        //playAudio("");
 
         FirebaseFirestore.getInstance().collection("conversation")
                 .document(conversationId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -114,6 +159,7 @@ public class Chat2 extends MediaActivity
                     msgViewModel.getDate().set(msg.getDate());
                     msgViewModel.getSenderID().set(msg.getSenderID());
                     msgViewModel.getImageuri().set(msg.getImageuri());
+                    msgViewModel.getAudiouri().set(msg.getAudiouri());
                     //chatListViewModel2.items.add(msgViewModel);
                     chatListViewModel2.items.add(0, msgViewModel);
                 }
@@ -127,9 +173,9 @@ public class Chat2 extends MediaActivity
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         conversation = documentSnapshot.toObject(model_conversation.class);
 
-                        if(conversation.isChatIsOver()){
+                        if (conversation.isChatIsOver()) {
                             chatIsOver();
-                            Log.d(TAG,"chat is over");
+                            Log.d(TAG, "chat is over");
                         }
 
                         Collections.sort(conversation.getMessageList());
@@ -141,6 +187,7 @@ public class Chat2 extends MediaActivity
                             msgViewModel.getDate().set(msg.getDate());
                             msgViewModel.getSenderID().set(msg.getSenderID());
                             msgViewModel.getImageuri().set(msg.getImageuri());
+                            msgViewModel.getAudiouri().set(msg.getAudiouri());
                             chatListViewModel2.items.add(msgViewModel);
                         }
 
@@ -158,13 +205,193 @@ public class Chat2 extends MediaActivity
         binding.setChat(con_messageViewModel);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+        if (!permissionToRecordAccepted) finish();
+
+    }
+
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        Log.d(LOG_TAG, mFileName + "");
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+
+
+
+
+    private void audio() {
+
+        ActivityCompat.requestPermissions(Chat2.this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+
+        recordButton.setRecordView(recordView);
+
+
+
+
+        // if you want to click the button (in case if you want to make the record button a Send Button for example..)
+       // recordButton.setListenForRecord(false);
+
+//        btnChangeOnclick.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (recordButton.isListenForRecord()) {
+//                    recordButton.setListenForRecord(false);
+//                    Toast.makeText(MainActivity.this, "onClickEnabled", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    recordButton.setListenForRecord(true);
+//                    Toast.makeText(MainActivity.this, "onClickDisabled", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+        //ListenForRecord must be false ,otherwise onClick will not be called
+//        recordButton.setOnRecordClickListener(new OnRecordClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(Chat2.this, "RECORD BUTTON CLICKED", Toast.LENGTH_SHORT).show();
+//                Log.d("RecordButton", "RECORD BUTTON CLICKED");
+//
+//                recordButton.setListenForRecord(true);
+//
+//            }
+//        });
+
+
+        //Cancel Bounds is when the Slide To Cancel text gets before the timer . default is 130
+        recordView.setCancelBounds(130);
+
+
+        recordView.setSmallMicColor(Color.parseColor("#c2185b"));
+
+        //prevent recording under one Second
+        recordView.setLessThanSecondAllowed(false);
+
+
+        recordView.setSlideToCancelText("Slide To Cancel");
+
+
+        recordView.setCustomSounds(R.raw.record_start, R.raw.record_finished, 0);
+
+
+        recordView.setOnRecordListener(new OnRecordListener() {
+            @Override
+            public void onStart() {
+                Log.d("RecordView", "onStart");
+                emojicon_edit_text.setVisibility(View.INVISIBLE);
+                camera_button.setVisibility(View.INVISIBLE);
+                startRecording();
+                Toast.makeText(Chat2.this, "OnStartRecord", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(Chat2.this, "onCancel", Toast.LENGTH_SHORT).show();
+                emojicon_edit_text.setVisibility(View.VISIBLE);
+                camera_button.setVisibility(View.VISIBLE);
+                Log.d("RecordView", "onCancel");
+                stopRecording();
+
+            }
+
+            @Override
+            public void onFinish(long recordTime) {
+                emojicon_edit_text.setVisibility(View.VISIBLE);
+                camera_button.setVisibility(View.VISIBLE);
+                String time = getHumanTimeText(recordTime);
+                Toast.makeText(Chat2.this, "onFinishRecord - Recorded Time is: " + time, Toast.LENGTH_SHORT).show();
+                Log.d("RecordView", "onFinish");
+                Log.d("RecordTime", time);
+                stopRecording();
+                File outputfile = new File(mFileName);
+                Uri outputfileuri = Uri.fromFile(outputfile);
+                uploadfirebase2(outputfileuri);
+            }
+
+            @Override
+            public void onLessThanSecond() {
+                Toast.makeText(Chat2.this, "OnLessThanSecond", Toast.LENGTH_SHORT).show();
+                Log.d("RecordView", "onLessThanSecond");
+            }
+        });
+
+
+        recordView.setOnBasketAnimationEndListener(new OnBasketAnimationEnd() {
+            @Override
+            public void onAnimationEnd() {
+                Log.d("RecordView", "Basket Animation Finished");
+            }
+        });
+
+    }
+
+    private void textWatcher() {
+        submit_button.setVisibility(View.GONE);
+        emojicon_edit_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (emojicon_edit_text.getText().toString().trim().length() >= 1) {
+                    submit_button.setVisibility(View.VISIBLE);
+                    recordButton.setVisibility(View.INVISIBLE);
+                } else {
+                    submit_button.setVisibility(View.GONE);
+                    recordButton.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private String getHumanTimeText(long milliseconds) {
+        return String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(milliseconds),
+                TimeUnit.MILLISECONDS.toSeconds(milliseconds) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)));
+    }
+
 
     public void userenter(View v) {
 
 
         final String messagetext = con_messageViewModel.getMessageText().get();
         if (!TextUtils.isEmpty(messagetext)) {
-            Log.d(TAG,"here");
+            Log.d(TAG, "here");
 
             Con_Message m = new Con_Message();
             m.setDate(new Date());
@@ -340,6 +567,40 @@ public class Chat2 extends MediaActivity
         }
     }
 
+    private void uploadfirebase2(Uri imageuri) {
+        if (imageuri != null) {
+            StorageReference filePath = storageReference.child("conversation_audio").child(imageuri.getLastPathSegment());
+
+            filePath.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                    Con_Message m = new Con_Message();
+                    m.setDate(new Date());
+                    m.setAudiouri(taskSnapshot.getDownloadUrl().toString());
+                    m.setSenderID(firebaseuser.getUid());
+                    conversation.getMessageList().add(m);
+
+                    FirebaseFirestore.getInstance().collection("conversation").document(conversationId)
+                            .set(conversation)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+
+
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                }
+                            });
+                }
+            });
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -357,10 +618,9 @@ public class Chat2 extends MediaActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_rate) {
-            if(conversation.getPostUserId().equals(firebaseuser.getUid())) {
+            if (conversation.getPostUserId().equals(firebaseuser.getUid())) {
                 showDialog();
-            }else
-            {
+            } else {
                 Toast.makeText(Chat2.this, "You are not allowed to rate", Toast.LENGTH_SHORT).show();
             }
             return true;
@@ -369,13 +629,12 @@ public class Chat2 extends MediaActivity
             alertdialog();
             return true;
         }
-        if(id ==R.id.action_questiondetail){
+        if (id == R.id.action_questiondetail) {
             questionDetail();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     private void chatIsOver() {
@@ -391,14 +650,15 @@ public class Chat2 extends MediaActivity
     }
 
 
-    private void questionDetail(){
+    private void questionDetail() {
         Intent i = getIntent();
-        Post post = (Post)i.getSerializableExtra("postObject");
+        Post post = (Post) i.getSerializableExtra("postObject");
         Intent intent = new Intent(this, QuestionDetailActivity.class);
         intent.putExtra("postObject", post);
         startActivity(intent);
 
     }
+
     private void updateChatIsOver() {
         FirebaseFirestore.getInstance().collection("conversation").document(conversationId)
                 .update("chatIsOver", true).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -417,11 +677,10 @@ public class Chat2 extends MediaActivity
 
     }
 
-    private void alertdialog()
-    {
+    private void alertdialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Chat2.this, R.style.AlertDialogStyle);
         builder.setMessage(getString(R.string.are_you_sure_to_end_chat));
-        builder.setPositiveButton( getString(R.string.yes), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 chatIsOver();
@@ -506,5 +765,53 @@ public class Chat2 extends MediaActivity
     protected void onPause() {
         super.onPause();
     }
+
+//    public void playAudio(String audioUri) {
+//
+//
+//        ImageView mPlayMedia = findViewById(R.id.play);
+//        ImageView mPauseMedia = findViewById(R.id.pause);
+//        SeekBar mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
+//        TextView mRunTime = (TextView) findViewById(R.id.run_time);
+//        TextView mTotalTime = (TextView) findViewById(R.id.total_time);
+//
+//        audioUri ="https://firebasestorage.googleapis.com/v0/b/alanchanproject.appspot.com/o/conversation_audio%2Faudiorecordtest.3gp?alt=media&token=7284692c-ffa3-4dd7-a5a0-ad266a7c9a20";
+//
+//        AudioWife.getInstance()
+//                .init(mContext, Uri.parse(audioUri))
+//                .setPlayView(mPlayMedia)
+//                .setPauseView(mPauseMedia)
+//                .setSeekBar(mMediaSeekBar)
+//                .setRuntimeView(mRunTime)
+//                .setTotalTimeView(mTotalTime);
+//
+//
+//        AudioWife.getInstance().addOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT).show();
+//                // do you stuff.
+//            }
+//        });
+//
+//        AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT).show();
+//                // get-set-go. Lets dance.
+//            }
+//        });
+//
+//        AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT).show();
+//                // Your on audio pause stuff.
+//            }
+//        });
+//    }
 
 }

@@ -1,1 +1,4 @@
-include ':app', ':photoeditorsdk'
+include ':app', ':photoeditorsdk', 'AudioWife'
+//include ':libAudioWife'
+
+
