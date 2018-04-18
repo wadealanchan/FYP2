@@ -56,6 +56,11 @@
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/nav_history"
                 android:title="History" />
+
+            <item
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/nav_all"
+                android:title="All" />
         </menu>
     </item>
 

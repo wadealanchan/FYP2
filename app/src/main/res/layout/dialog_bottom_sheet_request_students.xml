@@ -82,7 +82,7 @@
                     android:layout_weight="3"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical"
-                    android:text='@{conversation.user.name}'
+                    android:text='@{conversation.user.type.equals("student")? " Student name: " +conversation.user.name :conversation.user.name}'
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/bottomdialogtextcolor" />
 
@@ -94,7 +94,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text='@{conversation.user.institutionOrGrade}'/>
+                android:text='@{conversation.user.type.equals("student")? " Grade: " +conversation.user.institutionOrGrade:conversation.user.institutionOrGrade}'/>
 
             <!--<TextView-->
                 <!--android:id="@+id/txtMessage"-->
@@ -129,12 +129,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"
+            android:visibility='@{conversation.user.type.equals("student")? View.GONE :View.VISIBLE}'
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility='@{conversation.user.type.equals("student")? View.GONE :View.VISIBLE}'
+            >
 
 
             <RelativeLayout
@@ -163,7 +167,7 @@
                     android:drawablePadding="5dp"
                     android:drawableStart="@drawable/star"
                     android:fontFamily="sans-serif-condensed"
-                    android:text='@{String.valueOf(conversation.user.avgRating)}'
+                    android:text='@{String.format("%.1f",conversation.user.avgRating)}'
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/bottomdialogtextcolor"
                     android:visibility='@{conversation.user.type.equals("student")? View.INVISIBLE :View.VISIBLE}'
@@ -176,7 +180,9 @@
             android:layout_below="@+id/layout_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:visibility='@{conversation.user.type.equals("student")? View.GONE :View.VISIBLE}'
+            >
 
             <TextView
                 android:id="@+id/request_txt_answers"
@@ -188,7 +194,6 @@
                 android:text="Answer"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/bottomdialogtextcolor"
-                android:visibility='@{conversation.user.type.equals("student")? View.INVISIBLE :View.VISIBLE}'
                 />
 
             <TextView
@@ -200,7 +205,6 @@
                 android:text="12"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/bottomdialogtextcolor"
-                android:visibility='@{conversation.user.type.equals("student")? View.INVISIBLE :View.VISIBLE}'
                 />
         </RelativeLayout>
 

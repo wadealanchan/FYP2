@@ -19,12 +19,15 @@ import com.example.alan.fyp.activity.Newpost;
 import com.example.alan.fyp.databinding.FragmentMainpageBinding;
 import com.example.alan.fyp.model.Post;
 import com.example.alan.fyp.model.User;
+import com.example.alan.fyp.model.model_conversation;
 import com.example.alan.fyp.util.QuestionData;
+import com.example.alan.fyp.viewModel.ConViewModel;
 import com.example.alan.fyp.viewModel.PostViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -52,7 +55,7 @@ public class ViewPagerMainpageFragment extends BaseFragment {
     CollectionReference postsRef = db.collection("posts");
     FragmentMainpageBinding binding;
     public static final String ARG_SCROLL_Y = "ARG_SCROLL_Y";
-
+    boolean getCon = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,21 +104,109 @@ public class ViewPagerMainpageFragment extends BaseFragment {
             }
         });
 
-     // QuestionData questionData = new QuestionData();
-       // questionData.showcontent("1");
-        showcontent();
+      //QuestionData questionData = new QuestionData();
+
+
+        //showcontent();
+
+        QuestionData.posts.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Post>>() {
+
+
+            @Override
+            public void onChanged(ObservableList<Post> posts) {
+                //updatePostList(posts);
+
+                Log.d(TAG,"onChanged");
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<Post> posts, int i, int i1) {
+//                updatePostList(posts);
+                Log.d(TAG,"onItemRangeChanged");
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<Post> posts, int i, int i1) {
+                Log.d(TAG,"onItemRangeInserted");
+                updatePostList(posts);
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<Post> posts, int i, int i1, int i2) {
+                Log.d(TAG,"onItemRangeMoved");
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<Post> posts, int i, int i1) {
+                Log.d(TAG,"onItemRangeRemoved");
+            }
+        });
+
+        QuestionData.showcontent("1");
+
         binding.setPostList(postList);
 
-//        QuestionData.posts.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Post>>() {
+        return view;
+    }
+
+    public void updatePostList(ObservableList<Post> posts) {
+        postList.items.clear();
+
+        for (Post post : posts) {
+
+
+
+
+
+            if(!post.isPostAnswered()) {
+
+                PostViewModel postViewModel = post.toViewModel();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
+
+                    if (userInfotask.isSuccessful()) {
+
+                        postViewModel.user.set(userInfotask.getResult().toObject(User.class));
+                        postViewModel.user.get().id = userInfotask.getResult().getId();
+                    } else {
+                        postViewModel.user.set(null);
+                    }
+
+                });
+
+
+                postViewModel.post.set(post);
+                postList.items.add(postViewModel);
+
+            }
+        }
+        binding.executePendingBindings();
+    }
+
+
+
+
+
+
+
+//    public void showcontent(){
 //
-//
+//        FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 //            @Override
-//            public void onChanged(ObservableList<Post> posts) {
+//            public void onEvent(@Nullable QuerySnapshot value,
+//                                @Nullable FirebaseFirestoreException e) {
+//                if (e != null) {
+//                    Log.w(TAG, "Listen failed.", e);
+//                    return;
+//                }
 //
-//                for (Post post : posts) {
-//
-//                    PostViewModel postViewModel = post.toViewModel();
-//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                postList.items.clear();
+//                for (DocumentSnapshot document : value) {
+//                    if(document.exists()) {
+//                        Post post = document.toObject(Post.class);
+//                        PostViewModel postViewModel = post.toViewModel();
+//                        postViewModel.PostId = document.getId();
+//                        FirebaseFirestore db = FirebaseFirestore.getInstance();
 //                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
 //
 //                            if (userInfotask.isSuccessful()) {
@@ -130,74 +221,13 @@ public class ViewPagerMainpageFragment extends BaseFragment {
 //
 //                        postViewModel.post.set(post);
 //                        postList.items.add(postViewModel);
-//
+//                    }
 //                }
 //                binding.executePendingBindings();
 //            }
-//
-//            @Override
-//            public void onItemRangeChanged(ObservableList<Post> posts, int i, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onItemRangeInserted(ObservableList<Post> posts, int i, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onItemRangeMoved(ObservableList<Post> posts, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onItemRangeRemoved(ObservableList<Post> posts, int i, int i1) {
-//
-//            }
 //        });
 
-        return view;
-    }
-
-    public void showcontent(){
-
-        FirebaseFirestore.getInstance().collection("posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                postList.items.clear();
-                for (DocumentSnapshot document : value) {
-                    if(document.exists()) {
-                        Post post = document.toObject(Post.class);
-                        PostViewModel postViewModel = post.toViewModel();
-                        postViewModel.PostId = document.getId();
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("Users").document(post.getUserId()).get().addOnCompleteListener(userInfotask -> {
-
-                            if (userInfotask.isSuccessful()) {
-
-                                postViewModel.user.set(userInfotask.getResult().toObject(User.class));
-                                postViewModel.user.get().id=userInfotask.getResult().getId();
-                            } else {
-                                postViewModel.user.set(null);
-                            }
-
-                        });
-
-                        postViewModel.post.set(post);
-                        postList.items.add(postViewModel);
-                    }
-                }
-                binding.executePendingBindings();
-            }
-        });
-
-   }
+//   }
 
 
 

@@ -87,7 +87,7 @@
                     android:lines="1"
                     android:drawableStart="@drawable/star"
                     android:drawablePadding="5dp"
-                    android:text='@{String.valueOf(invitation.user.avgRating)}'
+                    android:text='@{String.format("%.1f",invitation.user.avgRating)}'
                     android:paddingBottom="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -97,10 +97,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="25dp"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/add_user"
                 android:onClick="@{(v) -> invitation.Requestforchat(v)}"
                  />
         </LinearLayout>

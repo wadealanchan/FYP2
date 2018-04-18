@@ -159,10 +159,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="left|top"
-            android:scaleType="center"
+
             app:rippleColor="@color/lightdark"
             app:backgroundTint="@color/white"
-            android:src="@drawable/ic_action_podetail_menu" />
+            android:src="@drawable/menu_button" />
 
     </FrameLayout>
 </layout>

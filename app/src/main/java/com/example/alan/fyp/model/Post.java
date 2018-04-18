@@ -1,9 +1,14 @@
 package com.example.alan.fyp.model;
 
 import android.databinding.BaseObservable;
+import android.util.Log;
 
 import com.example.alan.fyp.viewModel.PostViewModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -16,12 +21,24 @@ public class Post extends BaseObservable implements Serializable {
     @Exclude
     public String postId;
 
-    private String image, title, description, userId, category;
+    private String image, title, description, userId, category ;
+
+    private boolean postAnswered;
 
     private java.util.Date date;
 
+
+
     public Post() {
 
+    }
+
+    public boolean isPostAnswered() {
+        return postAnswered;
+    }
+
+    public void setPostAnswered(boolean postAnswered) {
+        this.postAnswered = postAnswered;
     }
 
     public String getUserId() {
@@ -74,14 +91,22 @@ public class Post extends BaseObservable implements Serializable {
 
 
     public PostViewModel toViewModel() {
-        PostViewModel p = new PostViewModel();
-        p.image.set(this.image);
-        p.title.set(this.title);
-        p.description.set(this.description);
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd HH:mm");
-        String dateString = sdf.format(this.date);
-        p.timestamp.set(dateString);
-        return p;
+
+
+                PostViewModel p = new PostViewModel();
+                p.PostId = this.postId;
+                p.image.set(this.image);
+                p.title.set(this.title);
+                p.description.set(this.description);
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd HH:mm");
+                String dateString = sdf.format(this.date);
+                p.timestamp.set(dateString);
+                return p;
+
+
+
     }
+
+
 
 }

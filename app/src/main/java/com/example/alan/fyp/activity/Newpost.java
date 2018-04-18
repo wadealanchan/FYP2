@@ -219,6 +219,7 @@ public class Newpost extends MediaActivity {
             Timestamp tsTemp = new Timestamp(System.currentTimeMillis());
             post.setDate(tsTemp);
             post.setCategory(Category);
+            post.setPostAnswered(false);
 
 
             Log.d(TAG, "imageMediaURI: " + imageMediaURI);

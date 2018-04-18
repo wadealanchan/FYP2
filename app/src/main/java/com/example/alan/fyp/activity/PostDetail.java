@@ -185,7 +185,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
     }
 
-    public void Requestforchat(View v){
+    public void Requestforchat(){
         mBottomSheetDialogdialog.dismiss();
         Request request = new Request();
 
@@ -200,15 +200,14 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(PostDetail.this, "Request Sent", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
-                        Chatfunction();
-                        finish();
+
                     }
                 });
 
     }
 
 
-    public void Chatfunction() {
+    public void Chatfunction(View v) {
         mBottomSheetDialogdialog.dismiss();
         if (postUserId.equals(firebaseuser.getUid())) {
 
@@ -230,6 +229,7 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
 
 
                             } else {
+                                Requestforchat();
                                 model_conversation c = new model_conversation();
                                 c.setAid(firebaseuser.getUid());
                                 c.setPostId(PostId);
@@ -241,8 +241,21 @@ public class PostDetail extends BaseActivity implements ObservableScrollViewCall
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                //passdata(documentReference.getId(), 1);
+
+                                                FirebaseFirestore.getInstance().collection("posts").document(PostId)
+                                                        .update("postAnswered", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error updating document", e);
+                                                            }
+                                                        });
+
                                                 finish();
                                             }
                                         })

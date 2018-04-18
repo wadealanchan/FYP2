@@ -25,7 +25,9 @@ import com.example.alan.fyp.activity.Profile;
 import com.example.alan.fyp.activity.WelcomePageActivity;
 import com.example.alan.fyp.databinding.ActivityViewpagerMainpageBinding;
 import com.example.alan.fyp.model.Post;
+import com.example.alan.fyp.model.User;
 import com.example.alan.fyp.util.QuestionData;
+import com.example.alan.fyp.viewModel.ConViewModel;
 import com.example.alan.fyp.viewModel.UserViewModel;
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -111,13 +113,15 @@ public class ViewPagerMainpage extends BaseActivity implements
         FirebaseAuth.getInstance().addAuthStateListener((firebaseAuth) -> {
 
             FirebaseUser user = firebaseAuth.getCurrentUser();
+
             if (user != null) {
                 if (user.getPhotoUrl() != null) {
                     userViewModel = new UserViewModel(user.getDisplayName(), "", user.getEmail(), user.getPhotoUrl().toString());
-                    //post.getUser().setImage(user.getPhotoUrl().toString());
+                    getUserInfo(userViewModel,user.getUid());
                     binding.setUser(userViewModel);
                 } else {
                     userViewModel = new UserViewModel(user.getDisplayName(), "", user.getEmail(), null);
+                    getUserInfo(userViewModel,user.getUid());
                     binding.setUser(userViewModel);
                 }
             } else {
@@ -423,16 +427,32 @@ public class ViewPagerMainpage extends BaseActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_history) {
-             //QuestionData.showcontent("history");
+             QuestionData.showcontent("History");
 
         } else if (id == R.id.nav_biology) {
-
+            QuestionData.showcontent("Biology");
 
         } else if (id == R.id.nav_math) {
-
+            QuestionData.showcontent("Math");
         } else if (id == R.id.nav_english) {
-
+            QuestionData.showcontent("English");
         }
+        else if (id == R.id.nav_chinese) {
+            QuestionData.showcontent("Chinese");
+        }
+        else if (id == R.id.nav_liberalStudies) {
+            QuestionData.showcontent("LIBS");
+        }
+        else if (id == R.id.nav_physics) {
+            QuestionData.showcontent("Physic");
+        }
+        else if (id == R.id.nav_chemistry) {
+            QuestionData.showcontent("Chemistry");
+        }
+        else if (id == R.id.nav_all) {
+            QuestionData.showcontent("1");
+        }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -468,6 +488,21 @@ public class ViewPagerMainpage extends BaseActivity implements
         }
 
 
+    }
+
+    public void getUserInfo(UserViewModel viewModel, String ID)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Users").document(ID).get().addOnCompleteListener(userInfotask -> {
+
+            if (userInfotask.isSuccessful()) {
+                User user = userInfotask.getResult().toObject(User.class);
+                viewModel.userType.set(user.getType());
+            } else {
+                viewModel.userType.set(null);
+            }
+
+        });
     }
 
 

@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.example.alan.fyp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -70,8 +70,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':photoeditorsdk')
-    compile project(':AudioWife')
-//    implementation project(':libAudioWife')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'

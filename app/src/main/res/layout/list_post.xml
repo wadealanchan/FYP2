@@ -95,6 +95,7 @@
                 android:paddingBottom="15dp"
                 android:visibility="@{post.description.length() > 1 ? View.VISIBLE : View.INVISIBLE}"
                 android:text='@{post.isReadmore ? "Show less" : "Read more"}'
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"
                 android:onClick="@{(v) -> post.toggleReadmore()}"
                 android:fontFamily="Arial"/>

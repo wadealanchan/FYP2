@@ -10,6 +10,7 @@
 
 
     <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_start">5dp</dimen>
     <dimen name="margin_short">8dp</dimen>
     <dimen name="margin_extra_short">4dp</dimen>
 
@@ -29,6 +30,7 @@
     <dimen name="sliding_slop">32dp</dimen>
     <dimen name="sliding_overlay_blur_size">4dp</dimen>
     <dimen name="image_loader_post_width">450dp</dimen>
+
 
 
 

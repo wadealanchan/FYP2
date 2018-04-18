@@ -27,12 +27,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devlomi.record_view.OnBasketAnimationEnd;
-import com.devlomi.record_view.OnRecordClickListener;
 import com.devlomi.record_view.OnRecordListener;
 import com.devlomi.record_view.RecordButton;
 import com.example.alan.fyp.ListViewModel.ChatListViewModel2;
@@ -70,6 +67,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -80,7 +78,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import nl.changer.audiowife.AudioWife;
 
 
 public class Chat2 extends MediaActivity
@@ -305,7 +302,7 @@ public class Chat2 extends MediaActivity
                 emojicon_edit_text.setVisibility(View.INVISIBLE);
                 camera_button.setVisibility(View.INVISIBLE);
                 startRecording();
-                Toast.makeText(Chat2.this, "OnStartRecord", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(Chat2.this, "OnStartRecord", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -324,7 +321,7 @@ public class Chat2 extends MediaActivity
                 emojicon_edit_text.setVisibility(View.VISIBLE);
                 camera_button.setVisibility(View.VISIBLE);
                 String time = getHumanTimeText(recordTime);
-                Toast.makeText(Chat2.this, "onFinishRecord - Recorded Time is: " + time, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(Chat2.this, "onFinishRecord - Recorded Time is: " + time, Toast.LENGTH_SHORT).show();
                 Log.d("RecordView", "onFinish");
                 Log.d("RecordTime", time);
                 stopRecording();
@@ -431,6 +428,7 @@ public class Chat2 extends MediaActivity
                                         notification.put("body", messagetext);
                                         notification.put("sound", "default");
                                         notification.put("click_action", "com.example.alan.fyp.action.CHAT2");
+                                        notification.put("icon",getResources().getDrawable(R.drawable.ic_stat_ic_notification));
 
                                         payload.put("notification", notification);
 
@@ -569,7 +567,7 @@ public class Chat2 extends MediaActivity
 
     private void uploadfirebase2(Uri imageuri) {
         if (imageuri != null) {
-            StorageReference filePath = storageReference.child("conversation_audio").child(imageuri.getLastPathSegment());
+            StorageReference filePath = storageReference.child("conversation_audio/"+conversationId+"/").child(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+".3gp");
 
             filePath.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -646,6 +644,8 @@ public class Chat2 extends MediaActivity
         emojicon_edit_text.setInputType(InputType.TYPE_NULL);
         emojicon_edit_text.setKeyListener(null);
         submit_button.setClickable(false);
+        recordButton.setClickable(false);
+        recordButton.setVisibility(View.GONE);
         camera_button.setClickable(false);
     }
 
@@ -733,7 +733,7 @@ public class Chat2 extends MediaActivity
                 (new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(Chat2.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Chat2.this, "Rated", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
 
                         finish();
